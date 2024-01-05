@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
 
-import com.smoothgit.wrappers.commander.GitCommander;
-import com.smoothgit.wrappers.commander.util.FrameworkDebug;
+import com.smoothgit.commander.GitCommander;
+import com.smoothgit.util.FrameworkDebug;
 
 /**
  * Gets the gitStatus of another projectBranch.
@@ -53,7 +53,7 @@ public class GitBranchAnotherStatusFetcher {
 
         this.projectBranch = projectBranch;
 
-        GitBranchNamesFetcher gitBranchsFetcher = new GitBranchNamesFetcher(projectDir);
+        GitBranch gitBranchsFetcher = new GitBranch(projectDir);
         activeBranch = gitBranchsFetcher.getActiveBranch();
         if (!gitBranchsFetcher.isResponseOk()) {
             isOk = false;
@@ -71,7 +71,7 @@ public class GitBranchAnotherStatusFetcher {
             return;
         }
          
-        gitBranchsFetcher = new GitBranchNamesFetcher(projectDir);
+        gitBranchsFetcher = new GitBranch(projectDir);
         boolean branchExists = gitBranchsFetcher.branchExists(projectBranch);
 
         if (!gitBranchsFetcher.isResponseOk()) {
@@ -132,7 +132,7 @@ public class GitBranchAnotherStatusFetcher {
             }
  
             // git Status (project branch)
-            GitBranchActiveStatusFetcher gitCurrentBranchStatusFetcher = new GitBranchActiveStatusFetcher(projectDir);
+            GitBranch gitCurrentBranchStatusFetcher = new GitBranch(projectDir);
             projectBranchStatus = gitCurrentBranchStatusFetcher.isStatusOk();
             
             if (! gitCurrentBranchStatusFetcher.isResponseOk()) {
@@ -163,7 +163,7 @@ public class GitBranchAnotherStatusFetcher {
         gitCommander.executeGitCommand("git", "switch", branch);
         isOk = gitCommander.isResponseOk();
         if (!isOk) {
-            errorMessage = gitCommander.getError();
+            errorMessage = gitCommander.getProcessError();
             exception = gitCommander.getException();
         }
         return isOk;

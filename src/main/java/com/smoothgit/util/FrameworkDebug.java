@@ -1,5 +1,5 @@
 
-package com.smoothgit.wrappers.commander.util;
+package com.smoothgit.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;

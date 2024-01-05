@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.smoothgit.wrappers;
+package com.smoothgit.util;
 
 import java.io.*;
 import java.util.Objects;
@@ -44,7 +44,7 @@ public class GitProjectUtil {
     }
 
     /**
-     * If the passed file is root of a git project, this will return it's name.
+     * If the passed file is root of a Git project, this will return it's name.
      * Otw, will return repoDirectoryPath.getName()
      *
      * @param repoDirectoryPath
