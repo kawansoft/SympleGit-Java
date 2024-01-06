@@ -2,16 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.smoothgit.wrappers;
+package com.symplegit.wrappers;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
 
-import com.smoothgit.commander.GitCommander;
-import com.smoothgit.util.FrameworkDebug;
+import com.symplegit.GitCommander;
+import com.symplegit.SympleGit;
+import com.symplegit.util.FrameworkDebug;
 
 /**
  * Gets the gitStatus of another projectBranch.
@@ -23,7 +23,8 @@ public class GitBranchAnotherStatusFetcher {
 
     public static boolean DEBUG = FrameworkDebug.isSet(GitBranchAnotherStatusFetcher.class);
     
-    private File projectDir = null;
+    private SympleGit sympleGit;
+    
     private String projectBranch = null;
 
     private boolean isOk = false;
@@ -31,17 +32,19 @@ public class GitBranchAnotherStatusFetcher {
     private Exception exception;
     private String activeBranch;
 
+
+
     /**
      * Status and projectBranch fetcher.
      *
      * @param projectDir
      */
-    public GitBranchAnotherStatusFetcher(File projectDir, String projectBranch) {
-        this.projectDir = Objects.requireNonNull(projectDir, "projectDir cannot be null!");
+    public GitBranchAnotherStatusFetcher(SympleGit sympleGit, String projectBranch) {
+        this.sympleGit = Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
 
-        if (!projectDir.isDirectory()) {
+        if (! sympleGit.getProjectDir().isDirectory()) {
             isOk = false;
-            errorMessage = "The project does not exist anymore: " + projectDir;
+            errorMessage = "The project does not exist anymore: " + sympleGit.getProjectDir();
             return;
         }
 
@@ -53,7 +56,7 @@ public class GitBranchAnotherStatusFetcher {
 
         this.projectBranch = projectBranch;
 
-        GitBranch gitBranchsFetcher = new GitBranch(projectDir);
+        GitBranch gitBranchsFetcher = new GitBranch(sympleGit);
         activeBranch = gitBranchsFetcher.getActiveBranch();
         if (!gitBranchsFetcher.isResponseOk()) {
             isOk = false;
@@ -71,7 +74,7 @@ public class GitBranchAnotherStatusFetcher {
             return;
         }
          
-        gitBranchsFetcher = new GitBranch(projectDir);
+        gitBranchsFetcher = new GitBranch(sympleGit);
         boolean branchExists = gitBranchsFetcher.branchExists(projectBranch);
 
         if (!gitBranchsFetcher.isResponseOk()) {
@@ -132,7 +135,7 @@ public class GitBranchAnotherStatusFetcher {
             }
  
             // git Status (project branch)
-            GitBranch gitCurrentBranchStatusFetcher = new GitBranch(projectDir);
+            GitBranch gitCurrentBranchStatusFetcher = new GitBranch(sympleGit);
             projectBranchStatus = gitCurrentBranchStatusFetcher.isStatusOk();
             
             if (! gitCurrentBranchStatusFetcher.isResponseOk()) {
@@ -159,7 +162,7 @@ public class GitBranchAnotherStatusFetcher {
 
     public boolean gitSwitch(String branch) throws FileNotFoundException, IOException {
         // git checkout <original branch>
-        GitCommander gitCommander = new GitCommander(projectDir);
+        GitCommander gitCommander = new GitCommander(sympleGit);
         gitCommander.executeGitCommand("git", "switch", branch);
         isOk = gitCommander.isResponseOk();
         if (!isOk) {

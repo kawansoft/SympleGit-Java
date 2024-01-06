@@ -1,5 +1,5 @@
 
-package com.smoothgit.util;
+package com.symplegit.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;

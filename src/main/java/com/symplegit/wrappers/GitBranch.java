@@ -1,7 +1,6 @@
-package com.smoothgit.wrappers;
+package com.symplegit.wrappers;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
@@ -13,26 +12,28 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.smoothgit.commander.GitCommander;
-import com.smoothgit.util.FrameworkDebug;
+import com.symplegit.GitCommander;
+import com.symplegit.SympleGit;
+import com.symplegit.util.FrameworkDebug;
 
 public class GitBranch {
 
     public static boolean DEBUG = FrameworkDebug.isSet(GitBranch.class);
     
-    private File projectDir = null;
     private String outputString = null;
     
     private boolean isOk = false;
     private String errorMessage;
     private Exception exception;
-    
-    public GitBranch(File projectDir) {
-        this.projectDir = Objects.requireNonNull(projectDir, "projectDir cannot be null!");
 
-        if (!projectDir.isDirectory()) {
+    private SympleGit sympleGit;
+    
+    public GitBranch(SympleGit sympleGit) {
+        this.sympleGit = Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
+
+        if (!this.sympleGit.getProjectDir().isDirectory()) {
             isOk = false;
-            errorMessage = "The project does not exist anymore: " + projectDir;
+            errorMessage = "The project does not exist anymore: " + this.sympleGit.getProjectDir();
         }
 
         isOk = true;
@@ -54,7 +55,7 @@ public class GitBranch {
         isOk = false;
 
         try {
-            GitCommander gitCommander = new GitCommander(projectDir);
+            GitCommander gitCommander = new GitCommander(sympleGit);
             gitCommander.executeGitCommand("git", "status");
 
             isOk = gitCommander.isResponseOk();
@@ -89,7 +90,7 @@ public class GitBranch {
 
         try {
             //git rev-parse --abbrev-ref HEAD
-            GitCommander gitCommander = new GitCommander(projectDir);
+            GitCommander gitCommander = new GitCommander(sympleGit);
             gitCommander.executeGitCommand("git", "rev-parse", "--abbrev-ref", "HEAD");
 
             isOk = gitCommander.isResponseOk();
@@ -128,7 +129,7 @@ public class GitBranch {
         isOk = false;
 
         try {
-            GitCommander gitCommander = new GitCommander(projectDir);
+            GitCommander gitCommander = new GitCommander(sympleGit);
             gitCommander.executeGitCommand("git", "branch");
 
             isOk = gitCommander.isResponseOk();
@@ -209,7 +210,7 @@ public class GitBranch {
         isOk = false;
 
         try {
-            GitCommander gitCommander = new GitCommander(projectDir);
+            GitCommander gitCommander = new GitCommander(sympleGit);
             gitCommander.executeGitCommand("git", "-a", "branch");
 
             isOk = gitCommander.isResponseOk();
@@ -247,7 +248,7 @@ public class GitBranch {
     
     public boolean gitSwitch(String branch) throws FileNotFoundException, IOException {
         // git checkout <original branch>
-        GitCommander gitCommander = new GitCommander(projectDir);
+        GitCommander gitCommander = new GitCommander(sympleGit);
         gitCommander.executeGitCommand("git", "switch", branch);
         isOk = gitCommander.isResponseOk();
         if (!isOk) {

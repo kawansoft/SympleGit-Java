@@ -1,11 +1,10 @@
 
-package com.smoothgit.commander;
+package com.symplegit;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +15,7 @@ import java.util.Objects;
 
 import org.apache.commons.io.IOUtils;
 
-import com.smoothgit.util.FrameworkDebug;
+import com.symplegit.util.FrameworkDebug;
 
 /**
  *
@@ -27,9 +26,6 @@ public class GitCommander {
     public static boolean DEBUG = FrameworkDebug.isSet(GitCommander.class);
 
     ProcessBuilder builder = new ProcessBuilder();
-
-    // private String output;
-    // private String error;
 
     private Exception exception;
 
@@ -43,14 +39,11 @@ public class GitCommander {
      *
      * @param builder the current ProcessBuilder to use
      */
-    public GitCommander(File projectDir) throws FileNotFoundException {
-	Objects.requireNonNull(projectDir, "projectDir cannot be null!");
+     public GitCommander(SympleGit sympleGit) {
+	Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
 
-	if (!projectDir.isDirectory()) {
-	    throw new FileNotFoundException("The project does not exist: " + projectDir);
-	}
 	builder = new ProcessBuilder();
-	builder.directory(projectDir);
+	builder.directory(sympleGit.getProjectDir());
 
     }
 
@@ -89,19 +82,6 @@ public class GitCommander {
 		IOUtils.copy(process.getInputStream(), osInput);
 	    }
 
-	    /*
-	     * debug("Before IOUtils.toString(process.getErrorStream(), \"UTF-8\")");
-	     * this.error = IOUtils.toString(process.getErrorStream(), "UTF-8");
-	     * 
-	     * if (error != null && ! error.isEmpty()) { debug("error: " + this.error); }
-	     * 
-	     * debug("Before IOUtils.toString(process.getInputStream(), \"UTF-8\")");
-	     * this.output = IOUtils.toString(process.getInputStream(), "UTF-8");
-	     * 
-	     * if (output != null && ! output.isEmpty()) { debug("output: " + this.output);
-	     * }
-	     */
-
 	    debug("waitFor...: " + removeCommas(Arrays.toString(command)));
 
 	    exitCode = process.waitFor();
@@ -134,21 +114,11 @@ public class GitCommander {
     }
 
     public String getProcessOutput() throws IOException {
-	if (tempOutputFile != null && tempOutputFile.exists()) {
-	    InputStream is = new BufferedInputStream(new FileInputStream(tempOutputFile));
-	    return IOUtils.toString(is, "UTF-8");
-	} else {
-	    return null;
-	}
+	return IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
     }
 
     public String getProcessError() throws IOException {
-	if (tempErrorFile != null && tempErrorFile.exists()) {
-	    InputStream is = new BufferedInputStream(new FileInputStream(tempErrorFile));
-	    return IOUtils.toString(is, "UTF-8");
-	} else {
-	    return null;
-	}
+	return IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
     }
     
     public InputStream getProcessOutputAsInputStream() throws IOException {
@@ -160,7 +130,7 @@ public class GitCommander {
 	}
     }
 
-    public InputStream getProcessErrorAsInputtream() throws IOException {
+    public InputStream getProcessErrorAsInputStream() throws IOException {
 	if (tempErrorFile != null && tempErrorFile.exists()) {
 	    InputStream is = new BufferedInputStream(new FileInputStream(tempErrorFile));
 	    return is;
@@ -168,14 +138,10 @@ public class GitCommander {
 	return null;
     }
     
-
-    
-    
     public Exception getException() {
 	return exception;
     }
 
-    
     public static void printError(GitCommander gitCommander) throws IOException {
 	String error = gitCommander.getProcessError();
 	if (error != null && !error.isEmpty()) {

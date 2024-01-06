@@ -1,2 +1,2 @@
-# SmoothGit-Java
-A simple Git wraper in Java for the rest of us
+# SympleGit-Java
+A simple Git wrapper in Java for the rest of us
