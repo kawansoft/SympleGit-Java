@@ -1,10 +1,20 @@
 package com.symplegit;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
+
 import org.apache.commons.io.IOUtils;
+
 import com.symplegit.util.FrameworkDebug;
 
 /**
@@ -21,8 +31,14 @@ public class GitCommander {
     private ProcessBuilder builder;
     private Exception exception;
     private int exitCode;
-    private File tempErrorFile;
-    private File tempOutputFile;
+
+    private File tempErrorFile = null;
+    private File tempOutputFile = null;
+
+    private boolean useStringOutput = false;
+
+    private String outputStr;
+    private String errorStr;
 
     /**
      * Constructs a GitCommander object with a specified SympleGit instance.
@@ -34,6 +50,7 @@ public class GitCommander {
 	Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
 	builder = new ProcessBuilder();
 	builder.directory(sympleGit.getProjectDir());
+	this.useStringOutput = sympleGit.isUseStringOutput();
     }
 
     /**
@@ -54,20 +71,25 @@ public class GitCommander {
 	    builder.command(command); // Correctly set the command
 	    process = builder.start();
 
-	    tempErrorFile = File.createTempFile("smoothgit_error_stream", ".txt");
-	    // Optionally, delete the file when the JVM exits
-	    tempErrorFile.deleteOnExit();
+	    if (useStringOutput) {
+		outputStr = IOUtils.toString(process.getInputStream(), "UTF-8");
+		errorStr = IOUtils.toString(process.getErrorStream(), "UTF-8");
+	    } else {
+		tempErrorFile = File.createTempFile("smoothgit_error_stream", ".txt");
+		// Optionally, delete the file when the JVM exits
+		tempErrorFile.deleteOnExit();
 
-	    try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
-		IOUtils.copy(process.getErrorStream(), osError);
-	    }
+		try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
+		    IOUtils.copy(process.getErrorStream(), osError);
+		}
 
-	    tempOutputFile = File.createTempFile("smoothgit_output_stream", ".txt");
-	    // Optionally, delete the file when the JVM exits
-	    tempOutputFile.deleteOnExit();
+		tempOutputFile = File.createTempFile("smoothgit_output_stream", ".txt");
+		// Optionally, delete the file when the JVM exits
+		tempOutputFile.deleteOnExit();
 
-	    try (OutputStream osInput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
-		IOUtils.copy(process.getInputStream(), osInput);
+		try (OutputStream osInput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
+		    IOUtils.copy(process.getInputStream(), osInput);
+		}
 	    }
 
 	    debug("waitFor...: " + removeCommas(Arrays.toString(command)));
@@ -109,7 +131,7 @@ public class GitCommander {
      * @throws IOException if an I/O error occurs while reading the output.
      */
     public String getProcessOutput() throws IOException {
-	return IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
+	return this.useStringOutput ? outputStr : IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
     }
 
     /**
@@ -119,7 +141,7 @@ public class GitCommander {
      * @throws IOException if an I/O error occurs while reading the error output.
      */
     public String getProcessError() throws IOException {
-	return IOUtils.toString(getProcessErrorAsInputStream(), "UTF-8");
+	return this.useStringOutput ? errorStr : IOUtils.toString(getProcessErrorAsInputStream(), "UTF-8");
     }
 
     /**
@@ -142,10 +164,15 @@ public class GitCommander {
      * @throws IOException if the output file does not exist or an I/O error occurs.
      */
     public InputStream getProcessOutputAsInputStream() throws IOException {
-	if (tempOutputFile != null && tempOutputFile.exists()) {
-	    return new BufferedInputStream(new FileInputStream(tempOutputFile));
+
+	if (useStringOutput) {
+	    return new ByteArrayInputStream(outputStr.getBytes());
+	} else {
+	    if (tempOutputFile != null && tempOutputFile.exists()) {
+		return new BufferedInputStream(new FileInputStream(tempOutputFile));
+	    }
+	    return null;
 	}
-	return null;
     }
 
     /**
@@ -156,10 +183,16 @@ public class GitCommander {
      * @throws IOException if the error file does not exist or an I/O error occurs.
      */
     public InputStream getProcessErrorAsInputStream() throws IOException {
-	if (tempErrorFile != null && tempErrorFile.exists()) {
-	    return new BufferedInputStream(new FileInputStream(tempErrorFile));
+
+	if (useStringOutput) {
+	    return new ByteArrayInputStream(errorStr.getBytes());
+	} else {
+	    if (tempErrorFile != null && tempErrorFile.exists()) {
+		return new BufferedInputStream(new FileInputStream(tempErrorFile));
+	    }
+	    return null;
 	}
-	return null;
+
     }
 
     /**
