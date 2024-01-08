@@ -1,60 +1,48 @@
-
 package com.symplegit;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
-
 import org.apache.commons.io.IOUtils;
-
 import com.symplegit.util.FrameworkDebug;
 
 /**
+ * The GitCommander class is responsible for executing Git commands and handling
+ * their outputs. It uses a ProcessBuilder to run Git commands and captures
+ * their output and error streams.
  *
- * @author ndepo
+ * @author Nicolas de Pomereu
  */
 public class GitCommander {
 
     public static boolean DEBUG = FrameworkDebug.isSet(GitCommander.class);
 
-    ProcessBuilder builder = new ProcessBuilder();
-
+    private ProcessBuilder builder;
     private Exception exception;
-
     private int exitCode;
-
     private File tempErrorFile;
     private File tempOutputFile;
 
     /**
-     * Constructor. Executes a Command with the current ProcessBuilder
+     * Constructs a GitCommander object with a specified SympleGit instance.
      *
-     * @param builder the current ProcessBuilder to use
+     * @param sympleGit The SympleGit instance to be used for Git command execution.
+     * @throws NullPointerException if sympleGit is null.
      */
-     public GitCommander(SympleGit sympleGit) {
+    public GitCommander(SympleGit sympleGit) {
 	Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
-
 	builder = new ProcessBuilder();
 	builder.directory(sympleGit.getProjectDir());
-
     }
 
     /**
-     * Executes the Git command. Outout and error can be retrieved with getOutput
-     * and getOutput
+     * Executes a Git command and handles its output and error streams.
      *
-     * @param command the command aftter "git" splited in Strings
-     * @throws IOException
+     * @param command The Git command to be executed, split into an array of
+     *                strings.
      */
-    public void executeGitCommand(String... command) throws IOException {
+    public void executeGitCommand(String... command) {
 	Objects.requireNonNull(command, "builder cannot be null!");
 
 	// builder.redirectErrorStream(true);
@@ -96,97 +84,117 @@ public class GitCommander {
     }
 
     /**
-     * Says if the process executed correctly
+     * Checks if the last executed Git command was successful.
      *
-     * @return true if process executed correctly
+     * @return true if the last Git command executed successfully (exit code 0),
+     *         false otherwise.
      */
     public boolean isResponseOk() {
 	return exitCode == 0;
     }
 
     /**
-     * Returns the exit code, 0 means OK.
+     * Retrieves the exit code of the last executed Git command.
      *
-     * @return the exit code, 0 means OK.
+     * @return The exit code of the last Git command execution.
      */
     public int getExitCode() {
 	return exitCode;
     }
 
+    /**
+     * Gets the standard output of the last executed Git command as a String.
+     *
+     * @return The standard output of the last executed Git command.
+     * @throws IOException if an I/O error occurs while reading the output.
+     */
     public String getProcessOutput() throws IOException {
 	return IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
     }
 
+    /**
+     * Gets the error output of the last executed Git command as a String.
+     *
+     * @return The error output of the last executed Git command.
+     * @throws IOException if an I/O error occurs while reading the error output.
+     */
     public String getProcessError() throws IOException {
-	return IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
-    }
-    
-    public InputStream getProcessOutputAsInputStream() throws IOException {
-	if (tempOutputFile != null && tempOutputFile.exists()) {
-	    InputStream is = new BufferedInputStream(new FileInputStream(tempOutputFile));
-	    return is;
-	} else {
-	    return null;
-	}
+	return IOUtils.toString(getProcessErrorAsInputStream(), "UTF-8");
     }
 
-    public InputStream getProcessErrorAsInputStream() throws IOException {
-	if (tempErrorFile != null && tempErrorFile.exists()) {
-	    InputStream is = new BufferedInputStream(new FileInputStream(tempErrorFile));
-	    return is;
+    /**
+     * Gets the length of the standard output of the last executed Git command.
+     * This will allow to decide if the content can be direclty retrieved as a String. 
+     *
+     * @return The length of the standard output of the last executed Git command.
+     * @throws IOException if an I/O error occurs while reading the output.
+     */
+    public long getSize() {
+	return tempOutputFile.length();
+    }
+    
+    /**
+     * Retrieves the standard output of the last executed Git command as an
+     * InputStream.
+     *
+     * @return An InputStream of the standard output of the last executed Git
+     *         command.
+     * @throws IOException if the output file does not exist or an I/O error occurs.
+     */
+    public InputStream getProcessOutputAsInputStream() throws IOException {
+	if (tempOutputFile != null && tempOutputFile.exists()) {
+	    return new BufferedInputStream(new FileInputStream(tempOutputFile));
 	}
 	return null;
     }
-    
+
+    /**
+     * Retrieves the error output of the last executed Git command as an
+     * InputStream.
+     *
+     * @return An InputStream of the error output of the last executed Git command.
+     * @throws IOException if the error file does not exist or an I/O error occurs.
+     */
+    public InputStream getProcessErrorAsInputStream() throws IOException {
+	if (tempErrorFile != null && tempErrorFile.exists()) {
+	    return new BufferedInputStream(new FileInputStream(tempErrorFile));
+	}
+	return null;
+    }
+
+    /**
+     * Retrieves the exception that occurred during the last Git command execution,
+     * if any.
+     *
+     * @return The exception thrown during the last Git command execution, or null
+     *         if no exception occurred.
+     */
     public Exception getException() {
 	return exception;
     }
 
-    public static void printError(GitCommander gitCommander) throws IOException {
-	String error = gitCommander.getProcessError();
-	if (error != null && !error.isEmpty()) {
-	    System.out.println(error);
-	}
-    }
-
-    public static void printOutput(GitCommander gitCommander) throws IOException {
-	String outputString = gitCommander.getProcessOutput();
-	System.out.println(outputString);
-
-	String error = gitCommander.getProcessError();
-	if (error != null && !error.isEmpty()) {
-	    System.out.println(outputString);
-	}
-    }
-    
-
+    /**
+     * Removes commas from a given string.
+     *
+     * @param str The string from which commas should be removed.
+     * @return The string without commas.
+     */
     private String removeCommas(String str) {
 	if (str != null && str.contains(",")) {
 	    str = str.replace(",", "");
 	}
-
 	return str;
     }
 
-   
     /**
-     * Displays the specified message if the DEBUG flag is set.
+     * Prints a debug message with the current timestamp if debugging is enabled.
      *
-     * @param sMsg the debug message to display
+     * @param sMsg The debug message to be printed.
      */
     protected void debug(String sMsg) {
 	if (DEBUG) {
 	    System.out.println(new Date() + " " + sMsg);
 	}
-    }
-
-    public void close() throws Exception {
-	if (tempErrorFile!= null && tempErrorFile.exists()) {
-            tempErrorFile.delete();
-        }
-	if (tempOutputFile!= null && tempOutputFile.exists()) {
-            tempOutputFile.delete();
-        }
     }
 
 }
