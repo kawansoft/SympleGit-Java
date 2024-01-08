@@ -1,0 +1,4 @@
+
+ ${0}=GitAdder
+ ${1}=addAll(), add(List<String> files) 
+ ${2}=Git add operations
