@@ -1,4 +1,4 @@
 
  ${0}=GitAdder
- ${1}=addAll(), add(List<String> files) 
+ ${1}=addAll(), add(List<String> files), add(List<File> files)
  ${2}=Git add operations

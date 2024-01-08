@@ -3,15 +3,14 @@ package com.symplegit.wrappers;
 import com.symplegit.GitCommander;
 import com.symplegit.GitWrapper;
 import com.symplegit.SympleGit;
-
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
-import java.util.StringJoiner;
 
 /**
- * The GitAdder class provides functionalities to add files to a Git staging area.
- * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands.
+ * GitAdder is a wrapper class for Git 'add' operations.
+ * It allows adding all changed files, or specific files to the staging area.
+ * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
  * @author GPT-4
  */
 public class GitAdder implements GitWrapper {
@@ -26,12 +25,11 @@ public class GitAdder implements GitWrapper {
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
     public GitAdder(SympleGit sympleGit) {
-	Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
         this.gitCommander = new GitCommander(sympleGit);
     }
 
     /**
-     * Adds all changed files in the current directory to the staging area.
+     * Adds all changed files to the staging area.
      *
      * @throws IOException If an error occurs during command execution.
      */
@@ -40,22 +38,33 @@ public class GitAdder implements GitWrapper {
     }
 
     /**
-     * Adds a list of specified files to the staging area.
+     * Adds a list of specified file paths to the staging area.
      *
-     * @param files A list of file paths to add to the staging area.
+     * @param files The list of file paths to be added.
      * @throws IOException If an error occurs during command execution.
      */
     public void add(List<String> files) throws IOException {
         if (files == null || files.isEmpty()) {
             throw new IllegalArgumentException("File list cannot be null or empty.");
         }
-
-        StringJoiner joiner = new StringJoiner(" ");
         for (String file : files) {
-            joiner.add(file);
+            executeGitCommandWithErrorHandler("git", "add", file);
         }
+    }
 
-        executeGitCommandWithErrorHandler("git", "add", joiner.toString());
+    /**
+     * Adds a list of File objects to the staging area.
+     *
+     * @param files The list of File objects to be added.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public void addFiles(List<File> files) throws IOException {
+        if (files == null || files.isEmpty()) {
+            throw new IllegalArgumentException("File list cannot be null or empty.");
+        }
+        for (File file : files) {
+            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
+        }
     }
 
     /**
