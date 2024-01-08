@@ -7,10 +7,10 @@ import com.symplegit.GitWrapper;
 import com.symplegit.SympleGit;
 
 /**
- * The GitBranchModifier class provides functionalities to create, delete, and rename branches in a Git repository.
+ * The GitBranchExample class provides functionalities to create a branch and get the active branch name.
  * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands.
  */
-public class GitBranch implements GitWrapper {
+public class GitBranchExample implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
@@ -21,7 +21,7 @@ public class GitBranch implements GitWrapper {
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitBranch(SympleGit sympleGit) {
+    public GitBranchExample(SympleGit sympleGit) {
         this.gitCommander = new GitCommander(sympleGit);
     }
 
