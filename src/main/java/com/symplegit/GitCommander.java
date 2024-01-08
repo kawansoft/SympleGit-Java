@@ -124,7 +124,7 @@ public class GitCommander {
 
     /**
      * Gets the length of the standard output of the last executed Git command.
-     * This will allow to decide if the content can be direclty retrieved as a String. 
+     * This will allow to decide if the content can be directly retrieved as a String. 
      *
      * @return The length of the standard output of the last executed Git command.
      * @throws IOException if an I/O error occurs while reading the output.
