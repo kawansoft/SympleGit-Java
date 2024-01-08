@@ -13,6 +13,8 @@ ${1}
 
 in order to wrap these Git operations: ${2}
 
+The values of ${0}, ${1} ,and ${2} are at the end of this prompt.
+
 Please include clean & professional Javadoc in the generated class.
 
 Here are the classes
@@ -392,3 +394,9 @@ public class GitBranchExample implements GitWrapper {
         return exception;
     }
 }
+
+Values of ${0}, ${1} ,and ${2}:
+
+ ${0}=GitAdder
+ ${1}=addAll(), add(List<String> files) 
+ ${2}=Git add operations
