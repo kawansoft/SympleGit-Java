@@ -43,7 +43,7 @@ public class SympleGit {
      * directory.
      *
      * @param projectDir      The directory of the Git project.
-     * @param useStringOutput If true, the output of the Git commands will be only
+     * @param useStringOutput If true, the output of each Git commands will be only
      *                        stored in a String. if false, the output of each Git
      *                        command will be stored in a temporary File. The
      *                        temporary file will be deleted after the JVM's life.
@@ -71,7 +71,7 @@ public class SympleGit {
     }
 
     /**
-     * Says if the output of the Git commands will be stored in a String. If true,
+     * Says if the output of each Git command will be stored in a String. If true,
      * the output of the Git commands will be stored in a String, if false, the
      * output of each Git command will be stored in a temporary File. The temporary
      * file will be deleted after the JVM's life.

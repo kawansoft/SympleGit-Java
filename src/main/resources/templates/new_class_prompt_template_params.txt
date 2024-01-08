@@ -2,3 +2,16 @@
  ${0}=GitAdder
  ${1}=addAll(), add(List<String> files), add(List<File> files)
  ${2}=Git add operations
+ 
+${0}=GetVersion
+${1}=getVersion()
+${2}=get Git version
+
+${0}=GitRepoManager
+${1}=Methods: cloneRepository(repoUrl), initializeRepository(), getRepositoryStatus(), addRemote(name, url), removeRemote(name)
+${2}=For repository-wide operations.
+
+${0}=GitCommitter
+${1}=Methods: commitChanges(message), amendCommit(), getCommitHistory(), getCommitDetails(commitHash)
+${2}=To handle commits.
+
