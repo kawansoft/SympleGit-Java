@@ -1,0 +1,10 @@
+I will pass you 4 Java classes:
+- SympleGit: the main class.
+- GitCommander: a class that allows to pass Git commands and get output and errors.
+- GitWrapper: an interface for Git Wrapper classes 
+- GitBranch: a simplified example of a wrapper class that does an only update & anonly read Git operation
+
+
+These classes will be used as a guideline for building a new Wrapper class:
+I want you to write following these guidelines a GitAdder class that will have two methods:
+addAll() and add(List<String> File)
