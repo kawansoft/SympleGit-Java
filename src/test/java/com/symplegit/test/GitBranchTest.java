@@ -6,10 +6,9 @@ package com.symplegit.test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.StringTokenizer;
 
-import com.symplegit.GitCommander;
 import com.symplegit.SympleGit;
+import com.symplegit.wrappers.GitBranchReader;
 
 /**
  *
@@ -20,6 +19,9 @@ public class GitBranchTest {
 	// Replace this with the path to your Git repository
 	String repoDirectoryPath = "I:\\_dev_sqlephant_tests\\Java";
 
-	
+	SympleGit sympleGit = new SympleGit(new File(repoDirectoryPath));
+	GitBranchReader gitBranchReader = new GitBranchReader(sympleGit);
+	System.out.println(gitBranchReader.getLocalBranches());
+	System.out.println(gitBranchReader.getRemoteBranches());
     }
 }

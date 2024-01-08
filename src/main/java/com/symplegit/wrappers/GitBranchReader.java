@@ -198,7 +198,7 @@ public class GitBranchReader {
 
         try {
             GitCommander gitCommander = new GitCommander(sympleGit);
-            gitCommander.executeGitCommand("git", "-a", "branch");
+            gitCommander.executeGitCommand("git", "branch", "-a");
 
             isOk = gitCommander.isResponseOk();
 

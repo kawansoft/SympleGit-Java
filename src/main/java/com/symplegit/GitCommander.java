@@ -75,7 +75,7 @@ public class GitCommander {
 		outputStr = IOUtils.toString(process.getInputStream(), "UTF-8");
 		errorStr = IOUtils.toString(process.getErrorStream(), "UTF-8");
 	    } else {
-		tempErrorFile = File.createTempFile("symplegit_error_stream", ".txt");
+		tempErrorFile = File.createTempFile("symplegit_error_stream_", ".txt");
 		// Optionally, delete the file when the JVM exits
 		tempErrorFile.deleteOnExit();
 
@@ -83,7 +83,7 @@ public class GitCommander {
 		    IOUtils.copy(process.getErrorStream(), osError);
 		}
 
-		tempOutputFile = File.createTempFile("symplegit_output_stream", ".txt");
+		tempOutputFile = File.createTempFile("symplegit_output_stream_", ".txt");
 		// Optionally, delete the file when the JVM exits
 		tempOutputFile.deleteOnExit();
 
