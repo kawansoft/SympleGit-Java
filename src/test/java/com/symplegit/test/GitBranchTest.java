@@ -31,7 +31,7 @@ public class GitBranchTest {
 	// --since="1 week ago" --author="Jane Doe" --grep="feature" -p file1.txt
 	// file2.txt
 
-	// GitBranch gitBranch = new GitBranch(sympleGit);
+	// GitBranchReader gitBranch = new GitBranchReader(sympleGit);
 	// System.out.println("Default branch: " + gitBranch.getActiveBranch());
 
 	String string = "git commit -m \"test commit\" -b \"test2 commit2\" -c --author=\"test2 commit2\" ";

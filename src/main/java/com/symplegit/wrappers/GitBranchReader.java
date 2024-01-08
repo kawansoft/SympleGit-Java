@@ -1,7 +1,6 @@
 package com.symplegit.wrappers;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Date;
@@ -16,9 +15,9 @@ import com.symplegit.GitCommander;
 import com.symplegit.SympleGit;
 import com.symplegit.util.FrameworkDebug;
 
-public class GitBranch {
+public class GitBranchReader {
 
-    public static boolean DEBUG = FrameworkDebug.isSet(GitBranch.class);
+    public static boolean DEBUG = FrameworkDebug.isSet(GitBranchReader.class);
     
     private String outputString = null;
     
@@ -28,7 +27,7 @@ public class GitBranch {
 
     private SympleGit sympleGit;
     
-    public GitBranch(SympleGit sympleGit) {
+    public GitBranchReader(SympleGit sympleGit) {
         this.sympleGit = Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
 
         if (!this.sympleGit.getProjectDir().isDirectory()) {
@@ -188,18 +187,6 @@ public class GitBranch {
        return branches.contains(branch.trim());
     }
 
-    public boolean isResponseOk() {
-        return isOk;
-    }
-
-    public String getError() {
-        return errorMessage;
-    }
-
-    public Exception getException() {
-        return exception;
-    }
-    
     /**
      * Gets a set of the remote branches only
      * @return  a set of the remote branches only
@@ -246,17 +233,18 @@ public class GitBranch {
         return branches;
     }
     
-    public boolean gitSwitch(String branch) throws FileNotFoundException, IOException {
-        // git checkout <original branch>
-        GitCommander gitCommander = new GitCommander(sympleGit);
-        gitCommander.executeGitCommand("git", "switch", branch);
-        isOk = gitCommander.isResponseOk();
-        if (!isOk) {
-            errorMessage = gitCommander.getProcessError();
-            exception = gitCommander.getException();
-        }
+    public boolean isResponseOk() {
         return isOk;
     }
+
+    public String getError() {
+        return errorMessage;
+    }
+
+    public Exception getException() {
+        return exception;
+    }
+    
     
     /**
      * Displays the specified message if the DEBUG flag is set.
