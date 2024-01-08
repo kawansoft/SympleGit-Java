@@ -6,11 +6,13 @@ import com.symplegit.SympleGit;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.StringJoiner;
 
 /**
  * The GitAdder class provides functionalities to add files to a Git staging area.
  * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands.
+ * @author GPT-4
  */
 public class GitAdder implements GitWrapper {
 
@@ -24,6 +26,7 @@ public class GitAdder implements GitWrapper {
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
     public GitAdder(SympleGit sympleGit) {
+	Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
         this.gitCommander = new GitCommander(sympleGit);
     }
 

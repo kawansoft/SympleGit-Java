@@ -11,6 +11,8 @@ I want you to write following these guidelines a ${0} wrapped class that will ha
 
 ${1} 
 
+in order to wrap these Git operations: ${2}
+
 Please include clean & professional Javadoc in the generated class.
 
 Here are the classes
