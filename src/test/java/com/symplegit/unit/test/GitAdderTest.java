@@ -115,7 +115,11 @@ public class GitAdderTest {
     
 
     @AfterAll
-    public void cleanAll() throws IOException {
+    public static void cleanAll() throws IOException {
+        File repoDir = GitTestUtils.createTemporaryGitRepo();
+        assertTrue(repoDir.exists(), "Git repository directory does not exist.");
+
+        SympleGit sympleGit = new SympleGit(repoDir);
 	GitCommander gitCommander = new GitCommander(sympleGit);
 	gitCommander.executeGitCommand("git", "add", ".");
 	gitCommander.executeGitCommand("git", "commit", "-m", "Clean commit."); 
