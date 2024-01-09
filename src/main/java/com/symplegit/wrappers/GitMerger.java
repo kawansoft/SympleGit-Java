@@ -1,6 +1,7 @@
 package com.symplegit.wrappers;
 
 import java.io.IOException;
+
 import com.symplegit.GitCommander;
 import com.symplegit.GitWrapper;
 import com.symplegit.SympleGit;

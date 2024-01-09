@@ -1,11 +1,12 @@
 package com.symplegit.wrappers;
 
-import com.symplegit.GitCommander;
-import com.symplegit.GitWrapper;
-import com.symplegit.SympleGit;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import com.symplegit.GitCommander;
+import com.symplegit.GitWrapper;
+import com.symplegit.SympleGit;
 
 /**
  * GitAdder is a wrapper class for Git 'add' operations.

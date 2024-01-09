@@ -1,9 +1,10 @@
 package com.symplegit.wrappers;
 
+import java.io.IOException;
+
 import com.symplegit.GitCommander;
 import com.symplegit.GitWrapper;
 import com.symplegit.SympleGit;
-import java.io.IOException;
 
 /**
  * GitCommitter provides functionality for handling Git commits.
