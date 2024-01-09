@@ -1,0 +1,71 @@
+package com.symplegit.unit.test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Set;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.symplegit.SympleGit;
+import com.symplegit.test.util.GitTestUtils;
+import com.symplegit.wrappers.GitBranchModifier;
+import com.symplegit.wrappers.GitBranchReader;
+
+public class GitBranchReaderTest {
+
+    private GitBranchReader branchReader;
+    private SympleGit sympleGit;
+    private File tempRepo;
+
+    @BeforeEach
+    public void setUp() throws IOException {
+        tempRepo = GitTestUtils.createTemporaryGitRepo();
+        sympleGit = new SympleGit(tempRepo);
+        branchReader = new GitBranchReader(sympleGit);
+    }
+
+    @Test
+    public void testIsStatusOk() throws IOException {
+	GitBranchModifier gitBranchModifier = new GitBranchModifier(sympleGit);
+	gitBranchModifier.switchBranch("master");
+        assertTrue(branchReader.isStatusOk(), "Status should be ok for master");
+    }
+
+    @Test
+    public void testGetActiveBranch() {
+        String activeBranch = branchReader.getActiveBranch();
+        assertNotNull(activeBranch, "Active branch should not be null");
+        //assertEquals("master", activeBranch, "Active branch should be 'master'");
+    }
+
+    @Test
+    public void testGetLocalBranches() {
+        Set<String> localBranches = branchReader.getLocalBranches();
+        assertNotNull(localBranches, "Local branches set should not be null");
+        assertTrue(localBranches.contains("master"), "Local branches should include 'master'");
+    }
+
+    @Test
+    public void testBranchExists() {
+        assertTrue(branchReader.branchExists("master"), "Branch 'master' should exist");
+    }
+
+    @Test
+    public void testGetRemoteBranches() throws IOException {
+        Set<String> remoteBranches = branchReader.getRemoteBranches();
+        assertNotNull(remoteBranches, "Remote branches set should not be null");
+        // Assuming no remote branches for a new repo, this check might need to be adjusted based on setup.
+        assertTrue(remoteBranches.isEmpty(), "Remote branches should be empty for a new repository");
+    }
+
+    @AfterEach
+    public void tearDown() {
+        // Cleanup operations, if necessary
+        tempRepo.delete();
+    }
+}

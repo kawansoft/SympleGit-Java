@@ -31,10 +31,12 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.symplegit.GitCommander;
 import com.symplegit.SympleGit;
 import com.symplegit.test.util.GitTestUtils;
 import com.symplegit.wrappers.GitAdder;
@@ -96,8 +98,10 @@ public class GitAdderTest {
         assertTrue(gitAdder.isResponseOk(), "Add operation for multiple files should succeed.");
     }
 
+    
     @AfterEach
     public void tearDown() {
+	
         // Cleanup any created files or reset the repository state if necessary
         repoDir.listFiles(file -> {
             if (file.getName().endsWith(".txt")) {
@@ -105,5 +109,15 @@ public class GitAdderTest {
             }
             return false;
         });
+        
+    }
+    
+    
+
+    @AfterAll
+    public void cleanAll() throws IOException {
+	GitCommander gitCommander = new GitCommander(sympleGit);
+	gitCommander.executeGitCommand("git", "add", ".");
+	gitCommander.executeGitCommand("git", "commit", "-m", "Clean commit."); 
     }
 }
