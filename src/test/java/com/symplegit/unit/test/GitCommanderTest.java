@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 
 import com.symplegit.GitCommander;
 import com.symplegit.SympleGit;
-import com.symplegit.test.util.GitRepoForTest;
+import com.symplegit.test.util.GitTestUtils;
 
 public class GitCommanderTest {
 
@@ -47,7 +47,7 @@ public class GitCommanderTest {
 
     @Test
     public void testSuccessfulCommandExecution() throws IOException {
-        tempRepo = new File(GitRepoForTest.GIT_REPOSITORY);
+        tempRepo = GitTestUtils.createTemporaryGitRepo();
         commander = new GitCommander(new SympleGit(tempRepo));
         
         commander.executeGitCommand("git", "status");

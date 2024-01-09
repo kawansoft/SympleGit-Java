@@ -27,7 +27,6 @@ package com.symplegit.unit.test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,7 +36,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.SympleGit;
-import com.symplegit.test.util.GitRepoForTest;
+import com.symplegit.test.util.GitTestUtils;
 import com.symplegit.wrappers.GitAdder;
 
 public class GitAdderTest {
@@ -47,8 +46,8 @@ public class GitAdderTest {
     private File repoDir;
 
     @BeforeEach
-    public void setUp() throws FileNotFoundException {
-        repoDir = new File(GitRepoForTest.GIT_REPOSITORY);
+    public void setUp() throws IOException {
+        repoDir = GitTestUtils.createTemporaryGitRepo();
         assertTrue(repoDir.exists(), "Git repository directory does not exist.");
 
         sympleGit = new SympleGit(repoDir);
