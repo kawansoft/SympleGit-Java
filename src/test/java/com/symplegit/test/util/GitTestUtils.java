@@ -26,7 +26,6 @@ package com.symplegit.test.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 public class GitTestUtils {
 
@@ -36,8 +35,14 @@ public class GitTestUtils {
      * @throws IOException if an error occurs during directory creation.
      */
     public static File createTemporaryGitRepo() throws IOException {
-        File tempDir = Files.createTempDirectory("git_test_repo").toFile();
-        executeGitCommand(tempDir, "git", "init");
+	String tmpDirsLocation = System.getProperty("java.io.tmpdir");
+        File tempDir = new File(tmpDirsLocation + File.separator + "git_test_repo");
+        
+        if (! tempDir.exists()) {
+            tempDir.mkdir();
+            executeGitCommand(tempDir, "git", "init");   
+        }
+
         return tempDir;
     }
 
