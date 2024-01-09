@@ -19,5 +19,10 @@ ${0}=GitTagger
 ${1}=Methods: createTag(tagName, commitHash), deleteTag(tagName), listTags()
 ${2}=For tagging operations.
 
+${0}=GitMerger
+${1}=Methods: mergeBranches(targetBranch, sourceBranch), abortMerge(), getMergeStatus()
+${2}=For merging branches.
+
+
 
 

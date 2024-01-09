@@ -9,6 +9,8 @@ import com.symplegit.SympleGit;
 /**
  * The GitBranchModifier class provides functionalities to create, delete, and rename branches in a Git repository.
  * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands.
+ * 
+ * @author GPT-4
  */
 public class GitBranchModifier implements GitWrapper {
 

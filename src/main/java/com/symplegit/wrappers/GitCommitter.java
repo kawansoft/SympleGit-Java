@@ -9,6 +9,8 @@ import java.io.IOException;
  * GitCommitter provides functionality for handling Git commits.
  * It includes methods for committing changes, amending commits, and retrieving commit history.
  * This class implements the GitWrapper interface and uses GitCommander for command execution.
+ * 
+ * @author GPT-4
  */
 public class GitCommitter implements GitWrapper {
 

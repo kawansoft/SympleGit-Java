@@ -1,71 +1,61 @@
 package com.symplegit.wrappers;
 
+import java.io.IOException;
 import com.symplegit.GitCommander;
 import com.symplegit.GitWrapper;
 import com.symplegit.SympleGit;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 /**
- * GitAdder is a wrapper class for Git 'add' operations.
- * It allows adding all changed files, or specific files to the staging area.
- * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
+ * The GitMerger class provides functionalities to manage merging operations in a Git repository.
+ * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands related to merging.
  * 
  * @author GPT-4
  */
-public class GitAdder implements GitWrapper {
+public class GitMerger implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitAdder with a specified SympleGit instance.
+     * Constructs a GitMerger with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitAdder(SympleGit sympleGit) {
+    public GitMerger(SympleGit sympleGit) {
         this.gitCommander = new GitCommander(sympleGit);
     }
 
     /**
-     * Adds all changed files to the staging area.
+     * Merges the source branch into the target branch in the Git repository.
      *
+     * @param targetBranch The name of the target branch.
+     * @param sourceBranch The name of the source branch.
      * @throws IOException If an error occurs during command execution.
      */
-    public void addAll() throws IOException {
-        executeGitCommandWithErrorHandler("git", "add", ".");
+    public void mergeBranches(String targetBranch, String sourceBranch) throws IOException {
+        executeGitCommandWithErrorHandler("git", "checkout", targetBranch);
+        executeGitCommandWithErrorHandler("git", "merge", sourceBranch);
     }
 
     /**
-     * Adds a list of specified file paths to the staging area.
+     * Aborts an ongoing merge operation in the Git repository.
      *
-     * @param files The list of file paths to be added.
      * @throws IOException If an error occurs during command execution.
      */
-    public void add(List<String> files) throws IOException {
-        if (files == null || files.isEmpty()) {
-            throw new IllegalArgumentException("File list cannot be null or empty.");
-        }
-        for (String file : files) {
-            executeGitCommandWithErrorHandler("git", "add", file);
-        }
+    public void abortMerge() throws IOException {
+        executeGitCommandWithErrorHandler("git", "merge", "--abort");
     }
 
     /**
-     * Adds a list of File objects to the staging area.
+     * Retrieves the merge status of the Git repository.
      *
-     * @param files The list of File objects to be added.
+     * @return A string indicating the current merge status.
      * @throws IOException If an error occurs during command execution.
      */
-    public void addFiles(List<File> files) throws IOException {
-        if (files == null || files.isEmpty()) {
-            throw new IllegalArgumentException("File list cannot be null or empty.");
-        }
-        for (File file : files) {
-            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
-        }
+    public String getMergeStatus() throws IOException {
+        executeGitCommandWithErrorHandler("git", "status");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
     /**

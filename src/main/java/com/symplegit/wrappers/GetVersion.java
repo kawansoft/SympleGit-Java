@@ -7,8 +7,11 @@ import com.symplegit.GitWrapper;
 import com.symplegit.SympleGit;
 
 /**
- * The GetVersion class provides the functionality to retrieve the current version of Git.
- * It implements the GitWrapper interface, using GitCommander to execute the 'git --version' command.
+ * The GetVersion class provides the functionality to retrieve the current
+ * version of Git. It implements the GitWrapper interface, using GitCommander to
+ * execute the 'git --version' command.
+ * 
+ * @author GPT-4
  */
 public class GetVersion implements GitWrapper {
 

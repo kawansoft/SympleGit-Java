@@ -14,6 +14,7 @@ in order to wrap these Git operations: ${2}
 
 The values of ${0}, ${1} ,and ${2} are at the end of this prompt.
 
+Add a "@author GPT-4" at first Javadoc.
 Please include clean & professional Javadoc in the generated class.
 
 Here are the classes:
