@@ -15,3 +15,9 @@ ${0}=GitCommitter
 ${1}=Methods: commitChanges(message), amendCommit(), getCommitHistory(), getCommitDetails(commitHash)
 ${2}=To handle commits.
 
+${0}=GitTagger
+${1}=Methods: createTag(tagName, commitHash), deleteTag(tagName), listTags()
+${2}=For tagging operations.
+
+
+
