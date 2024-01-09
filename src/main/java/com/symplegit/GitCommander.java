@@ -107,13 +107,13 @@ public class GitCommander {
 		}
 		// Optionally, delete the file when the JVM exits
 		tempErrorFile.deleteOnExit();
-		
+
 		tempOutputFile = File.createTempFile("symplegit-output-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
 
 		try (OutputStream osInput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
 		    IOUtils.copy(process.getInputStream(), osInput);
 		}
-		
+
 		// Optionally, delete the file when the JVM exits
 		tempOutputFile.deleteOnExit();
 	    }
@@ -246,8 +246,9 @@ public class GitCommander {
     }
 
     /**
-     * The delete of the temp files are normally done when the JVM exits with a File.deleteOnExit() call.
-     * May be optionally be done to delete immediately the temp files created. 
+     * The delete of the temp files are normally done when the JVM exits with a
+     * File.deleteOnExit() call. May be optionally be done to delete immediately the
+     * temp files created.
      */
     public void close() {
 	if (tempErrorFile != null && tempErrorFile.exists()) {
@@ -258,7 +259,7 @@ public class GitCommander {
 	    tempOutputFile.delete();
 	}
     }
-    
+
     /**
      * Prints a debug message with the current timestamp if debugging is enabled.
      *
