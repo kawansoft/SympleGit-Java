@@ -1,4 +1,4 @@
-package com.symplegit.unit.test;
+package com.symplegit.test.util;
 
 import java.io.File;
 import java.io.IOException;

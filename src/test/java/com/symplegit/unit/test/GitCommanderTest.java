@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import com.symplegit.GitCommander;
 import com.symplegit.SympleGit;
-import com.symplegit.test.GitRepoForTest;
+import com.symplegit.test.util.GitRepoForTest;
 
 public class GitCommanderTest {
 
