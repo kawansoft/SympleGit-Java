@@ -37,7 +37,7 @@ public class ApiDateUtil {
 
 
     public static String getDateWithTime() {
-	return getDateReverse() + "_" + getHourMinute();
+	return getDateReverse() + "-" + getHourMinute();
     }
     
     /**
@@ -91,7 +91,6 @@ public class ApiDateUtil {
 	} else {
 	    sHour += hour;
 	}
-	sHour += ":";
 	if (min < 10) {
 	    sHour += "0" + min;
 	} else {

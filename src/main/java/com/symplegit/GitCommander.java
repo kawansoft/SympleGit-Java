@@ -76,7 +76,7 @@ public class GitCommander {
 		outputStr = IOUtils.toString(process.getInputStream(), "UTF-8");
 		errorStr = IOUtils.toString(process.getErrorStream(), "UTF-8");
 	    } else {
-		tempErrorFile = File.createTempFile("symplegit_error_stream_" + ApiDateUtil.getDateWithTime(), ".txt");
+		tempErrorFile = File.createTempFile("symplegit-error-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
 
 		try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
 		    IOUtils.copy(process.getErrorStream(), osError);
@@ -84,7 +84,7 @@ public class GitCommander {
 		// Optionally, delete the file when the JVM exits
 		tempErrorFile.deleteOnExit();
 		
-		tempOutputFile = File.createTempFile("symplegit_output_stream_" + ApiDateUtil.getDateWithTime(), ".txt");
+		tempOutputFile = File.createTempFile("symplegit-output-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
 
 		try (OutputStream osInput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
 		    IOUtils.copy(process.getInputStream(), osInput);
