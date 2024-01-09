@@ -76,20 +76,21 @@ public class GitCommander {
 		errorStr = IOUtils.toString(process.getErrorStream(), "UTF-8");
 	    } else {
 		tempErrorFile = File.createTempFile("symplegit_error_stream_", ".txt");
-		// Optionally, delete the file when the JVM exits
-		tempErrorFile.deleteOnExit();
 
 		try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
 		    IOUtils.copy(process.getErrorStream(), osError);
 		}
-
-		tempOutputFile = File.createTempFile("symplegit_output_stream_", ".txt");
 		// Optionally, delete the file when the JVM exits
-		tempOutputFile.deleteOnExit();
+		tempErrorFile.deleteOnExit();
+		
+		tempOutputFile = File.createTempFile("symplegit_output_stream_", ".txt");
 
 		try (OutputStream osInput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
 		    IOUtils.copy(process.getInputStream(), osInput);
 		}
+		
+		// Optionally, delete the file when the JVM exits
+		tempOutputFile.deleteOnExit();
 	    }
 
 	    debug("waitFor...: " + removeCommas(Arrays.toString(command)));
@@ -219,6 +220,20 @@ public class GitCommander {
 	return str;
     }
 
+    /**
+     * Closes the GitCommander instance. To be done to delete the temp files
+     * created.
+     */
+    public void close() {
+	if (tempErrorFile != null && tempErrorFile.exists()) {
+	    tempErrorFile.delete();
+	}
+
+	if (tempOutputFile != null && tempOutputFile.exists()) {
+	    tempOutputFile.delete();
+	}
+    }
+    
     /**
      * Prints a debug message with the current timestamp if debugging is enabled.
      *
