@@ -221,8 +221,8 @@ public class GitCommander {
     }
 
     /**
-     * Closes the GitCommander instance. To be done to delete the temp files
-     * created.
+     * The delete of the temp files are normally done when the JVM exits with a File.deleteOnExit() call.
+     * May be optionally be done to delete immediately the temp files created. 
      */
     public void close() {
 	if (tempErrorFile != null && tempErrorFile.exists()) {
