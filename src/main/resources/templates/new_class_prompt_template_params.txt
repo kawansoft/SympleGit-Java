@@ -27,7 +27,15 @@ ${0}=GitDiffAnalyzer
 ${1}=Methods: getDiff(commitHash1, commitHash2), getStagedDiff(), getFileDiff(filePath)
 ${2}=To compare changes.
 
+${0}=GitRemoteManager
+${1}=Methods: fetchRemote(remoteName), pushChanges(remoteName, branchName), pullChanges(remoteName, branchName), listRemotes()
+${2}=For operations on remote repositories.
 
+// To be done
+
+${0}=GitConfig
+${1}=Methods: getUserConfig(), setUserConfig(userName, userEmail), getGlobalConfig(), setGlobalConfig(configKey, configValue)
+${2}= For Git configuration management.
 
 
 

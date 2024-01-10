@@ -5,7 +5,7 @@ A simple Git wrapper in Java for the rest of us, extendable with Artificial Inte
 
 ## What is SympleGit?
 
-SympleGit is a minimalist Java Git implementation that has 3 main characteristics:
+SympleGit is a minimalist but extendable Java Git implementation that has 3 main characteristics:
 
 1. It supports one to one calls corresponding to Git command line calls.
 2. It has wrappers classes for main Git actions, with easy names to use.
@@ -17,7 +17,7 @@ SympleGit is a minimalist Java Git implementation that has 3 main characteristic
 
 But, JGit was designed to manage Git full support in Eclipse, implementing all sophisticated actions for the end user developing  a Java project. The API has a learning curve and there is no direct and one to one support for CLI actions.
 
-### Support for CLI calls
+### Support for CLI Git calls
 
 For example, using JGit for staging files, you must use the API:
 

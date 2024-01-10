@@ -35,15 +35,25 @@ public class GitTestUtils {
      * @throws IOException if an error occurs during directory creation.
      */
     public static File createTemporaryGitRepo() throws IOException {
+        //C:\Users\ndepo\AppData\Local\Temp
 	String tmpDirsLocation = System.getProperty("java.io.tmpdir");
         File tempDir = new File(tmpDirsLocation + File.separator + "git_test_repo");
-        
+
         if (! tempDir.exists()) {
             tempDir.mkdir();
             executeGitCommand(tempDir, "git", "init");   
         }
 
         return tempDir;
+    }
+    
+    /**
+     * Gets the preprogrammed GitHub URL for the repo:
+     * File repoDir = GitTestUtils.createTemporaryGitRepo();
+     * @return the GitHub URL for the repo.
+     */
+    public static String getRemoteGitHubUrl() {
+	return "https://github.com/kawansoft/git_test_repo.git";
     }
 
     /**
