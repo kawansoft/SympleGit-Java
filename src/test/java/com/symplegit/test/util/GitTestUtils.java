@@ -31,6 +31,7 @@ public class GitTestUtils {
 
     /**
      * Creates a temporary directory that will act as a Git repository for testing.
+     * If the directory already exists, it is supposed that the git project exists.
      * @return The File object representing the created directory.
      * @throws IOException if an error occurs during directory creation.
      */
