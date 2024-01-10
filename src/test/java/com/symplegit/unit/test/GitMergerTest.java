@@ -25,20 +25,6 @@
 
 package com.symplegit.unit.test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.File;
-import java.io.IOException;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import com.symplegit.SympleGit;
-import com.symplegit.test.util.GitTestUtils;
-import com.symplegit.test.util.GitTestUtilsCommit;
-import com.symplegit.wrappers.GitMerger;
-
 /**
  * Unit tests for the GitMerger class.
  */

@@ -25,6 +25,7 @@
 package com.symplegit.test.util;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class GitTestUtils {
@@ -57,6 +58,42 @@ public class GitTestUtils {
 	return "https://github.com/kawansoft/git_test_repo.git";
     }
 
+    public static void createAndCheckoutBranch(File repoDir, String branchName) throws IOException {
+        executeGitCommand(repoDir, "git", "checkout", "-b", branchName);
+    }
+
+    public static void checkoutBranch(File repoDir, String branchName) throws IOException {
+        executeGitCommand(repoDir, "git", "checkout", branchName);
+    }
+
+    public static void createConflict(File repoDir, String branch1, String branch2) throws IOException {
+        checkoutBranch(repoDir, branch1);
+        makeCommit(repoDir, "Commit on " + branch1);
+        checkoutBranch(repoDir, branch2);
+        makeCommit(repoDir, "Conflicting commit on " + branch2);
+    }
+    
+    /**
+     * Creates a new commit in the given Git repository on the current branch.
+     * 
+     * @param repoDir The directory of the Git repository.
+     * @param commitMessage The commit message.
+     * @throws IOException If an error occurs during file operations or command execution.
+     */
+    public static void makeCommit(File repoDir, String commitMessage) throws IOException {
+        String filename = "file_" + System.currentTimeMillis() + ".txt";
+        createFileInRepo(repoDir, filename, "Content for " + commitMessage);
+        executeGitCommand(repoDir, "git", "add", filename);
+        executeGitCommand(repoDir, "git", "commit", "-m", commitMessage);
+    }
+    
+    private static void createFileInRepo(File repoDir, String filename, String content) throws IOException {
+        File file = new File(repoDir, filename);
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write(content);
+        }
+    }
+    
     /**
      * Executes a Git command in the specified directory.
      * @param directory The directory where the Git command will be executed.
