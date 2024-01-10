@@ -13,9 +13,11 @@ SympleGit is a minimalist but extendable Java Git implementation that has 3 main
 
 ## Choosing SympleGit Over JGit: Understanding the Advantages
 
-[JGit](https://www.eclipse.org/jgit/) is a great Java implementation of Git, very well and rich featured, with a clean and fluent API. We don't "compete" at all with JGit. 
+[JGit](https://www.eclipse.org/jgit/) is a great Java implementation of Git, very well and rich featured, with a clean and fluent API. JGit was designed to manage Git full support in Eclipse, implementing all sophisticated actions for the end user developing  a Java project. 
 
-But, JGit was designed to manage Git full support in Eclipse, implementing all sophisticated actions for the end user developing  a Java project. The API has a learning curve and there is no direct and one to one support for CLI actions.
+SympleGit does not "compete" at all with JGit. If you want to develop a Java editor and add to Git management: [install JGit](https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit).
+
+But, on the other side, the API has a learning curve and there is no direct and one to one support for CLI actions.
 
 ### Support for CLI Git calls
 
@@ -70,7 +72,7 @@ gitCommander.executeGitCommand("git", "add", "testFile"); // "git add testfile"
 
 Supporting a one to one correspondence has advantages:
 
-- It allows a non Git expert to pass the required Git command without failure, or passing time findings the right parameters in the API. If you are not a Git expert, it will be easy for the Git expert in the company to help you implement the right Git call with the right parameters. On the other side, it will be easy for a Git expert who is not a Java expert to code Gits call in aa Java workflow.
+- It allows a non Git expert to pass the required Git command without failure, or passing time findings the right parameters in the API. If you are not a Git expert, it will be easy for the Git expert in the company to help you implement the right Git call with the right parameters. On the other side, it will be easy for a Git expert who is not a Java expert to code Gits call in a Java workflow.
 - Git is a complex software, having in Java the equivalent of CLI calls allows to pass complex or rare commands without requiring to program all the option in the API. Example: `git log --graph --abbrev-commit --decorate --date=relative --all --pretty=format:'%h - %ar | %s (%an)%d' --max-count=10`
 
 ### Straightforward Git implementation
