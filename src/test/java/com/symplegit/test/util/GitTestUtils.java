@@ -65,6 +65,18 @@ public class GitTestUtils {
     public static void checkoutBranch(File repoDir, String branchName) throws IOException {
         executeGitCommand(repoDir, "git", "checkout", branchName);
     }
+    
+    /**
+     * Creates an initial commit in the given Git repository.
+     * 
+     * @param repoDir The directory of the Git repository.
+     * @throws IOException If an error occurs during file operations or command execution.
+     */
+    public static void makeInitialCommit(File repoDir) throws IOException {
+        createFileInRepo(repoDir, "initial.txt", "Initial commit content");
+        executeGitCommand(repoDir, "git", "add", ".");
+        executeGitCommand(repoDir, "git", "commit", "-m", "Initial commit");
+    }
 
     public static void createConflict(File repoDir, String branch1, String branch2) throws IOException {
         checkoutBranch(repoDir, branch1);

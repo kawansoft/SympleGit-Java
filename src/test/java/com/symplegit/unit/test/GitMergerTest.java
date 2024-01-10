@@ -25,10 +25,69 @@
 
 package com.symplegit.unit.test;
 
-/**
- * Unit tests for the GitMerger class.
- */
+
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.symplegit.SympleGit;
+import com.symplegit.test.util.GitTestUtils;
+import com.symplegit.wrappers.GitMerger;
+
 public class GitMergerTest {
 
-}
+    private GitMerger gitMerger;
+    private SympleGit sympleGit;
+    private File repoDir;
 
+    @BeforeEach
+    public void setUp() throws IOException {
+        repoDir = GitTestUtils.createTemporaryGitRepo();
+        sympleGit = new SympleGit(repoDir);
+        gitMerger = new GitMerger(sympleGit);
+
+        // Setup repository with two branches
+        setupRepositoryWithBranches();
+    }
+
+    private void setupRepositoryWithBranches() throws IOException {
+        GitTestUtils.makeInitialCommit(repoDir);
+        GitTestUtils.createAndCheckoutBranch(repoDir, "feature-branch");
+        GitTestUtils.makeCommit(repoDir, "Feature commit");
+        GitTestUtils.checkoutBranch(repoDir, "master");
+    }
+
+    @Test
+    public void testMergeBranches() throws IOException {
+        gitMerger.mergeBranches("master", "feature-branch");
+        assertTrue(gitMerger.isResponseOk(), "Merge should be successful");
+    }
+
+    @Test
+    public void testAbortMerge() throws IOException {
+        // Creating a conflict
+        GitTestUtils.createConflict(repoDir, "feature-branch", "master");
+
+        // Attempting merge and then aborting
+        gitMerger.mergeBranches("master", "feature-branch");
+        assertFalse(gitMerger.isResponseOk(), "Merge should fail due to conflict");
+
+        gitMerger.abortMerge();
+        assertTrue(gitMerger.isResponseOk(), "Abort merge should be successful");
+    }
+
+    @Test
+    public void testGetMergeStatus() throws IOException {
+        String mergeStatus = gitMerger.getMergeStatus();
+        assertNotNull(mergeStatus, "Should be able to retrieve merge status");
+    }
+
+    // Additional methods to clean up and delete the temporary repository could be added
+}
