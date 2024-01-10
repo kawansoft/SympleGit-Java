@@ -9,15 +9,15 @@ SympleGit is a minimalist but extendable Java Git implementation that has 3 main
 
 1. It supports one to one calls corresponding to Git command line calls.
 2. It has wrappers classes for main Git actions, with easy names to use.
-3. It is extendable using Artificial Intelligence (GPT-4). 
+3. It is extendable & customizable using Artificial Intelligence (GPT-4). 
 
 ## Choosing SympleGit Over JGit: Understanding the Advantages
 
 [JGit](https://www.eclipse.org/jgit/) is a great Java implementation of Git, very well and rich featured, with a clean and fluent API. JGit was designed to manage Git full support in Eclipse, implementing all sophisticated actions for the end user developing  a Java project. 
 
-SympleGit does not "compete" at all with JGit. If you want to develop a Java editor and add to Git management: [install JGit](https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit).
+If you want to develop a Java editor and add to Git management: [install JGit](https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit).
 
-But, on the other side, the API has a learning curve and there is no direct and one to one support for CLI actions.
+But, on the other side, the API has a learning curve and there is no direct and one to one support for CLI actions. SympleGit  should thus be easier than JGit for simple Git integration in many Java projects.
 
 ### Support for CLI Git calls
 
@@ -91,23 +91,8 @@ Example 2: retrieving commit messages and metadata
 
 This version of the command provides full commit messages and metadata for each commit, which can be quite substantial for large repositories. 
 
-
-
 ## The Wrapper Classes API
 
-
-
 ## Extending SympleGit using Artificial Intelligence
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -33,8 +33,7 @@ import com.symplegit.GitWrapper;
 import com.symplegit.SympleGit;
 
 /**
- * GitAdder is a wrapper class for Git 'add' operations.
- * It allows adding all changed files, or specific files to the staging area.
+ * The GitAdder class allows adding all changed files, or specific files to the staging area.
  * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
  * 
  * @author GPT-4
