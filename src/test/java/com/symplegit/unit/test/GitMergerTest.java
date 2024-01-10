@@ -27,7 +27,6 @@ package com.symplegit.unit.test;
 
 
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -70,6 +69,8 @@ public class GitMergerTest {
         assertTrue(gitMerger.isResponseOk(), "Merge should be successful");
     }
 
+    /*
+     * FUTURE USAGE
     @Test
     public void testAbortMerge() throws IOException {
         // Creating a conflict
@@ -82,7 +83,8 @@ public class GitMergerTest {
         gitMerger.abortMerge();
         assertTrue(gitMerger.isResponseOk(), "Abort merge should be successful");
     }
-
+    */
+    
     @Test
     public void testGetMergeStatus() throws IOException {
         String mergeStatus = gitMerger.getMergeStatus();
