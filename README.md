@@ -91,6 +91,12 @@ This version of the command provides full commit messages and metadata for each 
 
 
 
+## The Wrapper Classes API
+
+
+
+## Extending SympleGit using Artificial Intelligence
+
 
 
 
