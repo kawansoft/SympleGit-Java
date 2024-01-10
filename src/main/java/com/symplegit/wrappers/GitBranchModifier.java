@@ -62,13 +62,23 @@ public class GitBranchModifier implements GitWrapper {
     }
 
     /**
-     * Deletes a branch from the Git repository.
+     * Cautious delete of a branch from the Git repository. (-d option).
      *
      * @param branchName The name of the branch to be deleted.
      * @throws IOException If an error occurs during command execution.
      */
     public void deleteBranch(String branchName) throws IOException {
         executeGitCommandWithErrorHandler("git", "branch", "-d", branchName);
+    }
+    
+    /**
+     * Forces delete of a branch from the Git repository. (-D option).
+     *
+     * @param branchName The name of the branch to be deleted.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public void deleteBranchForce(String branchName) throws IOException {
+        executeGitCommandWithErrorHandler("git", "branch", "-D", branchName);
     }
 
     /**

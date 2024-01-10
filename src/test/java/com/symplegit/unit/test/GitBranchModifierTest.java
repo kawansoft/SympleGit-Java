@@ -57,7 +57,7 @@ public class GitBranchModifierTest {
 	gitBranchModifier.switchBranch("master");
 	
 	// Force delete of the test branch if it still exists
-	branchModifier.deleteBranch(TEST_BRANCH);
+	branchModifier.deleteBranchForce(TEST_BRANCH);
         //assertTrue(branchModifier.isResponseOk(), "Branch deletion should be successful");
         
         // Test branch creation
@@ -70,7 +70,7 @@ public class GitBranchModifierTest {
         assertTrue(branchModifier.isResponseOk(), "Branch creation should be successful");
 
         // Test branch deletion
-        branchModifier.deleteBranch(TEST_BRANCH);
+        branchModifier.deleteBranchForce(TEST_BRANCH);
         assertTrue(branchModifier.isResponseOk(), "Branch deletion should be successful");
     }
 
@@ -87,7 +87,7 @@ public class GitBranchModifierTest {
         assertTrue(branchModifier.isResponseOk(), "Branch renaming should be successful");
 
         // Clean up
-        branchModifier.deleteBranch(newBranchName);
+        branchModifier.deleteBranchForce(newBranchName);
     }
 
     @Test
@@ -100,7 +100,7 @@ public class GitBranchModifierTest {
         assertTrue(branchModifier.isResponseOk(), "Branch switching should be successful");
 
         // Clean up
-        branchModifier.deleteBranch(TEST_BRANCH);
+        branchModifier.deleteBranchForce(TEST_BRANCH);
     }
 
     // Note: Pushing and deleting remote branches would require a remote setup and network access.
@@ -110,7 +110,7 @@ public class GitBranchModifierTest {
     public void tearDown() {
         // Attempt to clean up the test branch if it still exists
         try {
-            branchModifier.deleteBranch(TEST_BRANCH);
+            branchModifier.deleteBranchForce(TEST_BRANCH);
         } catch (IOException ignored) {
             // Ignored as this is just cleanup
         }
