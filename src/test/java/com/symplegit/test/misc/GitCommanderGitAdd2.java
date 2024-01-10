@@ -37,7 +37,7 @@ import com.symplegit.SympleGit;
  *
  * @author ndepo
  */
-public class GitCommanderGitAdd {
+public class GitCommanderGitAdd2 {
     public static void main(String[] args) throws IOException {
 	// Replace this with the path to your Git repository
 	String repoDirectoryPath = "/path/to/my/git/repository";
