@@ -98,6 +98,31 @@ public class SympleGit {
      *                               not a directory.
      * @throws NullPointerException  if the projectDir argument is null.
      */
+    public SympleGit(String projectDir, boolean useStringOutput) throws FileNotFoundException {
+	Objects.requireNonNull(projectDir, "projectDir cannot be null!");
+	this.useStringOutput = useStringOutput;
+	this.projectDir = new File(projectDir);
+	
+	if (!this.projectDir.isDirectory()) {
+	    throw new FileNotFoundException("The project does not exist: " + projectDir);
+	}
+    }
+    
+    /**
+     * Constructs a SympleGit instance for a given project directory. This
+     * constructor ensures that the provided directory exists and is indeed a
+     * directory.
+     *
+     * @param projectDir      The directory of the Git project.
+     * @param useStringOutput If true, the output of each Git commands will be only
+     *                        stored in a String. if false, the output of each Git
+     *                        command will be stored in a temporary File. The
+     *                        temporary file will be deleted after the JVM's life.
+     * 
+     * @throws FileNotFoundException if the project directory does not exist or is
+     *                               not a directory.
+     * @throws NullPointerException  if the projectDir argument is null.
+     */
     public SympleGit(File projectDir, boolean useStringOutput) throws FileNotFoundException {
 	this.projectDir = Objects.requireNonNull(projectDir, "projectDir cannot be null!");
 	this.useStringOutput = useStringOutput;
