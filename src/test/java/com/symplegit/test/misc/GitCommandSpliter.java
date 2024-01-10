@@ -1,7 +1,7 @@
 /*
  * This file is part of SympleGit. 
- * SympleGit: Git in Java for the rest of us                                     
- * Copyright (C) 2024,  KawanSoft SAS
+ * SympleGit: Git in Java for the rest of us.                                     
+ * Copyright (C) 2024,  KawanSoft SAS.
  * (http://www.kawansoft.com). All rights reserved.                                
  *                                                                               
  * SympleGit is free software; you can redistribute it and/or                 
