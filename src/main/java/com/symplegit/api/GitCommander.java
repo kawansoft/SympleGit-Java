@@ -26,7 +26,6 @@ package com.symplegit.api;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -61,12 +60,7 @@ public class GitCommander {
     private File tempErrorFile = null;
     private File tempOutputFile = null;
 
-    private boolean useStringOutput = false;
-
-    private String outputStr;
-    private String errorStr;
-
-    private int timeoutSeconds = 0;
+    private int timeout = 0;
 
     /**
      * Constructs a GitCommander object with a specified SympleGit instance.
@@ -77,9 +71,8 @@ public class GitCommander {
     public GitCommander(SympleGit sympleGit) {
 	Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
 	builder = new ProcessBuilder();
-	builder.directory(sympleGit.getProjectDir());
-	this.useStringOutput = sympleGit.isUseStringOutput();
-	this.timeoutSeconds = sympleGit.getTimeoutSeconds();
+	builder.directory(sympleGit.getDirectory());
+	this.timeout = sympleGit.getTimeout();
     }
 
     /**
@@ -110,8 +103,8 @@ public class GitCommander {
         	ignore.printStackTrace();
             }
             
-            if ( timeoutSeconds != 0 &&  (now  - begin > 1000 * timeoutSeconds)) {
-                throw new UncheckedTimeoutException("Timeout after " + timeoutSeconds + " seconds!");
+            if ( timeout != 0 &&  (now  - begin > 1000 * timeout)) {
+                throw new UncheckedTimeoutException("Timeout after " + timeout + " seconds!");
             };
 	}
 	
@@ -130,37 +123,32 @@ public class GitCommander {
 	    builder.command(command); // Correctly set the command
 	    process = builder.start();
 
-	    if (useStringOutput) {
-		outputStr = IOUtils.toString(process.getInputStream(), "UTF-8");
-		errorStr = IOUtils.toString(process.getErrorStream(), "UTF-8");
-	    } else {
-		
-		debug("Before tempErrorFile creation");
-		
-		tempErrorFile = File.createTempFile("symplegit-error-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
+	    debug("Before tempErrorFile creation");
 
-		try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
-		    IOUtils.copy(new BufferedInputStream(getProcessErrorAsInputStream()) , osError);
-		}
-		
-		debug("After tempErrorFile creation");
-		
-		// Optionally, delete the file when the JVM exits
-		tempErrorFile.deleteOnExit();
+	    tempErrorFile = File.createTempFile("symplegit-error-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
 
-		debug("Before tempOutputFile creation");
-		
-		tempOutputFile = File.createTempFile("symplegit-output-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
-	        
-		try (OutputStream osInput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
-		    IOUtils.copy(new BufferedInputStream(process.getInputStream()), osInput);
-		}
-
-		debug("After tempOutputFile creation");
-	        
-		// Optionally, delete the file when the JVM exits
-		tempOutputFile.deleteOnExit();
+	    try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
+		IOUtils.copy(new BufferedInputStream(getProcessErrorAsInputStream()), osError);
 	    }
+
+	    debug("After tempErrorFile creation");
+
+	    // Optionally, delete the file when the JVM exits
+	    tempErrorFile.deleteOnExit();
+
+	    debug("Before tempOutputFile creation");
+
+	    tempOutputFile = File.createTempFile("symplegit-output-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
+
+	    try (OutputStream osInput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
+		IOUtils.copy(new BufferedInputStream(process.getInputStream()), osInput);
+	    }
+
+	    debug("After tempOutputFile creation");
+
+	    // Optionally, delete the file when the JVM exits
+	    tempOutputFile.deleteOnExit();
+	    
 
 	    debug("waitFor...: " + removeCommas(Arrays.toString(command)));
 
@@ -201,17 +189,14 @@ public class GitCommander {
 
     /**
      * Gets the standard output of the last executed Git command as a String.
-     * In order to avoid dangerous OutOfMemoryException, 
-     * this method will throw an IOException if the output is > SympleGit.DEFAULT_MAX_STRING_SIZE_MB.
+     * <br>
+     * It's good practice to test the length of the output as it can be retrieved with {@link #getSize()}.
      *
      * @return The standard output of the last executed Git command.
      * @throws IOException if an I/O error occurs while reading the output.
      */
     public String getProcessOutput() throws IOException {
-	if (getSize() > SympleGit.DEFAULT_MAX_STRING_SIZE_MB * 1024 * 1024) {
-	    throw new IOException("Output too large for String content! Is > " + SympleGit.DEFAULT_MAX_STRING_SIZE_MB + " MB.");
-	}
-	return this.useStringOutput ? outputStr : IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
+	return IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
     }
 
     /**
@@ -221,7 +206,7 @@ public class GitCommander {
      * @throws IOException if an I/O error occurs while reading the error output.
      */
     public String getProcessError() throws IOException {
-	return this.useStringOutput ? errorStr : IOUtils.toString(getProcessErrorAsInputStream(), "UTF-8");
+	return IOUtils.toString(getProcessErrorAsInputStream(), "UTF-8");
     }
 
     /**
@@ -245,14 +230,10 @@ public class GitCommander {
      */
     public InputStream getProcessOutputAsInputStream() throws IOException {
 
-	if (useStringOutput) {
-	    return new ByteArrayInputStream(outputStr.getBytes());
-	} else {
-	    if (tempOutputFile != null && tempOutputFile.exists()) {
-		return new BufferedInputStream(new FileInputStream(tempOutputFile));
-	    }
-	    return null;
+	if (tempOutputFile != null && tempOutputFile.exists()) {
+	    return new BufferedInputStream(new FileInputStream(tempOutputFile));
 	}
+	return null;
     }
 
     /**
@@ -264,14 +245,10 @@ public class GitCommander {
      */
     public InputStream getProcessErrorAsInputStream() throws IOException {
 
-	if (useStringOutput) {
-	    return new ByteArrayInputStream(errorStr.getBytes());
-	} else {
-	    if (tempErrorFile != null && tempErrorFile.exists()) {
-		return new BufferedInputStream(new FileInputStream(tempErrorFile));
-	    }
-	    return null;
+	if (tempErrorFile != null && tempErrorFile.exists()) {
+	    return new BufferedInputStream(new FileInputStream(tempErrorFile));
 	}
+	return null;
 
     }
 

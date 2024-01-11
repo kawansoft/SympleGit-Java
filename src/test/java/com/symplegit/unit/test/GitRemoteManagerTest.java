@@ -50,7 +50,9 @@ public class GitRemoteManagerTest {
     public void setUp() throws IOException {
         // Create a temporary Git repository for testing
         repoDir = GitTestUtils.createTemporaryGitRepo();
-        sympleGit = new SympleGit(repoDir);
+	sympleGit = SympleGit.custom()
+                .setDirectory(repoDir)
+                .build();
         remoteManager = new GitRemoteManager(sympleGit);
 
         // Set up a remote repository for testing

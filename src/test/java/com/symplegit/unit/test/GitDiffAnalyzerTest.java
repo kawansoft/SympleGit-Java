@@ -52,7 +52,9 @@ public class GitDiffAnalyzerTest {
     @BeforeEach
     public void setUp() throws IOException {
         repoDir = GitTestUtils.createTemporaryGitRepo(); 
-        sympleGit = new SympleGit(repoDir);
+	sympleGit = SympleGit.custom()
+                .setDirectory(repoDir)
+                .build();
         diffAnalyzer = new GitDiffAnalyzer(sympleGit);
         
         // Use GitCommander to retrieve the last two commit hashes

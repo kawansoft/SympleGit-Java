@@ -11,7 +11,9 @@ public class GitCommanderListBranches {
     public static void main(String[] args) throws IOException {
 	String repoDirectoryPath = "I:\\_dev_SimpleGit";
 
-	SympleGit sympleGit = new SympleGit(repoDirectoryPath);
+	final SympleGit sympleGit = SympleGit.custom()
+                .setDirectory(repoDirectoryPath)
+                .build();
 	
 	GitCommander gitCommander = new GitCommander(sympleGit);
 	gitCommander.executeGitCommand("git", "branch", "-a");

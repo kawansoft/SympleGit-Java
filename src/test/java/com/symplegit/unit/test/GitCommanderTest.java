@@ -48,7 +48,11 @@ public class GitCommanderTest {
     @Test
     public void testSuccessfulCommandExecution() throws IOException {
         tempRepo = GitTestUtils.createTemporaryGitRepo();
-        commander = new GitCommander(new SympleGit(tempRepo));
+	SympleGit sympleGit = SympleGit.custom()
+                .setDirectory(tempRepo)
+                .build();
+	
+        commander = new GitCommander(sympleGit);
         
         commander.executeGitCommand("git", "status");
         assertTrue(commander.isResponseOk(), "Command should be executed successfully.");
@@ -66,7 +70,11 @@ public class GitCommanderTest {
     @Test
     public void testCommandFailure() throws IOException {
         tempRepo = new File("I:\\_dev_SimpleGit"); //GitTestUtils.createTemporaryGitRepo();
-        commander = new GitCommander(new SympleGit(tempRepo));
+	SympleGit sympleGit = SympleGit.custom()
+                .setDirectory(tempRepo)
+                .build();
+	
+        commander = new GitCommander(sympleGit);
         commander.executeGitCommand("git", "invalid-command");
         assertTrue (! commander.isResponseOk(), "Command should fail.");
         assertNotEquals(0, commander.getExitCode());

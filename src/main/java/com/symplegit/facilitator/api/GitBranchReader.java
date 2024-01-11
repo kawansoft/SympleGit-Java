@@ -61,9 +61,9 @@ public class GitBranchReader {
     public GitBranchReader(SympleGit sympleGit) {
         this.sympleGit = Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
 
-        if (!this.sympleGit.getProjectDir().isDirectory()) {
+        if (!this.sympleGit.getDirectory().isDirectory()) {
             isOk = false;
-            errorMessage = "The project does not exist anymore: " + this.sympleGit.getProjectDir();
+            errorMessage = "The project directory does not exist anymore: " + this.sympleGit.getDirectory();
         }
 
         isOk = true;

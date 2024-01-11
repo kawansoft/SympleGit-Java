@@ -42,7 +42,9 @@ public class GitCommanderGitAdd {
 	// Replace this with the path to your Git repository
 	String repoDirectoryPath = "/path/to/my/git/repository";
 
-	SympleGit sympleGit = new SympleGit(repoDirectoryPath);
+	final SympleGit sympleGit = SympleGit.custom()
+                .setDirectory(repoDirectoryPath)
+                .build();
 	
 	GitCommander gitCommander = new GitCommander(sympleGit);
 	gitCommander.executeGitCommand("git", "add", "testFile");

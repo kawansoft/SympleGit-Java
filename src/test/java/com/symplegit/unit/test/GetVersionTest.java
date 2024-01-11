@@ -21,7 +21,9 @@ public class GetVersionTest {
     public void setUp() throws IOException {
         // Create a temporary Git repository
         repoDir = GitTestUtils.createTemporaryGitRepo();
-        SympleGit sympleGit = new SympleGit(repoDir);
+	final SympleGit sympleGit = SympleGit.custom()
+                .setDirectory(repoDir)
+                .build();
         getVersion = new GetVersion(sympleGit);
     }
 

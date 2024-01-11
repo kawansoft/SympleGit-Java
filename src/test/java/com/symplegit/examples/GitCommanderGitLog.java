@@ -20,11 +20,12 @@ public class GitCommanderGitLog {
 	    return;
 	}
 
-	SympleGit sympleGit = new SympleGit(repoDirectoryPath);
+	final SympleGit sympleGit = SympleGit.custom()
+                .setDirectory(repoDirectoryPath)
+                .build();
 	
 	System.out.println();
-	System.out.println("sympleGit.getTimeoutSeconds(): " + sympleGit.getTimeoutSeconds());
-	System.out.println("sympleGit.isUseStringOutput(): " + sympleGit.isUseStringOutput());
+	System.out.println("sympleGit.getTimeout(): " + sympleGit.getTimeout());
 	System.out.println();
 	
 	GitCommander gitCommander = new GitCommander(sympleGit);

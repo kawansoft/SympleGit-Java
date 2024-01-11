@@ -28,7 +28,6 @@ package com.symplegit.examples;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-import java.io.File;
 import java.io.IOException;
 
 import com.symplegit.api.SympleGit;
@@ -42,8 +41,11 @@ public class GitBranchTest {
     public static void main(String[] args) throws IOException {
 	// Replace this with the path to your Git repository
 	String repoDirectoryPath = "I:\\_dev_sqlephant_tests\\Java";
-
-	SympleGit sympleGit = new SympleGit(new File(repoDirectoryPath));
+	
+	final SympleGit sympleGit = SympleGit.custom()
+                .setDirectory(repoDirectoryPath)
+                .build();
+	
 	GitBranchReader gitBranchReader = new GitBranchReader(sympleGit);
 	System.out.println(gitBranchReader.getLocalBranches());
 	System.out.println(gitBranchReader.getRemoteBranches());

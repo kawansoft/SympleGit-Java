@@ -52,7 +52,10 @@ public class GitAdderTest {
         repoDir = GitTestUtils.createTemporaryGitRepo();
         assertTrue(repoDir.exists(), "Git repository directory does not exist.");
 
-        sympleGit = new SympleGit(repoDir);
+	sympleGit = SympleGit.custom()
+                .setDirectory(repoDir)
+                .build();
+        
         gitAdder = new GitAdder(sympleGit);
     }
 
@@ -119,7 +122,10 @@ public class GitAdderTest {
         File repoDir = GitTestUtils.createTemporaryGitRepo();
         assertTrue(repoDir.exists(), "Git repository directory does not exist.");
 
-        SympleGit sympleGit = new SympleGit(repoDir);
+	SympleGit sympleGit = SympleGit.custom()
+                .setDirectory(repoDir)
+                .build();
+	
 	GitCommander gitCommander = new GitCommander(sympleGit);
 	gitCommander.executeGitCommand("git", "add", ".");
 	gitCommander.executeGitCommand("git", "commit", "-m", "Clean commit."); 

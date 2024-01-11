@@ -26,7 +26,11 @@ public class GitCommitterTest {
     @BeforeEach
     void setUp() throws IOException {
         repoDir = GitTestUtils.createTemporaryGitRepo(); // Utilize existing GitTestUtils class
-        sympleGit = new SympleGit(repoDir);
+        
+	sympleGit = SympleGit.custom()
+                .setDirectory(repoDir)
+                .build();
+        
         gitCommitter = new GitCommitter(sympleGit);
         
     }

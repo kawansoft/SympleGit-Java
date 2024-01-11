@@ -28,7 +28,6 @@ package com.symplegit.examples;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-import java.io.File;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
@@ -44,9 +43,9 @@ public class GitCommandSpliter {
 	// Replace this with the path to your Git repository
 	String repoDirectoryPath = "I:\\_dev_sqlephant_tests\\Java";
 
-	File repoFile = new File(repoDirectoryPath);
-
-	SympleGit sympleGit = new SympleGit(repoFile);
+	final SympleGit sympleGit = SympleGit.custom()
+                .setDirectory(repoDirectoryPath)
+                .build();
 
 	GitCommander gitCommander = new GitCommander(sympleGit);
 	gitCommander.executeGitCommand("git", "status");

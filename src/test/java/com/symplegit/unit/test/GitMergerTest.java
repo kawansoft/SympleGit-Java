@@ -49,7 +49,9 @@ public class GitMergerTest {
     @BeforeEach
     public void setUp() throws IOException {
         repoDir = GitTestUtils.createTemporaryGitRepo();
-        sympleGit = new SympleGit(repoDir);
+	sympleGit = SympleGit.custom()
+                .setDirectory(repoDir)
+                .build();
         gitMerger = new GitMerger(sympleGit);
 
         // Setup repository with two branches

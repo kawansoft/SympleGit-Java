@@ -50,7 +50,9 @@ public class GitTaggerTest {
     @BeforeEach
     public void setUp() throws IOException {
         repoDir = GitTestUtils.createTemporaryGitRepo();
-        sympleGit = new SympleGit(repoDir);
+	sympleGit = SympleGit.custom()
+                .setDirectory(repoDir)
+                .build();
         gitTagger = new GitTagger(sympleGit);
     }
 

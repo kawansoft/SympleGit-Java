@@ -48,7 +48,9 @@ public class GitBranchReaderTest {
     @BeforeEach
     public void setUp() throws IOException {
         tempRepo = GitTestUtils.createTemporaryGitRepo();
-        sympleGit = new SympleGit(tempRepo);
+	sympleGit = SympleGit.custom()
+                .setDirectory(tempRepo)
+                .build();
         branchReader = new GitBranchReader(sympleGit);
     }
 
