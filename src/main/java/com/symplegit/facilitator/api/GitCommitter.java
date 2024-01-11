@@ -73,14 +73,19 @@ public class GitCommitter implements GitWrapper {
     }
 
     /**
-     * Retrieves the commit history of the current branch as String
-     *
+     * Retrieves the commit history of the current branch as String.
+     * Will throw an IOException if the result is > 10Mb.
      * @return A String containing the commit history.
      * @throws IOException If an error occurs during command execution.
      */
     public String getCommitHistory() throws IOException {
         executeGitCommandWithErrorHandler("git", "--no-pager", "log");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput().trim() : null;
+        
+        if (!gitCommander.isResponseOk()) {
+            return null;
+        }
+        
+        return gitCommander.getProcessOutput().trim();
     }
 
     /**

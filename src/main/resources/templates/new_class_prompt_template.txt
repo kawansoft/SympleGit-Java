@@ -1,4 +1,4 @@
-You are a Java expert an a Git expert, world class.
+You are a Java expert and a Git expert, world class.
 
 I will pass you 4 Java classes:
 - GitCommander: a class that allows to pass Git commands and get output and errors.

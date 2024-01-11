@@ -1,0 +1,372 @@
+commit 188185399011aa0c618abb9aa5f0f9b75f6a43c6
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Thu Jan 11 17:34:38 2024 +0100
+
+    remove SympleGitException
+
+commit 65168a131589cbaa43d8ac0d1967decd91165681
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Thu Jan 11 17:30:34 2024 +0100
+
+    ExecutorService instead of Thread
+
+commit 5ca7b6ab404670c6c47f0747b593bf1f0b7c8ab6
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Thu Jan 11 13:40:56 2024 +0100
+
+    com.symplegit.examples : new name
+
+commit 4263ad96d9a67d4b335729769ee502bf1213da41
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Thu Jan 11 12:58:01 2024 +0100
+
+    Update packages.html texts
+
+commit 4c4692c2e0d91c462fe8f2e95b3a09c57924aedd
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Thu Jan 11 12:54:08 2024 +0100
+
+    com.symplegit.facilitator.api: creation
+
+commit c532f9c9c832abf18cf93809063497743b0a23dd
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Thu Jan 11 12:52:13 2024 +0100
+
+    Update templates
+
+commit daa3f94208af66475af4b06e488d3203b4b35d28
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Thu Jan 11 12:44:18 2024 +0100
+
+    com.symplegit.api: new name
+
+commit 88e2749ec4a38f07f6389dfdae37e3969079f873
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 23:44:52 2024 +0100
+
+    GitBranchModifier.deleteBranchForce: add method
+
+commit 4f852828f4662df165e308977778ff84c6bbdba3
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 23:34:20 2024 +0100
+
+    GitAdder: comments
+
+commit a4ef46e8467ac990019b9c513653e2535a8bc68d
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 23:23:51 2024 +0100
+
+    SympleGit: add methods
+
+commit b3230dcd066138f6a89ec5778dbc8950510e9526
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 23:19:55 2024 +0100
+
+    GitMergerTest.testAbortMerge: futur usage
+
+commit 698b75ea601958dee651216f3e7ceb41807af878
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 23:17:33 2024 +0100
+
+    GitTestUtils: add methods. GitMergerTest: creation
+
+commit 44240daefd16d1024a2d6c1499e3d5a64c791be8
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 23:15:35 2024 +0100
+
+    GitTestUtils: new methods
+
+commit 8c9908438e78bf171edb6588776a7653c5b0b25e
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 23:13:36 2024 +0100
+
+    GitTaggerTest: creation
+
+commit 697c9ef5614ae9b1ac96572a5ec5bd48ed699026
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 23:02:22 2024 +0100
+
+    GitMergerTest: creation
+
+commit 8238fdd5dcc8577a136f6f50a1435e3a2f531b44
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 23:01:02 2024 +0100
+
+    GitTaggerTest: creation
+
+commit aa60774959f91f3aba87d65f4686a096e0633b7d
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 22:56:06 2024 +0100
+
+    GitBranchReaderTest: update testGetRemoteBranches
+
+commit ec65f26e7992291871fcd96d6e582d2641c6fe45
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 22:54:28 2024 +0100
+
+    Readme update
+
+commit 05070246362e54f56d2ef0b6113e571ba9e1481a
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 21:57:59 2024 +0100
+
+    New LGPL Notice
+
+commit c1262e1c970d9b25ea84bf436897df5bbad5b978
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 21:53:05 2024 +0100
+
+    Add unit tests
+
+commit 71b1e6a30146017b8cc4518c7f9693122f61d93d
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 21:13:51 2024 +0100
+
+    GitDiffAnalyzer: class & unit tests
+
+commit 9ca57f8f9267c32f239cee505e1825b27335da98
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 20:24:58 2024 +0100
+
+    add Javadoc packages
+
+commit 878ba2bda9b9aa9e5e85f4ef9c50050e3193bfe1
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Wed Jan 10 18:34:47 2024 +0100
+
+    SympleGit: allows to pass fiel as string
+
+commit b13d9eed562ec3cd6793e0eff9cbf9ab8fae87cc
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 21:06:21 2024 +0100
+
+    GitAdderTest: cleanAll() now static
+
+commit e19dcfebbda86ca9c3a388d5670156ed65802e75
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 21:03:33 2024 +0100
+
+    GitAdderTest: add cleanAll()
+
+commit d0e8e71569cd6634b9444461bb508f620f21002d
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 20:35:47 2024 +0100
+
+    com.symplegit.unit.test: clean to avoid bad branch pos
+
+commit a79c0c364658bc65965ddb2c3d913ae07759970e
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 20:06:54 2024 +0100
+
+    com.symplegit.unit.test: repo now dynamic
+
+commit 74ca1f4868b7fdc8620fd7f799787a8a3ed61efa
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 17:01:46 2024 +0100
+
+    format
+
+commit 8ce9c770bb0513ad4874b0d37d7327be1b07341d
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 16:58:17 2024 +0100
+
+    Add licens file
+
+commit 3f5d71b1bf59923e6e24a6921b28f1246d75babc
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 16:03:02 2024 +0100
+
+    Add GPT-4 unit tests
+
+commit 85a0ea2d5d39637e9fec8b5b28cbebbd521ecabd
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 15:36:24 2024 +0100
+
+    Reformat date/time in temp files
+
+commit 3b6bda05dfb34429aab436b53037c4f568d461cc
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 15:32:07 2024 +0100
+
+    GitCommander: timestyamp temp files
+
+commit 84f2887eef3af6af10124dc56125a8440be0e38d
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 15:30:49 2024 +0100
+
+    ApiDateUtil: creation
+
+commit 3fdcadb35a842187ccb66fbae52e7e9911e262d0
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 15:17:17 2024 +0100
+
+    Enhance tests
+
+commit 7fd7e95a321c122bd4fe38b7d8d435f8b21afbe5
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 14:31:09 2024 +0100
+
+    add GPT-4 as author on generated classes
+
+commit 004bf51e976e0092ebec0e188c13179c868c04eb
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 14:11:42 2024 +0100
+
+    new_class_prompt_template_params
+
+commit 2beafd27c40950671561543d10641c802a9babb8
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 14:06:52 2024 +0100
+
+    GitCommander; not anymore autoclosable: was confusing
+
+commit 29a3ac4cfaf7268af2f29ab40c2f790c0d7b8028
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Tue Jan 9 13:37:13 2024 +0100
+
+    GitCommander: add close
+
+commit 026ad15b322ea9ca8b09e2ae9b009bf9062de353
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 20:46:19 2024 +0100
+
+    GitCommitter: creation
+
+commit c0ad5815037b9df99e1a7f02f4a1ca71eafd6694
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 20:45:59 2024 +0100
+
+    SympleGit: comments
+
+commit a5b68552b824fee149477d6486f1e36892ca5a20
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 20:11:15 2024 +0100
+
+    .gitignore
+
+commit f12d93102310d1bf91a49b1b5316230fb6b7e882
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 20:07:44 2024 +0100
+
+    GitAdder: add files
+
+commit e638292c34bd3b06ad832b72d20c905aa8f92abe
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 19:59:53 2024 +0100
+
+    refactor in 2 templates
+
+commit 181c2520b7c6d97910a750a52b647dfb1f2aa5e9
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 19:56:50 2024 +0100
+
+    GitBranchReader: fix -a last switch
+
+commit 1b10974f942e7ce5ee32347cccb73ee916895f6a
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 19:45:34 2024 +0100
+
+    GitCommander : enhance
+
+commit d0ff4adaffcdbb3287877e6a5dcbac36d5435ead
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 19:44:20 2024 +0100
+
+    GitCommander: enhance with useStringOutput
+
+commit c09bf27d56a524ac5cda6586388dd85f380c7b1d
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 16:03:55 2024 +0100
+
+    SympleGit: add useStringOutput
+
+commit 783418a6f3afc536baecb6ab6fb84ba6668b2e9a
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 15:48:05 2024 +0100
+
+    Factorize new_class_prompt_template.txt
+
+commit 31fd8ff53a8aff2ee37b4f5045ce61f9bd5609f3
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 15:33:31 2024 +0100
+
+    new_class_prompt_template: update
+
+commit 31c1f139a9c0c891c6ccf70a9d082b5ecc7ce29b
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 15:30:52 2024 +0100
+
+    new_class_prompt_template.txt: update
+
+commit ac0c1c9c20d59c4e72309c592dca3d42c96324a0
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 15:18:41 2024 +0100
+
+    GitBranchExample: Javadoc
+
+commit 2d0b0e3d2d9e6182dad43772043da2ea533970f1
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 15:17:45 2024 +0100
+
+    GitBranch: creation
+
+commit 09aa67d9294de448d47c90ce88a275cd68aaf2c1
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 14:47:03 2024 +0100
+
+    com.symplegit.wrappers: update
+
+commit c6f88f9f731082c50276491413b0182f138533ab
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 14:42:08 2024 +0100
+
+    comments
+
+commit ebd3837645f4ae21d0f381e3086ca11bc3087dbb
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Mon Jan 8 14:41:51 2024 +0100
+
+    GitCommander: add getSize()
+
+commit 8a89b735171bc4460a10ae002ad3f83dff7aa90b
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Sat Jan 6 19:35:01 2024 +0100
+
+    use new package name
+
+commit 0b77e504925983d6657e7618a7e74a2bf4ac58cc
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Fri Jan 5 19:00:59 2024 +0100
+
+    GitCommander: first tests
+
+commit f643bc23a4ac1a15b1f0a7a62eaee1eaaad3474e
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Fri Jan 5 17:47:41 2024 +0100
+
+    reorg packages
+
+commit 48c063db51ffb8655baae733b0c8c1dc1007783f
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Fri Jan 5 17:23:58 2024 +0100
+
+    Merge branch 'master' of https://github.com/kawansoft/SmoothGit-Java.git
+
+commit ba75246656c9f3004034ae0a22ec84d81c4b8dfa
+Merge: 676b14f b102b18
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Fri Jan 5 17:23:51 2024 +0100
+
+    Merge branch 'master' of https://github.com/kawansoft/SmoothGit-Java.git
+
+commit 676b14f631f0b5c24e8e8c7eb07e6a9f513b1539
+Author: Nicolas de Pomereu <ndepomereu@kawansoft.com>
+Date:   Fri Jan 5 17:17:39 2024 +0100
+
+    Firt commit
+
+commit b102b1815308a57f7c8f34351d040f6789c3b8ef
+Author: Nicolas de Pomereu <ndepomereu@users.noreply.github.com>
+Date:   Fri Jan 5 17:01:17 2024 +0100
+
+    Initial commit

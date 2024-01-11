@@ -43,7 +43,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class FrameworkDebug {
     /** The file that contain the classes to debug in user.home */
-    private static String DEBUG_FILE = "sqlephant-client-debug.ini";
+    private static String DEBUG_FILE = "symplegit-debug.ini";
 
     /** Stores the classes to debug */
     private static Set<String> CLASSES_TO_DEBUG = new HashSet<String>();

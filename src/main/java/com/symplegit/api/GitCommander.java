@@ -36,9 +36,6 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import org.apache.commons.io.IOUtils;
 
@@ -94,19 +91,21 @@ public class GitCommander {
     public void executeGitCommand(String... command) {
 	Objects.requireNonNull(command, "builder cannot be null!");
 
-//	Thread thread = new Thread(() -> {
-//	    executeInThread(command);
-//	});
-//	thread.start();
-	
-	ExecutorService executor = Executors.newFixedThreadPool(1);
-	Future<?> future = executor.submit(() -> {
+	Thread thread = new Thread(() -> {
 	    executeInThread(command);
 	});
+	thread.start();
 	
+//	ExecutorService executor = Executors.newFixedThreadPool(1);
+//	Future<?> future = executor.submit(() -> {
+//	    executeInThread(command);
+//	});
+	
+        System.out.println("here 1");
+        
 	long begin = System.currentTimeMillis();
 	    
-	while (true) {
+	while (thread.isAlive()) {
 	    	
 	    long now = System.currentTimeMillis();
             try {	
@@ -117,7 +116,7 @@ public class GitCommander {
             }
             
             if ( timeoutSeconds != 0 &&  (now  - begin > 1000 * timeoutSeconds)) {
-        	future.cancel(true);
+        	//future.cancel(true);
                 throw new UncheckedTimeoutException("Timeout after " + timeoutSeconds + " seconds!");
             };
 	}
@@ -141,20 +140,30 @@ public class GitCommander {
 		outputStr = IOUtils.toString(process.getInputStream(), "UTF-8");
 		errorStr = IOUtils.toString(process.getErrorStream(), "UTF-8");
 	    } else {
+		
+		debug("Before tempErrorFile creation");
+		
 		tempErrorFile = File.createTempFile("symplegit-error-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
 
 		try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
 		    IOUtils.copy(process.getErrorStream(), osError);
 		}
+		
+		debug("After tempErrorFile creation");
+		
 		// Optionally, delete the file when the JVM exits
 		tempErrorFile.deleteOnExit();
 
+		debug("Before tempOutputFile creation");
+		
 		tempOutputFile = File.createTempFile("symplegit-output-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
-
+	        
 		try (OutputStream osInput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
 		    IOUtils.copy(process.getInputStream(), osInput);
 		}
 
+		debug("After tempOutputFile creation");
+	        
 		// Optionally, delete the file when the JVM exits
 		tempOutputFile.deleteOnExit();
 	    }
@@ -198,6 +207,9 @@ public class GitCommander {
      * @throws IOException if an I/O error occurs while reading the output.
      */
     public String getProcessOutput() throws IOException {
+	if (getSize() > SympleGit.DEFAULT_MAX_STRING_SIZE_MB * 1024 * 1024) {
+	    throw new IOException("Output too large for String content! Is > " + SympleGit.DEFAULT_MAX_STRING_SIZE_MB + " MB.");
+	}
 	return this.useStringOutput ? outputStr : IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
     }
 

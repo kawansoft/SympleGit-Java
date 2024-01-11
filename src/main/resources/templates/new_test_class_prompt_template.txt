@@ -1,7 +1,13 @@
-Please write a complete unit test class for the class ${0}.
+You are a Java expert and a Git expert, world class.
+
+Please write a complete unit test class for the following Java class.
 Use this Java line to get the repository File:
 File repoDir = GitTestUtils.createTemporaryGitRepo();
+The class GitTestUtils already exists, do not create it.
         
 As the repoDirt is real and exists as Git repo, don't use mock in the code, use only real calls.      
-        
-The value of ${0} name is at the end of this prompt.
+
+Here is the class:
+
+
+       
