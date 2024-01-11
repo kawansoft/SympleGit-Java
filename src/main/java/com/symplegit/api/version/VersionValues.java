@@ -22,33 +22,13 @@
  * Any modifications to this file must keep this entire header
  * intact.
  */
-package com.symplegit.examples;
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-import java.io.IOException;
-
-import com.symplegit.api.GitCommander;
-import com.symplegit.api.SympleGit;
+package com.symplegit.api.version;
 
 /**
- *
- * @author ndepo
+ * Contains the package Version info
  */
-public class GitCommanderGitAdd {
-    public static void main(String[] args) throws IOException {
-	// Replace this with the path to your Git repository
-	String repoDirectoryPath = "/path/to/my/git/repository";
 
-	final SympleGit sympleGit = SympleGit.custom()
-                .setDirectory(repoDirectoryPath)
-                .build();
-	
-	GitCommander gitCommander = sympleGit.gitCommander();
-	gitCommander.executeGitCommand("git", "add", "testFile");
-
-	
-    }
+public class VersionValues {
+    public static final String VERSION = "v1.0";
+    public static final String DATE = "11-Jan-2024";
 }

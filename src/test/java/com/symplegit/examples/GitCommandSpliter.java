@@ -47,7 +47,7 @@ public class GitCommandSpliter {
                 .setDirectory(repoDirectoryPath)
                 .build();
 
-	GitCommander gitCommander = new GitCommander(sympleGit);
+	GitCommander gitCommander = sympleGit.gitCommander();
 	gitCommander.executeGitCommand("git", "status");
 
 	// git log --graph --decorate --oneline --all --simplify-by-decoration

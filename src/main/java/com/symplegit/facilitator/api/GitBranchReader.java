@@ -85,7 +85,7 @@ public class GitBranchReader {
         isOk = false;
 
         try {
-            GitCommander gitCommander = new GitCommander(sympleGit);
+            GitCommander gitCommander = sympleGit.gitCommander();
             gitCommander.executeGitCommand("git", "status");
 
             isOk = gitCommander.isResponseOk();
@@ -120,7 +120,7 @@ public class GitBranchReader {
 
         try {
             //git rev-parse --abbrev-ref HEAD
-            GitCommander gitCommander = new GitCommander(sympleGit);
+            GitCommander gitCommander = sympleGit.gitCommander();
             gitCommander.executeGitCommand("git", "rev-parse", "--abbrev-ref", "HEAD");
 
             isOk = gitCommander.isResponseOk();
@@ -159,7 +159,7 @@ public class GitBranchReader {
         isOk = false;
 
         try {
-            GitCommander gitCommander = new GitCommander(sympleGit);
+            GitCommander gitCommander = sympleGit.gitCommander();
             gitCommander.executeGitCommand("git", "branch");
 
             isOk = gitCommander.isResponseOk();
@@ -228,7 +228,7 @@ public class GitBranchReader {
         isOk = false;
 
         try {
-            GitCommander gitCommander = new GitCommander(sympleGit);
+            GitCommander gitCommander = sympleGit.gitCommander();
             gitCommander.executeGitCommand("git", "branch", "-a");
 
             isOk = gitCommander.isResponseOk();

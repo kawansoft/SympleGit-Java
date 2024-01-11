@@ -42,7 +42,7 @@ public class GitCommitterTest {
 	long now = System.currentTimeMillis();
 	File file = GitTestUtils.createFileInRepo(repoDir,  now + "_ testfile.txt", "Test content"); // Create a test file in the repo
 	
-        GitCommander gitCommander = new GitCommander(sympleGit);
+        GitCommander gitCommander = sympleGit.gitCommander();
         gitCommander.executeGitCommand("git", "add", ".");
 
         if (! gitCommander.isResponseOk()) {
@@ -66,7 +66,7 @@ public class GitCommitterTest {
 	long now = System.currentTimeMillis();
 	File file = GitTestUtils.createFileInRepo(repoDir,  now + "_ testfile.txt", "Test content"); // Create a test file in the repo
 	
-        GitCommander gitCommander = new GitCommander(sympleGit);
+	GitCommander gitCommander = sympleGit.gitCommander();
         gitCommander.executeGitCommand("git", "add", ".");
         
         if (! gitCommander.isResponseOk()) {
@@ -105,7 +105,7 @@ public class GitCommitterTest {
     public void testGetCommitDetails() throws IOException {
 	
         // Use GitCommander to retrieve the last two commit hashes
-        GitCommander gitCommander = new GitCommander(sympleGit);
+	GitCommander gitCommander = sympleGit.gitCommander();
         gitCommander.executeGitCommand("git", "rev-parse", "HEAD~1");
         if (gitCommander.isResponseOk()) {
             latestCommitHash = gitCommander.getProcessOutput().trim();

@@ -15,7 +15,7 @@ public class GitCommanderListBranches {
                 .setDirectory(repoDirectoryPath)
                 .build();
 	
-	GitCommander gitCommander = new GitCommander(sympleGit);
+	GitCommander gitCommander = sympleGit.gitCommander();
 	gitCommander.executeGitCommand("git", "branch", "-a");
 	
 	if (! gitCommander.isResponseOk()) {

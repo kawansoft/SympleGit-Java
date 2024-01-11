@@ -58,7 +58,7 @@ public class GitDiffAnalyzerTest {
         diffAnalyzer = new GitDiffAnalyzer(sympleGit);
         
         // Use GitCommander to retrieve the last two commit hashes
-        GitCommander gitCommander = new GitCommander(sympleGit);
+        GitCommander gitCommander = sympleGit.gitCommander();
         gitCommander.executeGitCommand("git", "rev-parse", "HEAD~1");
         if (gitCommander.isResponseOk()) {
             latestCommitHash = gitCommander.getProcessOutput().trim();

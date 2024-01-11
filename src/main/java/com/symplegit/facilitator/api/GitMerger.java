@@ -48,7 +48,7 @@ public class GitMerger implements GitWrapper {
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
     public GitMerger(SympleGit sympleGit) {
-        this.gitCommander = new GitCommander(sympleGit);
+        this.gitCommander = sympleGit.gitCommander();
     }
 
     /**

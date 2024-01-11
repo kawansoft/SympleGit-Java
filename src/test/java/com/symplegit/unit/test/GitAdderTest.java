@@ -126,7 +126,7 @@ public class GitAdderTest {
                 .setDirectory(repoDir)
                 .build();
 	
-	GitCommander gitCommander = new GitCommander(sympleGit);
+	GitCommander gitCommander = sympleGit.gitCommander();
 	gitCommander.executeGitCommand("git", "add", ".");
 	gitCommander.executeGitCommand("git", "commit", "-m", "Clean commit."); 
     }

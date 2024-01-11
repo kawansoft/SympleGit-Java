@@ -52,7 +52,7 @@ public class GitCommanderTest {
                 .setDirectory(tempRepo)
                 .build();
 	
-        commander = new GitCommander(sympleGit);
+	commander = sympleGit.gitCommander();
         
         commander.executeGitCommand("git", "status");
         assertTrue(commander.isResponseOk(), "Command should be executed successfully.");
@@ -74,7 +74,7 @@ public class GitCommanderTest {
                 .setDirectory(tempRepo)
                 .build();
 	
-        commander = new GitCommander(sympleGit);
+        commander = sympleGit.gitCommander();
         commander.executeGitCommand("git", "invalid-command");
         assertTrue (! commander.isResponseOk(), "Command should fail.");
         assertNotEquals(0, commander.getExitCode());

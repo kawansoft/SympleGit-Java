@@ -68,7 +68,7 @@ public class GitCommander {
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      * @throws NullPointerException if sympleGit is null.
      */
-    public GitCommander(SympleGit sympleGit) {
+    GitCommander(SympleGit sympleGit) {
 	Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
 	builder = new ProcessBuilder();
 	builder.directory(sympleGit.getDirectory());

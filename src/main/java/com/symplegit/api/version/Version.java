@@ -22,33 +22,47 @@
  * Any modifications to this file must keep this entire header
  * intact.
  */
-package com.symplegit.examples;
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-import java.io.IOException;
-
-import com.symplegit.api.GitCommander;
-import com.symplegit.api.SympleGit;
+package com.symplegit.api.version;
 
 /**
- *
- * @author ndepo
+ * Displays the product Edition & Version
  */
-public class GitCommanderGitAdd {
-    public static void main(String[] args) throws IOException {
-	// Replace this with the path to your Git repository
-	String repoDirectoryPath = "/path/to/my/git/repository";
 
-	final SympleGit sympleGit = SympleGit.custom()
-                .setDirectory(repoDirectoryPath)
-                .build();
-	
-	GitCommander gitCommander = sympleGit.gitCommander();
-	gitCommander.executeGitCommand("git", "add", "testFile");
+public class Version {
 
-	
+    public static final String VENDOR = "KawanSoft SAS";
+    public static final String WEB = "http://www.kawansoft.com";
+    public static final String COPYRIGHT = "Copyright &copy; 2024";
+    public static final String EMAIL = "contact@kawansoft.com";
+
+    public static final String getVersion() {
+	return "" + new PRODUCT();
+    }
+
+    @Override
+    public String toString() {
+	return getVersion();
+    }
+
+    private static final class PRODUCT {
+
+	public static final String NAME = "SympleGit"; ;
+	public static final String EDITION = "Community";
+	public static final String VERSION = VersionValues.VERSION;
+	public static final String DATE = VersionValues.DATE;
+
+	@Override
+	public String toString() {
+	    return NAME + " - " + EDITION + " Edition"  + " - " + VERSION + " - " + DATE;
+	}
+
+    }
+
+    /**
+     * MAIN
+     */
+
+    public static void main(String[] args) {
+	System.out.println(getVersion());
     }
 }

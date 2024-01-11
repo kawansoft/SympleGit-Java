@@ -28,7 +28,7 @@ public class GitCommanderGitLog {
 	System.out.println("sympleGit.getTimeout(): " + sympleGit.getTimeout());
 	System.out.println();
 	
-	GitCommander gitCommander = new GitCommander(sympleGit);
+	GitCommander gitCommander = sympleGit.gitCommander();
 	//gitCommander.executeGitCommand("git", "--version");
 	gitCommander.executeGitCommand("git", "--no-pager", "log");
 
