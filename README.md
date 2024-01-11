@@ -91,6 +91,8 @@ The `GitCommander` API allows to call any Git command, whatever the command and 
 
 Example 1: listing all branches of a project
 
+
+
 Example 2: retrieving commit messages and metadata
 
 This version of the command provides full commit messages and metadata for each commit, which can be quite substantial for large repositories. 
