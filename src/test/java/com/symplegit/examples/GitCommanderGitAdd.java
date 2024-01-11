@@ -32,6 +32,8 @@ import java.io.IOException;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
+import com.symplegit.facilitator.api.GitAdder;
+import com.symplegit.test.util.GitTestUtils;
 
 /**
  *
@@ -42,13 +44,35 @@ public class GitCommanderGitAdd {
 	// Replace this with the path to your Git repository
 	String repoDirectoryPath = "/path/to/my/git/repository";
 
+	repoDirectoryPath = GitTestUtils.createTemporaryGitRepo().toString();
+	
+	directApi(repoDirectoryPath);
+	facilitatorApi(repoDirectoryPath);
+    }
+
+    /**
+     * @param repoDirectoryPath
+     */
+    private static void directApi(String repoDirectoryPath) {
+	
+	// Staging files with SympleGit using GitCommander
 	final SympleGit sympleGit = SympleGit.custom()
                 .setDirectory(repoDirectoryPath)
                 .build();
 	
 	GitCommander gitCommander = sympleGit.gitCommander();
-	gitCommander.executeGitCommand("git", "add", "testFile");
+	gitCommander.executeGitCommand("git", "add", "testFile", "testFile2");
+    }
 
+    private static void facilitatorApi(String repoDirectoryPath) throws IOException {
+
+	// Staging files with SympleGit using GitAdder
+	final SympleGit sympleGit = SympleGit.custom()
+                .setDirectory(repoDirectoryPath)
+                .build();
+
+	GitAdder gitAdder = new GitAdder(sympleGit);
+	gitAdder.add("testFile", "testFile2");
 	
     }
 }

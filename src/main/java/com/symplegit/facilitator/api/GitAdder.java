@@ -65,18 +65,48 @@ public class GitAdder implements GitWrapper {
     /**
      * Adds a list of specified file paths to the staging area.
      *
-     * @param files The list of file paths to be added.
+     * @param filenames The list of file names to be added.
      * @throws IOException If an error occurs during command execution.
      */
-    public void add(List<String> files) throws IOException {
-        if (files == null || files.isEmpty()) {
-            throw new IllegalArgumentException("File list cannot be null or empty.");
+    public void add(List<String> filenames) throws IOException {
+        if (filenames == null || filenames.isEmpty()) {
+            throw new IllegalArgumentException("Filenames list cannot be null or empty.");
         }
-        for (String file : files) {
+        for (String file : filenames) {
             executeGitCommandWithErrorHandler("git", "add", file);
         }
     }
 
+    /**
+     * Adds a list of specified file paths to the staging area.
+     *
+     * @param filenames The list of file names to be added.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public void add(String... filenames) throws IOException {
+        if (filenames == null || filenames.length ==0) {
+            throw new IllegalArgumentException("Filenames list cannot be null or empty.");
+        }
+        for (String file : filenames) {
+            executeGitCommandWithErrorHandler("git", "add", file);
+        }
+    }
+    
+    /**
+     * Adds a list of File objects to the staging area.
+     *
+     * @param files The list of File objects to be added.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public void addFiles(File... files) throws IOException {
+        if (files == null || files.length == 0) {
+            throw new IllegalArgumentException("File list cannot be null or empty.");
+        }
+        for (File file : files) {
+            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
+        }
+    }
+    
     /**
      * Adds a list of File objects to the staging area.
      *

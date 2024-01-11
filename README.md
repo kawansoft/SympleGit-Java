@@ -25,7 +25,7 @@ But, on the other side, the API has a learning curve and there is no direct and 
 
 ### Support for CLI Git calls
 
-For example, using JGit for staging files, you must use the API:
+For example, using JGit for staging files, you must always use the API:
 
 ```java
 // Staging files with JGIT
@@ -59,48 +59,66 @@ try (Repository repository = CookbookHelper.createNewRepository()) {
 
 With SympleGit, you have two options:
 
-- A direct invocation of a Git Commander using the command-line interface (CLI) syntax, for example: `git add testfile`.
-- A call using a Facilitator API with the class `GitAdder`.
+- A direct invocation of a the `GitCommander` class using the command-line interface (CLI) syntax, for example: `git add testfile`.
+- A call using the Facilitator API with the class `GitAdder`.
 
 The code for direct invocation is:
 
 ```java
-// Staging files with SympleGit
+// Staging files with SympleGit using GitCommander
 String repoDirectoryPath = "/path/to/my/git/repository";
 
-SympleGit sympleGit = new SympleGit(repoDirectoryPath);
+final SympleGit sympleGit = SympleGit.custom()
+    .setDirectory(repoDirectoryPath)
+    .build();
 
-GitCommander gitCommander = new GitCommander(sympleGit);
-gitCommander.executeGitCommand("git", "add", "testFile"); // "git add testfile" ;-)
+GitCommander gitCommander = sympleGit.gitCommander();
+// git add testfile testFile2 ;-)
+gitCommander.executeGitCommand("git", "add", "testFile", "testFile2"); 
 ```
 
-Supporting a one to one correspondence has advantages:
+The code with the `GitAdder` class is:
+
+```java
+// Staging files with SympleGit using GitAdder
+final SympleGit sympleGit = SympleGit.custom()
+            .setDirectory(repoDirectoryPath)
+            .build();
+
+GitAdder gitAdder = new GitAdder(sympleGit);
+gitAdder.add("testFile", "testFile2");
+```
+
+Supporting a one to one correspondence with `GitCommander` has advantages:
 
 - It allows a non Git expert to pass the required Git command without failure, or passing time findings the right parameters in the API. If you are not a Git expert, it will be easy for the Git expert in the company to help you implement the right Git call with the right parameters. On the other side, it will be easy for a Git expert who is not a Java expert to code Gits call in a Java workflow.
 - Git is a complex software, having in Java the equivalent of CLI calls allows to pass complex or rare commands without requiring to program all the option in the API. Example: `git log --graph --abbrev-commit --decorate --date=relative --all --pretty=format:'%h - %ar | %s (%an)%d' --max-count=10`.
 
 ### Straightforward Git implementation
 
-if you are not developing a Java Editor, a straightforward Git implementation with all the basics Git commands should be sufficient.
+if you are not developing a Java Editor, a straightforward Git implementation with all the basics Git commands should be sufficient and easier.
 
-As a java developer, the typical case you would meet in Java project accessing is having to replace/fix code automatically in a repository after a treatment. This is why we developed SympleGit: we just a simple Git implementation just to create and push a new branch after modifying source code by replacing all `Statement` with `PreparedStatement`([for SQL Injection protection](https://www.sqlephant.com/product/#sqli)).
+As a java developer, the typical case you would meet in Java project accessing is having to replace/fix code automatically in a repository after a treatment. This is why we developed SympleGit: we just a simple Git implementation just to create and push a new branch after modifying source code by replacing all `Statement` with `PreparedStatement` ([for SQL Injection protection](https://www.sqlephant.com/product/#sqli)).
 
 ## The Commander API
 
 The `GitCommander` API allows to call any Git command, whatever the command and whatever the ouptut return size.
 
-### Example 1: short outpout - listing all branches of a repo
+### Short Outpout 
 
 ```java
 // List all branches of a repo and print them 
 String repoDirectoryPath = "/path/to/repo";
-SympleGit sympleGit = new SympleGit(repoDirectoryPath);
+final SympleGit sympleGit = SympleGit.custom()
+    .setDirectory(repoDirectoryPath)
+    .build();
 
-GitCommander gitCommander = new GitCommander(sympleGit);
+GitCommander gitCommander = sympleGit.gitCommander();
 gitCommander.executeGitCommand("git", "branch", "-a");
 
 if (! gitCommander.isResponseOk()) {
     System.out.println("An Error occured: " + gitCommander.getProcessError());
+    return;
 }
 
 // OK
@@ -119,19 +137,17 @@ it will print:
 
 
 
-### Example 2: large output - retrieving commit messages and metadata
+### Large Output 
 
 Behind the scenes, `GitCommander` uses `InputStream` to retrieved the errors and output.
 
 This example  of the command provides full commit messages and metadata for each commit, which can be quite substantial for large repositories.  So we will retrieve the result  using an `InputStream` if size > 4Mb.
 
+Retrieving commit messages and metadata:
 
-
-
+### Setting Timeout
 
 ## The Facilitator API
 
-
-
-## Extending SympleGit API using Artificial Intelligence
+## Extending SympleGit API using Artificial Intelligence (ai-xoss)
 
