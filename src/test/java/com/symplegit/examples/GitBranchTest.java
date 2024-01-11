@@ -43,7 +43,7 @@ public class GitBranchTest {
 	// Replace this with the path to your Git repository
 	String repoDirectoryPath = "I:\\_dev_sqlephant_tests\\Java";
 
-	SympleGit sympleGit = new SympleGit(new File(repoDirectoryPath), false);
+	SympleGit sympleGit = new SympleGit(new File(repoDirectoryPath));
 	GitBranchReader gitBranchReader = new GitBranchReader(sympleGit);
 	System.out.println(gitBranchReader.getLocalBranches());
 	System.out.println(gitBranchReader.getRemoteBranches());

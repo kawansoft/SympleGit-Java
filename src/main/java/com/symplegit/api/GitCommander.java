@@ -36,9 +36,13 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.apache.commons.io.IOUtils;
 
+import com.symplegit.api.exception.UncheckedTimeoutException;
 import com.symplegit.util.ApiDateUtil;
 import com.symplegit.util.FrameworkDebug;
 
@@ -65,6 +69,8 @@ public class GitCommander {
     private String outputStr;
     private String errorStr;
 
+    private int timeoutSeconds = 0;
+
     /**
      * Constructs a GitCommander object with a specified SympleGit instance.
      *
@@ -76,6 +82,7 @@ public class GitCommander {
 	builder = new ProcessBuilder();
 	builder.directory(sympleGit.getProjectDir());
 	this.useStringOutput = sympleGit.isUseStringOutput();
+	this.timeoutSeconds = sympleGit.getTimeoutSeconds();
     }
 
     /**
@@ -87,6 +94,40 @@ public class GitCommander {
     public void executeGitCommand(String... command) {
 	Objects.requireNonNull(command, "builder cannot be null!");
 
+//	Thread thread = new Thread(() -> {
+//	    executeInThread(command);
+//	});
+//	thread.start();
+	
+	ExecutorService executor = Executors.newFixedThreadPool(1);
+	Future<?> future = executor.submit(() -> {
+	    executeInThread(command);
+	});
+	
+	long begin = System.currentTimeMillis();
+	    
+	while (true) {
+	    	
+	    long now = System.currentTimeMillis();
+            try {	
+                Thread.sleep(100);
+            }
+            catch (InterruptedException ignore) {
+        	ignore.printStackTrace();
+            }
+            
+            if ( timeoutSeconds != 0 &&  (now  - begin > 1000 * timeoutSeconds)) {
+        	future.cancel(true);
+                throw new UncheckedTimeoutException("Timeout after " + timeoutSeconds + " seconds!");
+            };
+	}
+	
+    }
+
+    /**
+     * @param command
+     */
+    private void executeInThread(String... command) {
 	// builder.redirectErrorStream(true);
 	Process process = null;
 

@@ -9,7 +9,7 @@ SympleGit is a minimalist but extendable Java Git implementation that has 3 main
 
 1. It supports one to one calls corresponding to Git command line calls.
 2. It has wrappers classes for main Git actions, with easy names to use.
-3. It is extendable & customizable using Artificial Intelligence (GPT-4). 
+3. It is extendable & customizable using Artificial Intelligence  following the AI-XOSS doctrine.
 
 ## Why choose SympleGit when there is already JGit?
 
@@ -89,13 +89,45 @@ As a java developer, the typical case you would meet in Java project accessing i
 
 The `GitCommander` API allows to call any Git command, whatever the command and whatever the ouptut return size.
 
-Example 1: listing all branches of a project
+### Example 1: short outpout - listing all branches of a repo
+
+```java
+// List all branches of a repo and print them 
+String repoDirectoryPath = "/path/to/repo";
+SympleGit sympleGit = new SympleGit(repoDirectoryPath);
+
+GitCommander gitCommander = new GitCommander(sympleGit);
+gitCommander.executeGitCommand("git", "branch", "-a");
+
+if (! gitCommander.isResponseOk()) {
+    System.out.println("An Error occured: " + gitCommander.getProcessError());
+}
+
+// OK
+String[] branches = gitCommander.getProcessOutput().split("\n");
+for (String branch : branches) {
+        System.out.println(branch);
+}
+```
+
+it will print:
+
+```bash
+* master
+  remotes/origin/master
+```
 
 
 
-Example 2: retrieving commit messages and metadata
+### Example 2: large output - retrieving commit messages and metadata
 
-This version of the command provides full commit messages and metadata for each commit, which can be quite substantial for large repositories. 
+Behind the scenes, `GitCommander` uses `InputStream` to retrieved the errors and output.
+
+This example  of the command provides full commit messages and metadata for each commit, which can be quite substantial for large repositories.  So we will retrieve the result  using an `InputStream` is size > 4Mb.
+
+
+
+
 
 ## The Facilitator API
 

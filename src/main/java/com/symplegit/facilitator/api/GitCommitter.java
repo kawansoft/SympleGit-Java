@@ -25,6 +25,7 @@
 package com.symplegit.facilitator.api;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.GitWrapper;
@@ -72,16 +73,27 @@ public class GitCommitter implements GitWrapper {
     }
 
     /**
-     * Retrieves the commit history of the current branch.
+     * Retrieves the commit history of the current branch as String
      *
      * @return A String containing the commit history.
      * @throws IOException If an error occurs during command execution.
      */
     public String getCommitHistory() throws IOException {
-        executeGitCommandWithErrorHandler("git", "log");
+        executeGitCommandWithErrorHandler("git", "--no-pager", "log");
         return gitCommander.isResponseOk() ? gitCommander.getProcessOutput().trim() : null;
     }
 
+    /**
+     * Retrieves the commit history of the current branch as an InputStream.
+     *
+     * @return A InputStream pointing on the commit history.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public InputStream getCommitHistoryAsStream() throws IOException {
+        executeGitCommandWithErrorHandler("git", "--no-pager", "log");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessErrorAsInputStream() : null;
+    }
+    
     /**
      * Retrieves details of a specific commit given its hash.
      *

@@ -25,8 +25,16 @@
 package com.symplegit.api;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
+import java.util.Properties;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.symplegit.util.DirParms;
 
 /**
  * The SympleGit class represents a Git project directory and provides
@@ -38,9 +46,13 @@ import java.util.Objects;
  */
 public class SympleGit {
 
+    public static final int DEFAULT_TIMEOUT_SECONDS = 30;
+
     private File projectDir;
     private boolean useStringOutput = false;
 
+    private int timeoutSeconds = DEFAULT_TIMEOUT_SECONDS;
+
     /**
      * Constructs a SympleGit instance for a given project directory. This
      * constructor ensures that the provided directory exists and is indeed a
@@ -49,20 +61,21 @@ public class SympleGit {
      * temporary file will be deleted after the JVM's life.
      * 
      * @param projectDir The directory of the Git project.
-     * @throws FileNotFoundException if the project directory does not exist or is
-     *                               not a directory.
-     * @throws NullPointerException  if the projectDir argument is null.
+     * @throws IOException          if any IOException occurs.
+     * @throws NullPointerException if the projectDir argument is null.
      */
-    public SympleGit(String projectDir) throws FileNotFoundException {
+    public SympleGit(String projectDir) throws IOException {
 	Objects.requireNonNull(projectDir, "projectDir cannot be null!");
 
 	this.projectDir = new File(projectDir);
-	
+
 	if (!this.projectDir.isDirectory()) {
 	    throw new FileNotFoundException("The project does not exist: " + projectDir);
 	}
+
+	loadProperties();
     }
-    
+
     /**
      * Constructs a SympleGit instance for a given project directory. This
      * constructor ensures that the provided directory exists and is indeed a
@@ -71,65 +84,17 @@ public class SympleGit {
      * temporary file will be deleted after the JVM's life.
      * 
      * @param projectDir The directory of the Git project.
-     * @throws FileNotFoundException if the project directory does not exist or is
-     *                               not a directory.
-     * @throws NullPointerException  if the projectDir argument is null.
+     * @throws IOException          if any IOException occurs.
+     * @throws NullPointerException if the projectDir argument is null.
      */
-    public SympleGit(File projectDir) throws FileNotFoundException {
+    public SympleGit(File projectDir) throws IOException {
 	this.projectDir = Objects.requireNonNull(projectDir, "projectDir cannot be null!");
 
 	if (!projectDir.isDirectory()) {
 	    throw new FileNotFoundException("The project does not exist: " + projectDir);
 	}
-    }
 
-    /**
-     * Constructs a SympleGit instance for a given project directory. This
-     * constructor ensures that the provided directory exists and is indeed a
-     * directory.
-     *
-     * @param projectDir      The directory of the Git project.
-     * @param useStringOutput If true, the output of each Git commands will be only
-     *                        stored in a String. if false, the output of each Git
-     *                        command will be stored in a temporary File. The
-     *                        temporary file will be deleted after the JVM's life.
-     * 
-     * @throws FileNotFoundException if the project directory does not exist or is
-     *                               not a directory.
-     * @throws NullPointerException  if the projectDir argument is null.
-     */
-    public SympleGit(String projectDir, boolean useStringOutput) throws FileNotFoundException {
-	Objects.requireNonNull(projectDir, "projectDir cannot be null!");
-	this.useStringOutput = useStringOutput;
-	this.projectDir = new File(projectDir);
-	
-	if (!this.projectDir.isDirectory()) {
-	    throw new FileNotFoundException("The project does not exist: " + projectDir);
-	}
-    }
-    
-    /**
-     * Constructs a SympleGit instance for a given project directory. This
-     * constructor ensures that the provided directory exists and is indeed a
-     * directory.
-     *
-     * @param projectDir      The directory of the Git project.
-     * @param useStringOutput If true, the output of each Git commands will be only
-     *                        stored in a String. if false, the output of each Git
-     *                        command will be stored in a temporary File. The
-     *                        temporary file will be deleted after the JVM's life.
-     * 
-     * @throws FileNotFoundException if the project directory does not exist or is
-     *                               not a directory.
-     * @throws NullPointerException  if the projectDir argument is null.
-     */
-    public SympleGit(File projectDir, boolean useStringOutput) throws FileNotFoundException {
-	this.projectDir = Objects.requireNonNull(projectDir, "projectDir cannot be null!");
-	this.useStringOutput = useStringOutput;
-
-	if (!projectDir.isDirectory()) {
-	    throw new FileNotFoundException("The project does not exist: " + projectDir);
-	}
+	loadProperties();
     }
 
     /**
@@ -145,13 +110,62 @@ public class SympleGit {
      * Says if the output of each Git command will be stored in a String. If true,
      * the output of the Git commands will be stored in a String, if false, the
      * output of each Git command will be stored in a temporary File. The temporary
-     * file will be deleted after the JVM's life.
+     * file will be deleted after the JVM's life. <br>
+     * <br>
+     * This value is fetched from the property "useStringOutput" in
+     * user.home/.symplegit/symplegit.properties file. If the file or property is
+     * not found, the default value of false of false will be returned. <br>
+     * <br>
+     * It is recommended keep the default value of false and to set
+     * useStringOutput=true only if you are sure the output of the Git commands are
+     * short.
      * 
      * @return true if the output of the Git commands will be stored in a String,
      *         false otherwise.
      */
     public boolean isUseStringOutput() {
 	return useStringOutput;
+    }
+
+    /**
+     * Gets the timeoutSeconds value associated with this SympleGit instance. If the
+     * timeoutSeconds value is 0, the waiting will be infinite. <br>
+     * <br>
+     * This value is fetched from the "timeoutSeconds" property in
+     * user.home/.symplegit/symplegit.properties file. <br>
+     * If the file or property is not found, the default value of 30 seconds will be
+     * returned.
+     * 
+     * @return timeoutSeconds value associated with this SympleGit instance.
+     */
+    public int getTimeoutSeconds() {
+	return timeoutSeconds;
+    }
+
+    private void loadProperties() throws IOException {
+
+	File file = new File(DirParms.getUserHomeProjectDir() + File.separator + "symplegit.properties");
+
+	if (!file.exists()) {
+	    return;
+	}
+
+	Properties properties = new Properties();
+	try (InputStream in = new FileInputStream(file);) {
+	    properties.load(in);
+	}
+
+	String timeoutStr = properties.getProperty("timeoutSeconds", "" + DEFAULT_TIMEOUT_SECONDS);
+	useStringOutput = Boolean.parseBoolean(properties.getProperty("useStringOutput", "false"));
+
+	if (!StringUtils.isNumeric(timeoutStr)) {
+	    throw new IOException(
+		    "The timeoutSeconds value in user.home/.sympelgit/symplegit.properties is not numeric: "
+			    + timeoutStr);
+	}
+
+	this.timeoutSeconds = Integer.parseInt(timeoutStr);
+
     }
 
 }
