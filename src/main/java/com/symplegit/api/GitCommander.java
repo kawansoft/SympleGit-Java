@@ -101,10 +101,10 @@ public class GitCommander {
 //	    executeInThread(command);
 //	});
 	
-        System.out.println("here 1");
-        
 	long begin = System.currentTimeMillis();
 	    
+        debug(" Before while (thread.isAlive())");
+        
 	while (thread.isAlive()) {
 	    	
 	    long now = System.currentTimeMillis();
@@ -146,7 +146,7 @@ public class GitCommander {
 		tempErrorFile = File.createTempFile("symplegit-error-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
 
 		try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
-		    IOUtils.copy(process.getErrorStream(), osError);
+		    IOUtils.copy(new BufferedInputStream(getProcessErrorAsInputStream()) , osError);
 		}
 		
 		debug("After tempErrorFile creation");
@@ -159,7 +159,7 @@ public class GitCommander {
 		tempOutputFile = File.createTempFile("symplegit-output-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
 	        
 		try (OutputStream osInput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
-		    IOUtils.copy(process.getInputStream(), osInput);
+		    IOUtils.copy(new BufferedInputStream(process.getInputStream()), osInput);
 		}
 
 		debug("After tempOutputFile creation");

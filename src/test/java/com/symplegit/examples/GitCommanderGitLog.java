@@ -13,22 +13,13 @@ public class GitCommanderGitLog {
     public static void main(String[] args) throws Exception {
 	String repoDirectoryPath = "I:\\_dev_SimpleGit";
 
-	Thread thread = new Thread(() -> {
-	    try {
-		manualCall(repoDirectoryPath);
-	    } catch (IOException | InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
-	});
-	thread.start();
+	boolean manual = false;
 	
-	while(thread.isAlive()) {
-	    Thread.sleep(1000);
-	    System.out.println("Waiting...");
+	if (manual) {
+	    manualCallInThread(repoDirectoryPath);
+	    return;
 	}
 
-	/*
 	SympleGit sympleGit = new SympleGit(repoDirectoryPath);
 	
 	System.out.println();
@@ -50,7 +41,28 @@ public class GitCommanderGitLog {
 	for (String line : lines) {
             System.out.println(line);
         }
-        */
+        
+    }
+
+    /**
+     * @param repoDirectoryPath
+     * @throws InterruptedException
+     */
+    private static void manualCallInThread(String repoDirectoryPath) throws InterruptedException {
+	Thread thread = new Thread(() -> {
+	try {
+	    manualCall(repoDirectoryPath);
+	} catch (IOException | InterruptedException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	});
+	thread.start();
+
+	while (thread.isAlive()) {
+	Thread.sleep(1000);
+	System.out.println("Waiting...");
+	}
     }
 
     /**
@@ -82,7 +94,6 @@ public class GitCommanderGitLog {
 	    // Handle error
 	}
 
-	
 	/*
 	ProcessBuilder builder = new ProcessBuilder("git", "--no-pager", "log");
 	builder.directory(new File(repoDirectoryPath)); // Set the working directory
