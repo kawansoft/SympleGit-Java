@@ -170,8 +170,13 @@ public class GitCommander {
 	    process.destroy();
 	    process.destroyForcibly();
 
-	} catch (Exception theException) {
-	    this.exception = theException;
+	} catch (Throwable throwable) {
+	    if (throwable instanceof Exception) {
+		exception = (Exception) throwable;
+
+	    } else {
+		exception = new Exception(throwable);
+	    }
 	}
     }
 
@@ -196,6 +201,8 @@ public class GitCommander {
 
     /**
      * Gets the standard output of the last executed Git command as a String.
+     * In order to avoid dangerous OutOfMemoryException, 
+     * this method will throw an IOException if the output is > SympleGit.DEFAULT_MAX_STRING_SIZE_MB.
      *
      * @return The standard output of the last executed Git command.
      * @throws IOException if an I/O error occurs while reading the output.
