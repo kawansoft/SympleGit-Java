@@ -46,7 +46,7 @@ import com.symplegit.util.DirParms;
  */
 public class SympleGit {
 
-    public static final int DEFAULT_MAX_STRING_SIZE_MB = 4;
+    public static final int DEFAULT_MAX_STRING_SIZE_MB = 10;
     public static final int DEFAULT_TIMEOUT_SECONDS = 0;
 
     private File projectDir;

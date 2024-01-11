@@ -95,12 +95,7 @@ public class GitCommander {
 	    executeInThread(command);
 	});
 	thread.start();
-	
-//	ExecutorService executor = Executors.newFixedThreadPool(1);
-//	Future<?> future = executor.submit(() -> {
-//	    executeInThread(command);
-//	});
-	
+
 	long begin = System.currentTimeMillis();
 	    
         debug(" Before while (thread.isAlive())");
@@ -116,7 +111,6 @@ public class GitCommander {
             }
             
             if ( timeoutSeconds != 0 &&  (now  - begin > 1000 * timeoutSeconds)) {
-        	//future.cancel(true);
                 throw new UncheckedTimeoutException("Timeout after " + timeoutSeconds + " seconds!");
             };
 	}

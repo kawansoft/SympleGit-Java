@@ -123,7 +123,7 @@ it will print:
 
 Behind the scenes, `GitCommander` uses `InputStream` to retrieved the errors and output.
 
-This example  of the command provides full commit messages and metadata for each commit, which can be quite substantial for large repositories.  So we will retrieve the result  using an `InputStream` is size > 4Mb.
+This example  of the command provides full commit messages and metadata for each commit, which can be quite substantial for large repositories.  So we will retrieve the result  using an `InputStream` if size > 4Mb.
 
 
 
