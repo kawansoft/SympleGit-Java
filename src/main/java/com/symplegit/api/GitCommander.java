@@ -35,6 +35,13 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.io.IOUtils;
 
@@ -75,13 +82,15 @@ public class GitCommander {
 	this.timeout = sympleGit.getTimeout();
     }
 
+
     /**
      * Executes a Git command and handles its output and error streams.
      *
      * @param command The Git command to be executed, split into an array of
      *                strings.
      */
-    public void executeGitCommand(String... command) {
+    @SuppressWarnings("unused")
+    private void executeGitCommandOld(String... command) {
 	Objects.requireNonNull(command, "builder cannot be null!");
 
 	Thread thread = new Thread(() -> {
@@ -109,6 +118,41 @@ public class GitCommander {
 	}
 	
     }
+    
+    /**
+     * Executes a Git command and handles its output and error streams.
+     *
+     * @param command The Git command to be executed, split into an array of
+     *                strings.
+     */
+    public void executeGitCommand(String... command) {
+	
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        Callable<String> task = new Callable<String>() {
+            @Override
+            public String call() throws InterruptedException {
+        	executeInThread(command);
+                return "OK";
+            }
+        };
+
+        Future<String> future = executor.submit(task);
+
+        try {
+            
+            long futureTimeout = timeout == 0? Long.MAX_VALUE : timeout;
+            
+            // Get the result of the asynchronous computation with a timeout of 1 second
+            future.get(futureTimeout, TimeUnit.SECONDS);
+        } catch (TimeoutException e) {
+            throw new UncheckedTimeoutException("Timeout after " + timeout + " seconds!");
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        } finally {
+            executor.shutdown(); // Always remember to shut down the executor service
+        }
+    }
 
     /**
      * @param command
@@ -120,6 +164,7 @@ public class GitCommander {
 	debug("Git command: " + removeCommas(Arrays.toString(command)));
 
 	try {
+	    
 	    builder.command(command); // Correctly set the command
 	    process = builder.start();
 

@@ -7,11 +7,12 @@ import java.io.InputStreamReader;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
+import com.symplegit.test.util.GitTestUtils;
 
 public class GitCommanderGitLog {
     
     public static void main(String[] args) throws Exception {
-	String repoDirectoryPath = "I:\\_dev_SimpleGit";
+	String repoDirectoryPath = GitTestUtils.createTemporaryGitRepo().toString();
 
 	boolean manual = false;
 	
@@ -22,6 +23,7 @@ public class GitCommanderGitLog {
 
 	final SympleGit sympleGit = SympleGit.custom()
                 .setDirectory(repoDirectoryPath)
+                .setTimeout(5)
                 .build();
 	
 	System.out.println();
@@ -31,7 +33,7 @@ public class GitCommanderGitLog {
 	GitCommander gitCommander = sympleGit.gitCommander();
 	//gitCommander.executeGitCommand("git", "--version");
 	gitCommander.executeGitCommand("git", "--no-pager", "log");
-
+	
 	if (! gitCommander.isResponseOk()) {
 	    System.out.println("An Error occured: " + gitCommander.getProcessError());
 	    return;
