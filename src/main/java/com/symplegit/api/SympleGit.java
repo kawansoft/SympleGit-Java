@@ -32,7 +32,8 @@ import java.util.Objects;
  * SympleGit provides a fluent and simplified interface for configuring and
  * using Git operations. It utilizes a builder pattern for easy configuration
  * and initialization. It is a part of the SympleGit package, which aims to
- * simplify interactions with Git repositories
+ * simplify interactions with Git repositories.
+ * 
  */
 public class SympleGit {
 
