@@ -22,7 +22,7 @@
  * Any modifications to this file must keep this entire header
  * intact.
  */
-package com.symplegit.wrappers;
+package com.symplegit.api;
 
 import java.io.IOException;
 
@@ -31,97 +31,82 @@ import com.symplegit.GitWrapper;
 import com.symplegit.SympleGit;
 
 /**
- * The GitBranchModifier class provides functionalities to create, delete, and rename branches in a Git repository.
- * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands.
+ * The GitRemoteManager class is responsible for managing remote repository operations.
+ * It provides functionalities to fetch, push, pull and list remote repositories.
+ * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
  * 
+ * @author Nicolas de Pomereu
  * @author GPT-4
  */
-public class GitBranchModifier implements GitWrapper {
+public class GitRemoteManager implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitBranchModifier with a specified SympleGit instance.
+     * Constructs a GitRemoteManager with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitBranchModifier(SympleGit sympleGit) {
+    public GitRemoteManager(SympleGit sympleGit) {
         this.gitCommander = new GitCommander(sympleGit);
     }
 
     /**
-     * Creates a new branch in the Git repository.
+     * Adds a new remote repository.
      *
-     * @param branchName The name of the branch to be created.
+     * @param remoteName The name of the remote repository.
+     * @param remoteUrl The URL of the remote repository.
      * @throws IOException If an error occurs during command execution.
      */
-    public void createBranch(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "branch", branchName);
-    }
-
-    /**
-     * Cautious delete of a branch from the Git repository. (-d option).
-     *
-     * @param branchName The name of the branch to be deleted.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public void deleteBranch(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "branch", "-d", branchName);
+    public void addRemote(String remoteName, String remoteUrl) throws IOException {
+        executeGitCommandWithErrorHandler("git", "remote", "add", remoteName, remoteUrl);
     }
     
     /**
-     * Forces delete of a branch from the Git repository. (-D option).
+     * Fetches updates from a specified remote repository.
      *
-     * @param branchName The name of the branch to be deleted.
+     * @param remoteName The name of the remote repository.
      * @throws IOException If an error occurs during command execution.
      */
-    public void deleteBranchForce(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "branch", "-D", branchName);
+    public void fetchRemote(String remoteName) throws IOException {
+        executeGitCommandWithErrorHandler("git", "fetch", remoteName);
     }
 
     /**
-     * Renames a branch in the Git repository.
+     * Pushes changes to a specified remote repository and branch.
      *
-     * @param oldBranchName The current name of the branch.
-     * @param newBranchName The new name for the branch.
+     * @param remoteName The name of the remote repository.
+     * @param branchName The name of the branch to push changes to.
      * @throws IOException If an error occurs during command execution.
      */
-    public void renameBranch(String oldBranchName, String newBranchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "branch", "-m", oldBranchName, newBranchName);
+    public void pushChanges(String remoteName, String branchName) throws IOException {
+        executeGitCommandWithErrorHandler("git", "push", remoteName, branchName);
     }
 
     /**
-     * Pushes a local branch to the remote repository.
+     * Pulls changes from a specified remote repository and branch.
      *
-     * @param branchName The name of the local branch to be pushed.
+     * @param remoteName The name of the remote repository.
+     * @param branchName The name of the branch to pull changes from.
      * @throws IOException If an error occurs during command execution.
      */
-    public void pushBranchToRemote(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "push", "origin", branchName);
+    public void pullChanges(String remoteName, String branchName) throws IOException {
+        executeGitCommandWithErrorHandler("git", "pull", remoteName, branchName);
     }
 
     /**
-     * Deletes a branch from the remote repository.
+     * Lists all remote repositories configured.
      *
-     * @param branchName The name of the remote branch to be deleted.
+     * @return The list of configured remote repositories.
      * @throws IOException If an error occurs during command execution.
      */
-    public void deleteRemoteBranch(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "push", "origin", "--delete", branchName);
+    public String listRemotes() throws IOException {
+        executeGitCommandWithErrorHandler("git", "remote", "-v");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
-    
-    /**
-     * Switches to a specified branch in the Git repository.
-     *
-     * @param branchName The name of the branch to switch to.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public void switchBranch(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "switch", branchName);
-    }
-    
+
     /**
      * Executes a Git command and handles errors generically.
      *
@@ -130,13 +115,11 @@ public class GitBranchModifier implements GitWrapper {
      */
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
         gitCommander.executeGitCommand(command);
-
         if (!gitCommander.isResponseOk()) {
             errorMessage = gitCommander.getProcessError();
             exception = gitCommander.getException();
         }
     }
-    
 
     @Override
     public boolean isResponseOk() {

@@ -22,7 +22,7 @@
  * Any modifications to this file must keep this entire header
  * intact.
  */
-package com.symplegit.wrappers;
+package com.symplegit.api;
 
 import java.io.IOException;
 
@@ -31,55 +31,55 @@ import com.symplegit.GitWrapper;
 import com.symplegit.SympleGit;
 
 /**
- * The GitTagger class provides functionalities to manage tags in a Git repository.
- * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands related to tagging.
+ * The GitMerger class provides functionalities to manage merging operations in a Git repository.
+ * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands related to merging.
  * 
  * @author GPT-4
  */
-public class GitTagger implements GitWrapper {
+public class GitMerger implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitTagger with a specified SympleGit instance.
+     * Constructs a GitMerger with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitTagger(SympleGit sympleGit) {
+    public GitMerger(SympleGit sympleGit) {
         this.gitCommander = new GitCommander(sympleGit);
     }
 
     /**
-     * Creates a new tag in the Git repository.
+     * Merges the source branch into the target branch in the Git repository.
      *
-     * @param tagName The name of the tag to be created.
-     * @param commitHash The commit hash to which the tag should be attached.
+     * @param targetBranch The name of the target branch.
+     * @param sourceBranch The name of the source branch.
      * @throws IOException If an error occurs during command execution.
      */
-    public void createTag(String tagName, String commitHash) throws IOException {
-        executeGitCommandWithErrorHandler("git", "tag", tagName, commitHash);
+    public void mergeBranches(String targetBranch, String sourceBranch) throws IOException {
+        executeGitCommandWithErrorHandler("git", "checkout", targetBranch);
+        executeGitCommandWithErrorHandler("git", "merge", sourceBranch);
     }
 
     /**
-     * Deletes a tag from the Git repository.
+     * Aborts an ongoing merge operation in the Git repository.
      *
-     * @param tagName The name of the tag to be deleted.
      * @throws IOException If an error occurs during command execution.
      */
-    public void deleteTag(String tagName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "tag", "-d", tagName);
+    public void abortMerge() throws IOException {
+        executeGitCommandWithErrorHandler("git", "merge", "--abort");
     }
 
     /**
-     * Lists all tags in the Git repository.
+     * Retrieves the merge status of the Git repository.
      *
-     * @return A string containing all the tags.
+     * @return A string indicating the current merge status.
      * @throws IOException If an error occurs during command execution.
      */
-    public String listTags() throws IOException {
-        executeGitCommandWithErrorHandler("git", "tag");
+    public String getMergeStatus() throws IOException {
+        executeGitCommandWithErrorHandler("git", "status");
         return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 

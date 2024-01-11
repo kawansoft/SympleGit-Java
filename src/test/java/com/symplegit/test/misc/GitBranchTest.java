@@ -32,7 +32,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.symplegit.SympleGit;
-import com.symplegit.wrappers.GitBranchReader;
+import com.symplegit.api.GitBranchReader;
 
 /**
  *

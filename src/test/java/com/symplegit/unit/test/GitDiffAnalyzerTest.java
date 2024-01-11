@@ -34,8 +34,8 @@ import org.junit.jupiter.api.Test;
 
 import com.symplegit.GitCommander;
 import com.symplegit.SympleGit;
+import com.symplegit.api.GitDiffAnalyzer;
 import com.symplegit.test.util.GitTestUtils;
-import com.symplegit.wrappers.GitDiffAnalyzer;
 
 /**
  * Unit tests for the GitDiffAnalyzer class.

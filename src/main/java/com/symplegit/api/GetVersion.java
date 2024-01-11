@@ -22,7 +22,7 @@
  * Any modifications to this file must keep this entire header
  * intact.
  */
-package com.symplegit.wrappers;
+package com.symplegit.api;
 
 import java.io.IOException;
 

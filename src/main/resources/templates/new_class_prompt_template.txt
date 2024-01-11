@@ -297,7 +297,7 @@ public interface GitWrapper {
 
 }
 
-package com.symplegit.wrappers;
+package com.symplegit.api;
 
 import java.io.IOException;
 

@@ -11,13 +11,15 @@ SympleGit is a minimalist but extendable Java Git implementation that has 3 main
 2. It has wrappers classes for main Git actions, with easy names to use.
 3. It is extendable & customizable using Artificial Intelligence (GPT-4). 
 
-## Choosing SympleGit Over JGit: Understanding the Advantages
+## Why choose SympleGit when there is already JGit?
 
 [JGit](https://www.eclipse.org/jgit/) is a great Java implementation of Git, very well and rich featured, with a clean and fluent API. JGit was designed to manage Git full support in Eclipse, implementing all sophisticated actions for the end user developing  a Java project. 
 
 If you want to develop a Java editor and add to Git management: [install JGit](https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit).
 
-But, on the other side, the API has a learning curve and there is no direct and one to one support for CLI actions. SympleGit  should thus be easier than JGit for simple Git integration in many Java projects.
+But, on the other side, the API has a learning curve and there is no direct and one to one support for CLI actions. SympleGit  should thus be easier than JGit for simple Git integration in many Java projects. Let's jump into details!
+
+## Choosing SympleGit Over JGit: Understanding the Advantages
 
 ### Support for CLI Git calls
 
@@ -55,8 +57,8 @@ try (Repository repository = CookbookHelper.createNewRepository()) {
 
 With SympleGit, you have two options:
 
-- A direct invocation of a wrapper using the command-line interface (CLI) syntax, for example: `git add testfile`.
-- A call using an API with the class `GitAdder`.
+- A direct invocation of a Git Commander using the command-line interface (CLI) syntax, for example: `git add testfile`.
+- A call using a Facilitator API with the class `GitAdder`.
 
 The code for direct invocation is:
 
@@ -73,7 +75,7 @@ gitCommander.executeGitCommand("git", "add", "testFile"); // "git add testfile"
 Supporting a one to one correspondence has advantages:
 
 - It allows a non Git expert to pass the required Git command without failure, or passing time findings the right parameters in the API. If you are not a Git expert, it will be easy for the Git expert in the company to help you implement the right Git call with the right parameters. On the other side, it will be easy for a Git expert who is not a Java expert to code Gits call in a Java workflow.
-- Git is a complex software, having in Java the equivalent of CLI calls allows to pass complex or rare commands without requiring to program all the option in the API. Example: `git log --graph --abbrev-commit --decorate --date=relative --all --pretty=format:'%h - %ar | %s (%an)%d' --max-count=10`
+- Git is a complex software, having in Java the equivalent of CLI calls allows to pass complex or rare commands without requiring to program all the option in the API. Example: `git log --graph --abbrev-commit --decorate --date=relative --all --pretty=format:'%h - %ar | %s (%an)%d' --max-count=10`.
 
 ### Straightforward Git implementation
 
@@ -93,6 +95,7 @@ This version of the command provides full commit messages and metadata for each 
 
 ## The Wrapper Classes API
 
-## Extending SympleGit using Artificial Intelligence
 
+
+## Extending SympleGit using Artificial Intelligence
 

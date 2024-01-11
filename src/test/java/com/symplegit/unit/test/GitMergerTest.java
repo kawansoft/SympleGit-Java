@@ -37,8 +37,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.SympleGit;
+import com.symplegit.api.GitMerger;
 import com.symplegit.test.util.GitTestUtils;
-import com.symplegit.wrappers.GitMerger;
 
 public class GitMergerTest {
 

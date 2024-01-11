@@ -38,8 +38,8 @@ import org.junit.jupiter.api.Test;
 
 import com.symplegit.GitCommander;
 import com.symplegit.SympleGit;
+import com.symplegit.api.GitAdder;
 import com.symplegit.test.util.GitTestUtils;
-import com.symplegit.wrappers.GitAdder;
 
 public class GitAdderTest {
 
