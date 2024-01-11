@@ -120,11 +120,7 @@ public class GitCommitter implements GitWrapper {
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
         gitCommander.executeGitCommand(command);
 
-        if (!gitCommander.isResponseOk()) {
-            
-            System.err.println("gitCommander.getProcessOutput(): " + gitCommander.getProcessOutput() + ":");
-            System.err.println("gitCommander.getProcessError() : " + gitCommander.getProcessError() + ":");
-            
+        if (!gitCommander.isResponseOk()) {            
             errorMessage = gitCommander.getProcessError();
             exception = gitCommander.getException();
         }

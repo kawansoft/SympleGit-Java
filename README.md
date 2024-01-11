@@ -5,7 +5,7 @@ A simple Git wrapper in Java for the rest of us, extendable with Artificial Inte
 
 ## What is SympleGit?
 
-SympleGit is a minimalist but extendable Java Git implementation that has 3 main characteristics:
+SympleGit is a minimalist but robust and extendable Java Git implementation that has 3 main characteristics:
 
 1. It supports one to one calls corresponding to Git command line calls.
 2. It has wrappers classes for main Git actions, with easy names to use.
@@ -98,7 +98,7 @@ Supporting a one to one correspondence with `GitCommander` has advantages:
 
 if you are not developing a Java Editor, a straightforward Git implementation with all the basics Git commands should be sufficient and easier.
 
-As a java developer, the typical case you would meet in Java project accessing is having to replace/fix code automatically in a repository after a treatment. This is why we developed SympleGit: we just a simple Git implementation just to create and push a new branch after modifying source code by replacing all `Statement` with `PreparedStatement` ([for SQL Injection protection](https://www.sqlephant.com/product/#sqli)).
+As a java developer, the typical case you would meet in Java project accessing is having to replace/fix code automatically in a repository after a treatment. This is why we developed SympleGit: we just wanted a simple Git implementation just to create and push a new branch after modifying source code by replacing all `Statement` with `PreparedStatement` ([for SQL Injection protection](https://www.sqlephant.com/product/#sqli)).
 
 ## The Commander API
 
