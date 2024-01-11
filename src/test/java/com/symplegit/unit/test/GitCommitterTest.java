@@ -33,20 +33,61 @@ public class GitCommitterTest {
 
     
     @Test
+    public void testCommitChanges() throws IOException {
+	
+	long now = System.currentTimeMillis();
+	File file = GitTestUtils.createFileInRepo(repoDir,  now + "_ testfile.txt", "Test content"); // Create a test file in the repo
+	
+        GitCommander gitCommander = new GitCommander(sympleGit);
+        gitCommander.executeGitCommand("git", "add", ".");
+
+        if (! gitCommander.isResponseOk()) {
+            System.out.println("gitCommander.getProcessError(): " + gitCommitter.getError());
+        }
+        
+        gitCommitter.commitChanges("\"Initial commit\"");
+
+        if (! gitCommitter.isResponseOk()) {
+            System.out.println("gitCommitter.getProcessError(): " + gitCommitter.getError());
+        }
+        
+        assertTrue(gitCommitter.isResponseOk(), "Commit should be successful");
+        file.delete();
+        
+    }
+    
+    
+    @Test
     public void testAmendCommit() throws IOException {
-	GitTestUtils.createFileInRepo(repoDir, "testfile.txt", "Test content"); // Create a test file in the repo
-        gitCommitter.commitChanges("Initial commit");
-        gitCommitter.amendCommit();
+	long now = System.currentTimeMillis();
+	File file = GitTestUtils.createFileInRepo(repoDir,  now + "_ testfile.txt", "Test content"); // Create a test file in the repo
+	
+        GitCommander gitCommander = new GitCommander(sympleGit);
+        gitCommander.executeGitCommand("git", "add", ".");
+        
+        if (! gitCommander.isResponseOk()) {
+            System.out.println("gitCommander.getProcessError(): " + gitCommander.getProcessError());
+        }
+        
+        gitCommitter.commitChanges("Ammend commit");
+        
+        if (! gitCommitter.isResponseOk()) {
+            System.out.println("gitCommitter.getProcessError(): " + gitCommitter.getError());
+        }
+        
+        gitCommitter.amendCommit("ammend message");
+        
+        if (! gitCommitter.isResponseOk()) {
+            System.out.println("gitCommander.getProcessError(): " + gitCommitter.getError());
+        }
+                
         assertTrue(gitCommitter.isResponseOk(), "Amend commit should be successful");
+        file.delete();
+
     }
     
 
-    @Test
-    public void testCommitChanges() throws IOException {
-	GitTestUtils.createFileInRepo(repoDir, "testfile.txt", "Test content"); // Create a test file in the repo
-        gitCommitter.commitChanges("Initial commit");
-        assertTrue(gitCommitter.isResponseOk(), "Commit should be successful");
-    }
+
 
     
     @Test

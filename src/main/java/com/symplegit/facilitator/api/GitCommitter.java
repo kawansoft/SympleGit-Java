@@ -60,7 +60,7 @@ public class GitCommitter implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void commitChanges(String message) throws IOException {
-        executeGitCommandWithErrorHandler("git", "commit", "-m", message);
+        executeGitCommandWithErrorHandler("git", "commit", "-m", message );
     }
 
     /**
@@ -68,8 +68,8 @@ public class GitCommitter implements GitWrapper {
      *
      * @throws IOException If an error occurs during command execution.
      */
-    public void amendCommit() throws IOException {
-        executeGitCommandWithErrorHandler("git", "commit", "--amend");
+    public void amendCommit(String message) throws IOException {
+        executeGitCommandWithErrorHandler("git", "commit", "--amend", "-m", message );
     }
 
     /**
@@ -121,6 +121,10 @@ public class GitCommitter implements GitWrapper {
         gitCommander.executeGitCommand(command);
 
         if (!gitCommander.isResponseOk()) {
+            
+            System.err.println("gitCommander.getProcessOutput(): " + gitCommander.getProcessOutput() + ":");
+            System.err.println("gitCommander.getProcessError() : " + gitCommander.getProcessError() + ":");
+            
             errorMessage = gitCommander.getProcessError();
             exception = gitCommander.getException();
         }
