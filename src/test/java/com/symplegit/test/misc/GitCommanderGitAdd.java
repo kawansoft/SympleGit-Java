@@ -30,8 +30,8 @@ package com.symplegit.test.misc;
 
 import java.io.IOException;
 
-import com.symplegit.GitCommander;
-import com.symplegit.SympleGit;
+import com.symplegit.api.GitCommander;
+import com.symplegit.api.SympleGit;
 
 /**
  *

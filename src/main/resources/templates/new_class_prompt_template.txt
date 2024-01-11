@@ -21,7 +21,7 @@ Please make sure to use Git commands with the options that don't use a pager or 
 
 Here are the classes:
 
-package com.symplegit;
+package com.symplegit.api;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -256,7 +256,7 @@ public class GitCommander {
 }
 
 
-package com.symplegit;
+package com.symplegit.api;
 
 /**
  * The GitWrapper interface defines the essential functionalities that a wrapper
@@ -297,13 +297,13 @@ public interface GitWrapper {
 
 }
 
-package com.symplegit.api;
+package com.symplegit.facilitator.api;
 
 import java.io.IOException;
 
-import com.symplegit.GitCommander;
-import com.symplegit.GitWrapper;
-import com.symplegit.SympleGit;
+import com.symplegit.api.GitCommander;
+import com.symplegit.api.GitWrapper;
+import com.symplegit.api.SympleGit;
 
 /**
  * The GitBranchExample class provides functionalities to create a branch and get the active branch name.

@@ -22,7 +22,7 @@
  * Any modifications to this file must keep this entire header
  * intact.
  */
-package com.symplegit.api;
+package com.symplegit.facilitator.api;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,8 +35,8 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.symplegit.GitCommander;
-import com.symplegit.SympleGit;
+import com.symplegit.api.GitCommander;
+import com.symplegit.api.SympleGit;
 import com.symplegit.util.FrameworkDebug;
 
 /**

@@ -31,8 +31,8 @@ package com.symplegit.test.misc;
 import java.io.File;
 import java.io.IOException;
 
-import com.symplegit.SympleGit;
-import com.symplegit.api.GitBranchReader;
+import com.symplegit.api.SympleGit;
+import com.symplegit.facilitator.api.GitBranchReader;
 
 /**
  *

@@ -32,8 +32,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-import com.symplegit.GitCommander;
-import com.symplegit.SympleGit;
+import com.symplegit.api.GitCommander;
+import com.symplegit.api.SympleGit;
 
 /**
  *

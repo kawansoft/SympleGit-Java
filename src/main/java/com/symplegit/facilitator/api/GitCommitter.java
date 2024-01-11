@@ -22,89 +22,76 @@
  * Any modifications to this file must keep this entire header
  * intact.
  */
-package com.symplegit.api;
+package com.symplegit.facilitator.api;
 
 import java.io.IOException;
 
-import com.symplegit.GitCommander;
-import com.symplegit.GitWrapper;
-import com.symplegit.SympleGit;
+import com.symplegit.api.GitCommander;
+import com.symplegit.api.GitWrapper;
+import com.symplegit.api.SympleGit;
 
 /**
- * The GitRemoteManager class is responsible for managing remote repository operations.
- * It provides functionalities to fetch, push, pull and list remote repositories.
- * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
+ * GitCommitter provides functionality for handling Git commits.
+ * It includes methods for committing changes, amending commits, and retrieving commit history.
+ * This class implements the GitWrapper interface and uses GitCommander for command execution.
  * 
- * @author Nicolas de Pomereu
  * @author GPT-4
  */
-public class GitRemoteManager implements GitWrapper {
+public class GitCommitter implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitRemoteManager with a specified SympleGit instance.
+     * Constructs a GitCommitter with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitRemoteManager(SympleGit sympleGit) {
+    public GitCommitter(SympleGit sympleGit) {
         this.gitCommander = new GitCommander(sympleGit);
     }
 
     /**
-     * Adds a new remote repository.
+     * Commits changes with the provided commit message.
      *
-     * @param remoteName The name of the remote repository.
-     * @param remoteUrl The URL of the remote repository.
+     * @param message The commit message.
      * @throws IOException If an error occurs during command execution.
      */
-    public void addRemote(String remoteName, String remoteUrl) throws IOException {
-        executeGitCommandWithErrorHandler("git", "remote", "add", remoteName, remoteUrl);
-    }
-    
-    /**
-     * Fetches updates from a specified remote repository.
-     *
-     * @param remoteName The name of the remote repository.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public void fetchRemote(String remoteName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "fetch", remoteName);
+    public void commitChanges(String message) throws IOException {
+        executeGitCommandWithErrorHandler("git", "commit", "-m", message);
     }
 
     /**
-     * Pushes changes to a specified remote repository and branch.
+     * Amends the last commit.
      *
-     * @param remoteName The name of the remote repository.
-     * @param branchName The name of the branch to push changes to.
      * @throws IOException If an error occurs during command execution.
      */
-    public void pushChanges(String remoteName, String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "push", remoteName, branchName);
+    public void amendCommit() throws IOException {
+        executeGitCommandWithErrorHandler("git", "commit", "--amend");
     }
 
     /**
-     * Pulls changes from a specified remote repository and branch.
+     * Retrieves the commit history of the current branch.
      *
-     * @param remoteName The name of the remote repository.
-     * @param branchName The name of the branch to pull changes from.
+     * @return A String containing the commit history.
      * @throws IOException If an error occurs during command execution.
      */
-    public void pullChanges(String remoteName, String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "pull", remoteName, branchName);
+    public String getCommitHistory() throws IOException {
+        executeGitCommandWithErrorHandler("git", "log");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput().trim() : null;
     }
 
     /**
-     * Lists all remote repositories configured.
+     * Retrieves details of a specific commit given its hash.
      *
-     * @return The list of configured remote repositories.
+     * @param commitHash The hash of the commit.
+     * @return A String containing the details of the specified commit.
      * @throws IOException If an error occurs during command execution.
      */
-    public String listRemotes() throws IOException {
-        executeGitCommandWithErrorHandler("git", "remote", "-v");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+    public String getCommitDetails(String commitHash) throws IOException {
+        executeGitCommandWithErrorHandler("git", "show", commitHash);
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput().trim() : null;
     }
 
     /**
@@ -115,6 +102,7 @@ public class GitRemoteManager implements GitWrapper {
      */
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
         gitCommander.executeGitCommand(command);
+
         if (!gitCommander.isResponseOk()) {
             errorMessage = gitCommander.getProcessError();
             exception = gitCommander.getException();
@@ -136,3 +124,4 @@ public class GitRemoteManager implements GitWrapper {
         return exception;
     }
 }
+

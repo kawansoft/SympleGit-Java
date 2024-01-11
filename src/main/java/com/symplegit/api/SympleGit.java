@@ -22,7 +22,7 @@
  * Any modifications to this file must keep this entire header
  * intact.
  */
-package com.symplegit;
+package com.symplegit.api;
 
 import java.io.File;
 import java.io.FileNotFoundException;

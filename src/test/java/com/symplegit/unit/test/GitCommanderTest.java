@@ -34,8 +34,8 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import com.symplegit.GitCommander;
-import com.symplegit.SympleGit;
+import com.symplegit.api.GitCommander;
+import com.symplegit.api.SympleGit;
 import com.symplegit.test.util.GitTestUtils;
 
 public class GitCommanderTest {

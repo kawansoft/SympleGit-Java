@@ -35,9 +35,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.symplegit.SympleGit;
-import com.symplegit.api.GitBranchModifier;
-import com.symplegit.api.GitBranchReader;
+import com.symplegit.api.SympleGit;
+import com.symplegit.facilitator.api.GitBranchModifier;
+import com.symplegit.facilitator.api.GitBranchReader;
 import com.symplegit.test.util.GitTestUtils;
 
 public class GitBranchReaderTest {

@@ -22,13 +22,13 @@
  * Any modifications to this file must keep this entire header
  * intact.
  */
-package com.symplegit.api;
+package com.symplegit.facilitator.api;
 
 import java.io.IOException;
 
-import com.symplegit.GitCommander;
-import com.symplegit.GitWrapper;
-import com.symplegit.SympleGit;
+import com.symplegit.api.GitCommander;
+import com.symplegit.api.GitWrapper;
+import com.symplegit.api.SympleGit;
 
 /**
  * The GitBranchModifier class provides functionalities to create, delete, and rename branches in a Git repository.

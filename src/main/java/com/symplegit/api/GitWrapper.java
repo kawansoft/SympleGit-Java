@@ -22,7 +22,7 @@
  * Any modifications to this file must keep this entire header
  * intact.
  */
-package com.symplegit;
+package com.symplegit.api;
 /**
  * The GitWrapper interface defines the essential functionalities that a wrapper
  * class for Git operations should implement. This interface ensures a
