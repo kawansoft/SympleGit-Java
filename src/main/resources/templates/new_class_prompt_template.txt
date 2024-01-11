@@ -385,4 +385,7 @@ public class GitBranchExample implements GitWrapper {
     }
 }
 
+${0}=GitDiffAnalyzer
+${1}=Methods: getDiff(commitHash1, commitHash2), getStagedDiff(), getFileDiff(filePath)
+${2}=To compare changes.
 

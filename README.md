@@ -13,7 +13,9 @@ SympleGit is a minimalist but extendable Java Git implementation that has 3 main
 
 ## Why choose SympleGit when there is already JGit?
 
-[JGit](https://www.eclipse.org/jgit/) is a great Java implementation of Git, very well and rich featured, with a clean and fluent API. JGit was designed to manage Git full support in Eclipse, implementing all sophisticated actions for the end user developing  a Java project. 
+[JGit](https://www.eclipse.org/jgit/) is a great Java implementation of Git, very well and rich featured, with a clean and fluent API. 
+
+JGit was designed to manage Git full support in Eclipse, implementing all sophisticated actions for the end user developing  a Java project. 
 
 If you want to develop a Java editor and add to Git management: [install JGit](https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit).
 
@@ -69,7 +71,7 @@ String repoDirectoryPath = "/path/to/my/git/repository";
 SympleGit sympleGit = new SympleGit(repoDirectoryPath);
 
 GitCommander gitCommander = new GitCommander(sympleGit);
-gitCommander.executeGitCommand("git", "add", "testFile"); // "git add testfile"
+gitCommander.executeGitCommand("git", "add", "testFile"); // "git add testfile" ;-)
 ```
 
 Supporting a one to one correspondence has advantages:
@@ -83,7 +85,7 @@ if you are not developing a Java Editor, a straightforward Git implementation wi
 
 As a java developer, the typical case you would meet in Java project accessing is having to replace/fix code automatically in a repository after a treatment. This is why we developed SympleGit: we just a simple Git implementation just to create and push a new branch after modifying source code by replacing all `Statement` with `PreparedStatement`([for SQL Injection protection](https://www.sqlephant.com/product/#sqli)).
 
-## The GitCommander API
+## The Commander API
 
 The `GitCommander` API allows to call any Git command, whatever the command and whatever the ouptut return size.
 
@@ -93,9 +95,9 @@ Example 2: retrieving commit messages and metadata
 
 This version of the command provides full commit messages and metadata for each commit, which can be quite substantial for large repositories. 
 
-## The Wrapper Classes API
+## The Facilitator API
 
 
 
-## Extending SympleGit using Artificial Intelligence
+## Extending SympleGit API using Artificial Intelligence
 
