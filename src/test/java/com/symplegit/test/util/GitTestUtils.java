@@ -99,7 +99,7 @@ public class GitTestUtils {
         executeGitCommand(repoDir, "git", "commit", "-m", commitMessage);
     }
     
-    private static void createFileInRepo(File repoDir, String filename, String content) throws IOException {
+    public static void createFileInRepo(File repoDir, String filename, String content) throws IOException {
         File file = new File(repoDir, filename);
         try (FileWriter writer = new FileWriter(file)) {
             writer.write(content);
