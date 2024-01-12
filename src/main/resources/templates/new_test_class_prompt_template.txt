@@ -4,12 +4,12 @@ Please write a complete unit test class for the following ${0} Java class.
 The value${0} art the end of this prompt.
 
 Use this Java line to get the repository File:
-File repoDir = GitTestUtils.createTemporaryGitRepo();
-The class GitTestUtils already exists, do not create it.
+File repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo();
+The class GitTestUtils and the createIfNotTexistsTemporaryGitRepo method already exist, do not create it.
         
 As the repoDirt is real and exists as Git repo, don't use mock in the code, use only real calls.      
 
-${0}= GitCommitter
+${0}= GitRepo
 
 
 

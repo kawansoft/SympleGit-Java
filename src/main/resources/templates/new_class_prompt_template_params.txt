@@ -34,7 +34,6 @@ ${2}=For repository-wide operations.
 // To be done
 
 
-
 ${0}=GitConfig
 ${1}=Methods: getUserConfig(), setUserConfig(userName, userEmail), getGlobalConfig(), setGlobalConfig(configKey, configValue)
 ${2}= For Git configuration management.
