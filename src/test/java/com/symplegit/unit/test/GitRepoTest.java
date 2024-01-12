@@ -53,6 +53,8 @@ public class GitRepoTest {
         String remoteName = "origin_new";
         String remoteUrl = this.forCreateRepoUrl;
 
+        System.out.println("remoteUrl: " + remoteUrl);
+        
         gitRepo.addRemote(remoteName, remoteUrl);
         assertTrue(gitRepo.isResponseOk());
 
