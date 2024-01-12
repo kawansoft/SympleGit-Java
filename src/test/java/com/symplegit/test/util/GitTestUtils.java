@@ -37,7 +37,9 @@ public class GitTestUtils {
      * @throws IOException if an error occurs during directory creation.
      */
     public static File createIfNotTexistsTemporaryGitRepo() throws IOException {
-        //C:\Users\ndepo\AppData\Local\Temp
+        /**
+        C:\Users\ndepo\AppData\Local\Temp\git_test_repo
+         */
 	String tmpDirsLocation = System.getProperty("java.io.tmpdir");
         File tempDir = new File(tmpDirsLocation + File.separator + "git_test_repo");
 

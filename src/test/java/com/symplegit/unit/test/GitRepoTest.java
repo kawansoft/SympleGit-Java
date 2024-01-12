@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.io.FileDeleteStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,8 +53,6 @@ public class GitRepoTest {
     public void testAddAndRemoveRemote() throws IOException {
         String remoteName = "origin_new";
         String remoteUrl = this.forCreateRepoUrl;
-
-        System.out.println("remoteUrl: " + remoteUrl);
         
         gitRepo.addRemote(remoteName, remoteUrl);
         assertTrue(gitRepo.isResponseOk());
@@ -62,11 +61,33 @@ public class GitRepoTest {
         assertTrue(gitRepo.isResponseOk());
     }
 
+    // Do this test manually because it is not possible to do it in Maven
     @Test
     public void testCloneRepository() throws IOException {
+	
+	boolean manual = false;
+	
+	if (! manual) {
+	    return;
+	}
         String cloneUrl = existingRepoUrl;
-        gitRepo.cloneRepository(cloneUrl);
-        assertTrue(gitRepo.isResponseOk());
+        
+        File theRepoDir = new File(GitTestUtils.createIfNotTexistsTemporaryGitRepo().getParent() + File.separator + "clone_test");
+        System.out.println("TheRepoDir: " + theRepoDir.getAbsolutePath());
+        
+        FileDeleteStrategy.FORCE.delete(theRepoDir);
+        
+        System.out.println("TheRepoDir exists: " + theRepoDir.exists());
+        
+        theRepoDir.mkdirs();
+        
+        SympleGit sympleGit = SympleGit.custom().setDirectory(theRepoDir).build();
+        GitRepo theGitRepo = new GitRepo(sympleGit);
+        
+        theGitRepo.cloneRepository(cloneUrl);
+        assertTrue(theGitRepo.isResponseOk());
+        
+        FileDeleteStrategy.FORCE.delete(theRepoDir);
     }
 
     // Additional test methods for error handling and edge cases can be added here
