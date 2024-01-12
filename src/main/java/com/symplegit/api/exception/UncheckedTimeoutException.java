@@ -1,30 +1,23 @@
 /*
- * This file is part of SympleGit. 
- * SympleGit: Git in Java for the rest of us.                                     
- * Copyright (C) 2024,  KawanSoft SAS.
- * (http://www.kawansoft.com). All rights reserved.                                
- *                                                                               
- * SympleGit is free software; you can redistribute it and/or                 
- * modify it under the terms of the GNU Lesser General Public                    
- * License as published by the Free Software Foundation; either                  
- * version 2.1 of the License, or (at your option) any later version.            
- *                                                                               
- * SympleGit is distributed in the hope that it will be useful,               
- * but WITHOUT ANY WARRANTY; without even the implied warranty of                
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU             
- * Lesser General Public License for more details.                               
- *                                                                               
- * You should have received a copy of the GNU Lesser General Public              
- * License along with this library; if not, write to the Free Software           
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
- * 02110-1301  USA
+ * This file is part of SympleGit
+ * SympleGit: Straightforward  Git in Java. Follows 
+ *           'AI-Extensible Open Source Software' pattern
+ * Copyright (C) 2024,  KawanSoft SAS
+ * (http://www.kawansoft.com). All rights reserved.
  *
- * Any modifications to this file must keep this entire header
- * intact.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-
 package com.symplegit.api.exception;
-
 /**
  * UncheckedTimeoutException is a runtime exception that represents a timeout condition.
  * This exception is typically used to wrap a checked {@link java.util.concurrent.TimeoutException}
@@ -39,6 +32,7 @@ package com.symplegit.api.exception;
  * operation flow. It's intended to signal a significant problem that a reasonable application
  * might want to catch, but it's not compelled to do so.</p>
  */
+
 public class UncheckedTimeoutException extends RuntimeException {
     
     /**

@@ -1,7 +1,7 @@
 # SympleGit
 <img src="https://www.symplegit.com/img/arrow_fork2.png" />
 
-A simple Git wrapper in Java for the rest of us, extendable with Artificial Intelligence.
+A simple Git wrapper in Java, easily extendable with Artificial Intelligence.
 
 ## What is SympleGit?
 
@@ -9,7 +9,7 @@ SympleGit is a minimalist but robust and extendable Java Git implementation that
 
 1. It supports one to one calls corresponding to Git command line calls.
 2. It has wrappers classes for main Git actions, with easy names to use.
-3. It is extendable & customizable using Artificial Intelligence following the AI-XOSS doctrine.
+3. It is extendable & customizable using Artificial Intelligence following the AI-XOSS (AI-Extendable Open Source Software) pattern, this will be detailed.
 
 ## Why choose SympleGit when there is already JGit?
 
@@ -19,7 +19,7 @@ JGit was designed to manage Git full support in Eclipse, implementing all sophis
 
 If you want to develop a Java editor and add to Git management: [install JGit](https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit).
 
-But, on the other side, the API has a learning curve and there is no direct and one to one support for CLI actions. SympleGit  should thus be easier than JGit for simple Git integration in many Java projects. Let's jump into details!
+But, on the other side, the API has a learning curve and there is no direct and one to one support for CLI actions. SympleGit  should thus be easier than JGit for simple Git integration in many Java projects that use basic Git actions. Let's jump into details!
 
 ## Choosing SympleGit Over JGit: Understanding the Advantages
 
@@ -29,7 +29,6 @@ For example, using JGit for staging files, you must always use the API:
 
 ```java
 // Staging files with JGIT
-//
 
 final File localPath;
 
@@ -49,6 +48,7 @@ try (Repository repository = CookbookHelper.createNewRepository()) {
         // run the add-call
         git.add()
             .addFilepattern("testfile")
+			.addFilepattern("testFile2")
             .call();
 
         System.out.println("Added file " + myFile + " to repository at " + repository.getDirectory());
