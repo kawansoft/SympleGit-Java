@@ -37,7 +37,7 @@ import com.symplegit.api.SympleGit;
 import com.symplegit.facilitator.api.GitBranchModify;
 import com.symplegit.test.util.GitTestUtils;
 
-public class GitBranchModifierTest {
+public class GitBranchModifyTest {
 
     private GitBranchModify branchModifier;
     private SympleGit sympleGit;

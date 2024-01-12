@@ -39,7 +39,7 @@ import com.symplegit.api.SympleGit;
 import com.symplegit.facilitator.api.GitBranchRead;
 import com.symplegit.test.util.GitTestUtils;
 
-public class GitBranchReaderTest {
+public class GitBranchReadTest {
 
     private GitBranchRead branchReader;
     private SympleGit sympleGit;

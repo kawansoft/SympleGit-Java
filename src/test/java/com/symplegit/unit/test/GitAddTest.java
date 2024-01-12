@@ -41,7 +41,7 @@ import com.symplegit.api.SympleGit;
 import com.symplegit.facilitator.api.GitAdd;
 import com.symplegit.test.util.GitTestUtils;
 
-public class GitAdderTest {
+public class GitAddTest {
 
     private GitAdd gitAdd;
     private SympleGit sympleGit;

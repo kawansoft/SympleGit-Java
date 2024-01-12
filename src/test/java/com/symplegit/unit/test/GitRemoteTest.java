@@ -82,8 +82,6 @@ public class GitRemoteTest {
     public void testPullChanges() throws IOException {
         // This test requires the remote to have changes that can be pulled
         remoteManager.pullChanges("origin", "master");
-        
-        System.out.println("remoteManager.getError(): " + remoteManager.getError());
         assertTrue(remoteManager.isResponseOk(), "Pull operation should be successful");
     }
 

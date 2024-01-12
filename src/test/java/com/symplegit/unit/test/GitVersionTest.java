@@ -12,7 +12,7 @@ import com.symplegit.api.SympleGit;
 import com.symplegit.facilitator.api.GitVersion;
 import com.symplegit.test.util.GitTestUtils;
 
-public class GetVersionTest {
+public class GitVersionTest {
 
     private GitVersion gitVersion;
     private File repoDir;
