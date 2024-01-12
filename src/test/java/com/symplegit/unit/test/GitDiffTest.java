@@ -51,7 +51,7 @@ public class GitDiffTest {
     
     @BeforeEach
     public void setUp() throws IOException {
-        repoDir = GitTestUtils.createTemporaryGitRepo(); 
+        repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo(); 
 	sympleGit = SympleGit.custom()
                 .setDirectory(repoDir)
                 .build();

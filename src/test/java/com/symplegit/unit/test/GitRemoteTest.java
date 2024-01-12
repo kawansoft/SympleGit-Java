@@ -49,7 +49,7 @@ public class GitRemoteTest {
     @BeforeEach
     public void setUp() throws IOException {
         // Create a temporary Git repository for testing
-        repoDir = GitTestUtils.createTemporaryGitRepo();
+        repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo();
 	sympleGit = SympleGit.custom()
                 .setDirectory(repoDir)
                 .build();

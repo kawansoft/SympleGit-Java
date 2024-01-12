@@ -45,7 +45,7 @@ public class GitBranchModifyTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        File repoDir = GitTestUtils.createTemporaryGitRepo();
+        File repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo();
 	sympleGit = SympleGit.custom()
                 .setDirectory(repoDir)
                 .build();

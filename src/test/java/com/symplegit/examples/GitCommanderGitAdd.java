@@ -44,7 +44,7 @@ public class GitCommanderGitAdd {
 	// Replace this with the path to your Git repository
 	String repoDirectoryPath = "/path/to/my/git/repository";
 
-	repoDirectoryPath = GitTestUtils.createTemporaryGitRepo().toString();
+	repoDirectoryPath = GitTestUtils.createIfNotTexistsTemporaryGitRepo().toString();
 	
 	directApi(repoDirectoryPath);
 	facilitatorApi(repoDirectoryPath);

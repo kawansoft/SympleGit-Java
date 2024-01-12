@@ -12,7 +12,7 @@ import com.symplegit.test.util.GitTestUtils;
 public class GitCommanderGitLog {
     
     public static void main(String[] args) throws Exception {
-	String repoDirectoryPath = GitTestUtils.createTemporaryGitRepo().toString();
+	String repoDirectoryPath = GitTestUtils.createIfNotTexistsTemporaryGitRepo().toString();
 
 	boolean manual = false;
 	

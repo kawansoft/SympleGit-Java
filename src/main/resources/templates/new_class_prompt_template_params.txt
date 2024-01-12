@@ -27,10 +27,13 @@ ${0}=GitRemote
 ${1}=Methods: fetchRemote(remoteName), pushChanges(remoteName, branchName), pullChanges(remoteName, branchName), listRemotes()
 ${2}=For operations on remote repositories.
 
-// To be done
 ${0}=GitRepo
 ${1}=Methods: cloneRepository(repoUrl), initializeRepository(), getRepositoryStatus(), addRemote(name, url), removeRemote(name)
 ${2}=For repository-wide operations.
+
+// To be done
+
+
 
 ${0}=GitConfig
 ${1}=Methods: getUserConfig(), setUserConfig(userName, userEmail), getGlobalConfig(), setGlobalConfig(configKey, configValue)

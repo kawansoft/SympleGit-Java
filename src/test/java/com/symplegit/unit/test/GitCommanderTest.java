@@ -47,7 +47,7 @@ public class GitCommanderTest {
 
     @Test
     public void testSuccessfulCommandExecution() throws IOException {
-        tempRepo = GitTestUtils.createTemporaryGitRepo();
+        tempRepo = GitTestUtils.createIfNotTexistsTemporaryGitRepo();
 	SympleGit sympleGit = SympleGit.custom()
                 .setDirectory(tempRepo)
                 .build();

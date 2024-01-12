@@ -10,7 +10,7 @@ import com.symplegit.test.util.GitTestUtils;
 public class GitCommanderListBranches {
 
     public static void main(String[] args) throws IOException {
-	String repoDirectoryPath = GitTestUtils.createTemporaryGitRepo().toString();
+	String repoDirectoryPath = GitTestUtils.createIfNotTexistsTemporaryGitRepo().toString();
 
 	// List all branches of a repo and print them 
 	final SympleGit sympleGit = SympleGit.custom()

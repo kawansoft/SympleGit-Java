@@ -49,7 +49,7 @@ public class GitAddTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        repoDir = GitTestUtils.createTemporaryGitRepo();
+        repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo();
         assertTrue(repoDir.exists(), "Git repository directory does not exist.");
 
 	sympleGit = SympleGit.custom()
@@ -119,7 +119,7 @@ public class GitAddTest {
 
     @AfterAll
     public static void cleanAll() throws IOException {
-        File repoDir = GitTestUtils.createTemporaryGitRepo();
+        File repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo();
         assertTrue(repoDir.exists(), "Git repository directory does not exist.");
 
 	SympleGit sympleGit = SympleGit.custom()

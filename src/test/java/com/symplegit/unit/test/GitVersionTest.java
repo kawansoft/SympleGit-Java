@@ -20,7 +20,7 @@ public class GitVersionTest {
     @BeforeEach
     public void setUp() throws IOException {
         // Create a temporary Git repository
-        repoDir = GitTestUtils.createTemporaryGitRepo();
+        repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo();
 	final SympleGit sympleGit = SympleGit.custom()
                 .setDirectory(repoDir)
                 .build();

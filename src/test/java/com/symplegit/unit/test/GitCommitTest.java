@@ -25,7 +25,7 @@ public class GitCommitTest {
     
     @BeforeEach
     void setUp() throws IOException {
-        repoDir = GitTestUtils.createTemporaryGitRepo(); // Utilize existing GitTestUtils class
+        repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo(); // Utilize existing GitTestUtils class
         
 	sympleGit = SympleGit.custom()
                 .setDirectory(repoDir)
