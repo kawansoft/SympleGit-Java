@@ -54,7 +54,7 @@ public class GitCommandSpliter {
 	// --since="1 week ago" --author="Jane Doe" --grep="feature" -p file1.txt
 	// file2.txt
 
-	// GitBranchReader gitBranch = new GitBranchReader(sympleGit);
+	// GitBranchRead gitBranch = new GitBranchRead(sympleGit);
 	// System.out.println("Default branch: " + gitBranch.getActiveBranch());
 
 	String string = "git commit -m \"test commit\" -b \"test2 commit2\" -c --author=\"test2 commit2\" ";

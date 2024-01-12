@@ -36,12 +36,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitBranchReader;
+import com.symplegit.facilitator.api.GitBranchRead;
 import com.symplegit.test.util.GitTestUtils;
 
 public class GitBranchReaderTest {
 
-    private GitBranchReader branchReader;
+    private GitBranchRead branchReader;
     private SympleGit sympleGit;
     private File tempRepo;
 
@@ -51,7 +51,7 @@ public class GitBranchReaderTest {
 	sympleGit = SympleGit.custom()
                 .setDirectory(tempRepo)
                 .build();
-        branchReader = new GitBranchReader(sympleGit);
+        branchReader = new GitBranchRead(sympleGit);
     }
 
 //    @Test
@@ -59,7 +59,7 @@ public class GitBranchReaderTest {
 //	
 //	String activeBranch = branchReader.getActiveBranch();
 //	if (!activeBranch.equals("master")) {
-//	    GitBranchModifier gitBranchModifier = new GitBranchModifier(sympleGit);
+//	    GitBranchModify gitBranchModifier = new GitBranchModify(sympleGit);
 //	    gitBranchModifier.switchBranch("master");
 //	}
 //

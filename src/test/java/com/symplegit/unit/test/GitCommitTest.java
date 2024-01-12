@@ -12,13 +12,13 @@ import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitCommitter;
+import com.symplegit.facilitator.api.GitCommit;
 import com.symplegit.test.util.GitTestUtils;
 
-public class GitCommitterTest {
+public class GitCommitTest {
 
     private SympleGit sympleGit;
-    private GitCommitter gitCommitter;
+    private GitCommit gitCommit;
     private File repoDir;
 
     private String latestCommitHash;
@@ -31,7 +31,7 @@ public class GitCommitterTest {
                 .setDirectory(repoDir)
                 .build();
         
-        gitCommitter = new GitCommitter(sympleGit);
+        gitCommit = new GitCommit(sympleGit);
         
     }
 
@@ -46,16 +46,16 @@ public class GitCommitterTest {
         gitCommander.executeGitCommand("git", "add", ".");
 
         if (! gitCommander.isResponseOk()) {
-            System.out.println("gitCommander.getProcessError(): " + gitCommitter.getError());
+            System.out.println("gitCommander.getProcessError(): " + gitCommit.getError());
         }
         
-        gitCommitter.commitChanges("\"Initial commit\"");
+        gitCommit.commitChanges("\"Initial commit\"");
 
-        if (! gitCommitter.isResponseOk()) {
-            System.out.println("gitCommitter.getProcessError(): " + gitCommitter.getError());
+        if (! gitCommit.isResponseOk()) {
+            System.out.println("gitCommit.getProcessError(): " + gitCommit.getError());
         }
         
-        assertTrue(gitCommitter.isResponseOk(), "Commit should be successful");
+        assertTrue(gitCommit.isResponseOk(), "Commit should be successful");
         file.delete();
         
     }
@@ -73,19 +73,19 @@ public class GitCommitterTest {
             System.out.println("gitCommander.getProcessError(): " + gitCommander.getProcessError());
         }
         
-        gitCommitter.commitChanges("Ammend commit");
+        gitCommit.commitChanges("Ammend commit");
         
-        if (! gitCommitter.isResponseOk()) {
-            System.out.println("gitCommitter.getProcessError(): " + gitCommitter.getError());
+        if (! gitCommit.isResponseOk()) {
+            System.out.println("gitCommit.getProcessError(): " + gitCommit.getError());
         }
         
-        gitCommitter.amendCommit("ammend message");
+        gitCommit.amendCommit("ammend message");
         
-        if (! gitCommitter.isResponseOk()) {
-            System.out.println("gitCommander.getProcessError(): " + gitCommitter.getError());
+        if (! gitCommit.isResponseOk()) {
+            System.out.println("gitCommander.getProcessError(): " + gitCommit.getError());
         }
                 
-        assertTrue(gitCommitter.isResponseOk(), "Amend commit should be successful");
+        assertTrue(gitCommit.isResponseOk(), "Amend commit should be successful");
         file.delete();
 
     }
@@ -96,8 +96,8 @@ public class GitCommitterTest {
     
     @Test
     public void testGetCommitHistory() throws IOException {
-        gitCommitter.commitChanges("Initial commit");
-        String commitHistory = gitCommitter.getCommitHistory();
+        gitCommit.commitChanges("Initial commit");
+        String commitHistory = gitCommit.getCommitHistory();
         assertNotNull(commitHistory, "Commit history should not be null");
     }
 
@@ -111,7 +111,7 @@ public class GitCommitterTest {
             latestCommitHash = gitCommander.getProcessOutput().trim();
         }
         
-        String commitDetails = gitCommitter.getCommitDetails(latestCommitHash);
+        String commitDetails = gitCommit.getCommitDetails(latestCommitHash);
         assertNotNull(commitDetails, "Commit details should not be null");
     }
 

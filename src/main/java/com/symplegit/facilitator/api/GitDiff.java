@@ -25,90 +25,69 @@
 package com.symplegit.facilitator.api;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * GitCommitter provides functionality for handling Git commits.
- * It includes methods for committing changes, amending commits, and retrieving commit history.
- * This class implements the GitWrapper interface and uses GitCommander for command execution.
+ * The GitDiff class is responsible for providing functionalities
+ * to compare changes in a Git repository. It supports comparing differences
+ * between two commits, viewing staged differences, and viewing differences
+ * in a specific file.
  * 
+ * @author Nicolas de Pomereu
  * @author GPT-4
  */
-public class GitCommitter implements GitWrapper {
+public class GitDiff implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitCommitter with a specified SympleGit instance.
+     * Constructs a GitDiff with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitCommitter(SympleGit sympleGit) {
+    public GitDiff(SympleGit sympleGit) {
         this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
-     * Commits changes with the provided commit message.
+     * Gets the diff between two commits.
      *
-     * @param message The commit message.
+     * @param commitHash1 The hash of the first commit.
+     * @param commitHash2 The hash of the second commit.
+     * @return The diff output as a String.
      * @throws IOException If an error occurs during command execution.
      */
-    public void commitChanges(String message) throws IOException {
-        executeGitCommandWithErrorHandler("git", "commit", "-m", message );
+    public String getDiff(String commitHash1, String commitHash2) throws IOException {
+        executeGitCommandWithErrorHandler("git", "diff", commitHash1, commitHash2);
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
     /**
-     * Amends the last commit.
+     * Gets the diff of currently staged changes.
      *
+     * @return The staged diff output as a String.
      * @throws IOException If an error occurs during command execution.
      */
-    public void amendCommit(String message) throws IOException {
-        executeGitCommandWithErrorHandler("git", "commit", "--amend", "-m", message );
+    public String getStagedDiff() throws IOException {
+        executeGitCommandWithErrorHandler("git", "diff", "--staged");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
     /**
-     * Retrieves the commit history of the current branch as String.
-     * Will throw an IOException if the result is > 10Mb.
-     * @return A String containing the commit history.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public String getCommitHistory() throws IOException {
-        executeGitCommandWithErrorHandler("git", "--no-pager", "log");
-        
-        if (!gitCommander.isResponseOk()) {
-            return null;
-        }
-        
-        return gitCommander.getProcessOutput().trim();
-    }
-
-    /**
-     * Retrieves the commit history of the current branch as an InputStream.
+     * Gets the diff for a specific file.
      *
-     * @return A InputStream pointing on the commit history.
+     * @param filePath The path to the file.
+     * @return The file diff output as a String.
      * @throws IOException If an error occurs during command execution.
      */
-    public InputStream getCommitHistoryAsStream() throws IOException {
-        executeGitCommandWithErrorHandler("git", "--no-pager", "log");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessErrorAsInputStream() : null;
-    }
-    
-    /**
-     * Retrieves details of a specific commit given its hash.
-     *
-     * @param commitHash The hash of the commit.
-     * @return A String containing the details of the specified commit.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public String getCommitDetails(String commitHash) throws IOException {
-        executeGitCommandWithErrorHandler("git", "show", commitHash);
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput().trim() : null;
+    public String getFileDiff(String filePath) throws IOException {
+        executeGitCommandWithErrorHandler("git", "diff", filePath);
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
     /**
@@ -119,8 +98,7 @@ public class GitCommitter implements GitWrapper {
      */
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
         gitCommander.executeGitCommand(command);
-
-        if (!gitCommander.isResponseOk()) {            
+        if (!gitCommander.isResponseOk()) {
             errorMessage = gitCommander.getProcessError();
             exception = gitCommander.getException();
         }
@@ -141,4 +119,3 @@ public class GitCommitter implements GitWrapper {
         return exception;
     }
 }
-

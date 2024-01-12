@@ -34,15 +34,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitRemoteManager;
+import com.symplegit.facilitator.api.GitRemote;
 import com.symplegit.test.util.GitTestUtils;
 
 /**
- * Unit tests for the GitRemoteManager class.
+ * Unit tests for the GitRemote class.
  */
-public class GitRemoteManagerTest {
+public class GitRemoteTest {
 
-    private GitRemoteManager remoteManager;
+    private GitRemote remoteManager;
     private SympleGit sympleGit;
     private File repoDir;
 
@@ -53,7 +53,7 @@ public class GitRemoteManagerTest {
 	sympleGit = SympleGit.custom()
                 .setDirectory(repoDir)
                 .build();
-        remoteManager = new GitRemoteManager(sympleGit);
+        remoteManager = new GitRemote(sympleGit);
 
         // Set up a remote repository for testing
         // For example, you might want to set up a test remote repository

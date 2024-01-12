@@ -40,15 +40,15 @@ import com.symplegit.api.SympleGit;
 import com.symplegit.util.FrameworkDebug;
 
 /**
- * The GitBranchReader class provides functionalities to read the status of a branch, test if a branch exists,
+ * The GitBranchRead class provides functionalities to read the status of a branch, test if a branch exists,
  * list all local branches, list all remote branches.
  * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands.
  * 
  * @author Nicolas de Pomereu
  */
-public class GitBranchReader {
+public class GitBranchRead {
 
-    public static boolean DEBUG = FrameworkDebug.isSet(GitBranchReader.class);
+    public static boolean DEBUG = FrameworkDebug.isSet(GitBranchRead.class);
     
     private String outputString = null;
     
@@ -58,7 +58,7 @@ public class GitBranchReader {
 
     private SympleGit sympleGit;
     
-    public GitBranchReader(SympleGit sympleGit) {
+    public GitBranchRead(SympleGit sympleGit) {
         this.sympleGit = Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
 
         if (!this.sympleGit.getDirectory().isDirectory()) {

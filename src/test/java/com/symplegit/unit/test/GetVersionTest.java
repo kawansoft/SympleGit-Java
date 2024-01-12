@@ -9,12 +9,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GetVersion;
+import com.symplegit.facilitator.api.GitVersion;
 import com.symplegit.test.util.GitTestUtils;
 
 public class GetVersionTest {
 
-    private GetVersion getVersion;
+    private GitVersion gitVersion;
     private File repoDir;
 
     @BeforeEach
@@ -24,13 +24,13 @@ public class GetVersionTest {
 	final SympleGit sympleGit = SympleGit.custom()
                 .setDirectory(repoDir)
                 .build();
-        getVersion = new GetVersion(sympleGit);
+        gitVersion = new GitVersion(sympleGit);
     }
 
     @Test
     public void testGetVersion() throws IOException {
-        // Execute the getVersion method
-        String gitVersion = getVersion.getVersion();
+        // Execute the gitVersion method
+        String gitVersion = this.gitVersion.getVersion();
 
         // Check that the returned version string is not null and contains expected content
         assertNotNull(gitVersion, "Git version should not be null");

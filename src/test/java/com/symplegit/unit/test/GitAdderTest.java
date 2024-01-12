@@ -38,12 +38,12 @@ import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitAdder;
+import com.symplegit.facilitator.api.GitAdd;
 import com.symplegit.test.util.GitTestUtils;
 
 public class GitAdderTest {
 
-    private GitAdder gitAdder;
+    private GitAdd gitAdd;
     private SympleGit sympleGit;
     private File repoDir;
 
@@ -56,7 +56,7 @@ public class GitAdderTest {
                 .setDirectory(repoDir)
                 .build();
         
-        gitAdder = new GitAdder(sympleGit);
+        gitAdd = new GitAdd(sympleGit);
     }
 
     @Test
@@ -66,11 +66,11 @@ public class GitAdderTest {
         assertTrue(newFile.createNewFile());
 
         // Add all changes to the staging area
-        gitAdder.addAll();
+        gitAdd.addAll();
 
         // Verify that the file is staged (you would ideally check the status using GitCommander)
         // This part is a placeholder for actual verification of git status
-        assertTrue(gitAdder.isResponseOk(), "Add all operation should succeed.");
+        assertTrue(gitAdd.isResponseOk(), "Add all operation should succeed.");
     }
 
     @Test
@@ -80,10 +80,10 @@ public class GitAdderTest {
         assertTrue(newFile.createNewFile());
 
         // Add the specific file to the staging area
-        gitAdder.add(Collections.singletonList(newFile.getAbsolutePath()));
+        gitAdd.add(Collections.singletonList(newFile.getAbsolutePath()));
 
         // Verify that the specific file is staged
-        assertTrue(gitAdder.isResponseOk(), "Add operation for specific file should succeed.");
+        assertTrue(gitAdd.isResponseOk(), "Add operation for specific file should succeed.");
     }
 
     @Test
@@ -95,10 +95,10 @@ public class GitAdderTest {
         assertTrue(newFile2.createNewFile());
 
         // Add multiple files to the staging area
-        gitAdder.addFiles(Arrays.asList(newFile1, newFile2));
+        gitAdd.addFiles(Arrays.asList(newFile1, newFile2));
 
         // Verify that the files are staged
-        assertTrue(gitAdder.isResponseOk(), "Add operation for multiple files should succeed.");
+        assertTrue(gitAdd.isResponseOk(), "Add operation for multiple files should succeed.");
     }
 
     

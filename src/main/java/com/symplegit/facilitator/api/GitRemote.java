@@ -31,62 +31,79 @@ import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GitDiffAnalyzer class is responsible for providing functionalities
- * to compare changes in a Git repository. It supports comparing differences
- * between two commits, viewing staged differences, and viewing differences
- * in a specific file.
+ * The GitRemote class is responsible for managing remote repository operations.
+ * It provides functionalities to fetch, push, pull and list remote repositories.
+ * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
  * 
  * @author Nicolas de Pomereu
  * @author GPT-4
  */
-public class GitDiffAnalyzer implements GitWrapper {
+public class GitRemote implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitDiffAnalyzer with a specified SympleGit instance.
+     * Constructs a GitRemote with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitDiffAnalyzer(SympleGit sympleGit) {
+    public GitRemote(SympleGit sympleGit) {
         this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
-     * Gets the diff between two commits.
+     * Adds a new remote repository.
      *
-     * @param commitHash1 The hash of the first commit.
-     * @param commitHash2 The hash of the second commit.
-     * @return The diff output as a String.
+     * @param remoteName The name of the remote repository.
+     * @param remoteUrl The URL of the remote repository.
      * @throws IOException If an error occurs during command execution.
      */
-    public String getDiff(String commitHash1, String commitHash2) throws IOException {
-        executeGitCommandWithErrorHandler("git", "diff", commitHash1, commitHash2);
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+    public void addRemote(String remoteName, String remoteUrl) throws IOException {
+        executeGitCommandWithErrorHandler("git", "remote", "add", remoteName, remoteUrl);
+    }
+    
+    /**
+     * Fetches updates from a specified remote repository.
+     *
+     * @param remoteName The name of the remote repository.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public void fetchRemote(String remoteName) throws IOException {
+        executeGitCommandWithErrorHandler("git", "fetch", remoteName);
     }
 
     /**
-     * Gets the diff of currently staged changes.
+     * Pushes changes to a specified remote repository and branch.
      *
-     * @return The staged diff output as a String.
+     * @param remoteName The name of the remote repository.
+     * @param branchName The name of the branch to push changes to.
      * @throws IOException If an error occurs during command execution.
      */
-    public String getStagedDiff() throws IOException {
-        executeGitCommandWithErrorHandler("git", "diff", "--staged");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+    public void pushChanges(String remoteName, String branchName) throws IOException {
+        executeGitCommandWithErrorHandler("git", "push", remoteName, branchName);
     }
 
     /**
-     * Gets the diff for a specific file.
+     * Pulls changes from a specified remote repository and branch.
      *
-     * @param filePath The path to the file.
-     * @return The file diff output as a String.
+     * @param remoteName The name of the remote repository.
+     * @param branchName The name of the branch to pull changes from.
      * @throws IOException If an error occurs during command execution.
      */
-    public String getFileDiff(String filePath) throws IOException {
-        executeGitCommandWithErrorHandler("git", "diff", filePath);
+    public void pullChanges(String remoteName, String branchName) throws IOException {
+        executeGitCommandWithErrorHandler("git", "pull", remoteName, branchName);
+    }
+
+    /**
+     * Lists all remote repositories configured.
+     *
+     * @return The list of configured remote repositories.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public String listRemotes() throws IOException {
+        executeGitCommandWithErrorHandler("git", "remote", "-v");
         return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 

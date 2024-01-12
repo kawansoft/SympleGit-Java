@@ -9,7 +9,7 @@ SympleGit is a minimalist but robust and extendable Java Git implementation that
 
 1. It supports one to one calls corresponding to Git command line calls.
 2. It has wrappers classes for main Git actions, with easy names to use.
-3. It is extendable & customizable using Artificial Intelligence  following the AI-XOSS doctrine.
+3. It is extendable & customizable using Artificial Intelligence following the AI-XOSS doctrine.
 
 ## Why choose SympleGit when there is already JGit?
 
@@ -107,7 +107,7 @@ The `GitCommander` API allows to call any Git command, whatever the command and 
 ### Short Outpout 
 
 ```java
-// List all branches of a repo and print them 
+// List all branches of a repo and print them on console
 String repoDirectoryPath = "/path/to/repo";
 final SympleGit sympleGit = SympleGit.custom()
     .setDirectory(repoDirectoryPath)
@@ -117,25 +117,16 @@ GitCommander gitCommander = sympleGit.gitCommander();
 gitCommander.executeGitCommand("git", "branch", "-a");
 
 if (! gitCommander.isResponseOk()) {
-    System.out.println("An Error occured: " + gitCommander.getProcessError());
+    System.out.println("An Error Occured: " + gitCommander.getProcessError());
     return;
 }
 
-// OK
+// OK, display branches on console
 String[] branches = gitCommander.getProcessOutput().split("\n");
 for (String branch : branches) {
-        System.out.println(branch);
+	System.out.println(branch);
 }
 ```
-
-it will print:
-
-```bash
-* master
-  remotes/origin/master
-```
-
-
 
 ### Large Output 
 
@@ -145,9 +136,11 @@ This example  of the command provides full commit messages and metadata for each
 
 Retrieving commit messages and metadata:
 
-### Setting Timeout
+### Setting a Timeout
 
 ## The Facilitator API
 
 ## Extending SympleGit API using Artificial Intelligence (ai-xoss)
+
+### List Files: create create in a flash the FilesLister Class
 

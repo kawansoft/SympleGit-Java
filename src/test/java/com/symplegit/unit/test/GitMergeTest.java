@@ -25,6 +25,8 @@
 
 package com.symplegit.unit.test;
 
+
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -35,15 +37,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitTagger;
+import com.symplegit.facilitator.api.GitMerge;
 import com.symplegit.test.util.GitTestUtils;
 
-/**
- * Unit tests for the GitTagger class.
- */
-public class GitTaggerTest {
+public class GitMergeTest {
 
-    private GitTagger gitTagger;
+    private GitMerge gitMerge;
     private SympleGit sympleGit;
     private File repoDir;
 
@@ -53,31 +52,45 @@ public class GitTaggerTest {
 	sympleGit = SympleGit.custom()
                 .setDirectory(repoDir)
                 .build();
-        gitTagger = new GitTagger(sympleGit);
+        gitMerge = new GitMerge(sympleGit);
+
+        // Setup repository with two branches
+        setupRepositoryWithBranches();
+    }
+
+    private void setupRepositoryWithBranches() throws IOException {
+        GitTestUtils.makeInitialCommit(repoDir);
+        GitTestUtils.createAndCheckoutBranch(repoDir, "feature-branch");
+        GitTestUtils.makeCommit(repoDir, "Feature commit");
+        GitTestUtils.checkoutBranch(repoDir, "master");
     }
 
     @Test
-    public void testCreateTag() throws IOException {
-        String tagName = "test-tag";
-        String commitHash = "HEAD"; // Assuming there's at least one commit in the repo
-
-        gitTagger.createTag(tagName, commitHash);
-        assertTrue(gitTagger.isResponseOk(), "Tag creation should be successful");
+    public void testMergeBranches() throws IOException {
+        gitMerge.mergeBranches("master", "feature-branch");
+        assertTrue(gitMerge.isResponseOk(), "Merge should be successful");
     }
 
+    /*
+     * FUTURE USAGE
     @Test
-    public void testDeleteTag() throws IOException {
-        String tagName = "test-tag";
-        gitTagger.createTag(tagName, "HEAD"); // Create a tag to delete
+    public void testAbortMerge() throws IOException {
+        // Creating a conflict
+        GitTestUtils.createConflict(repoDir, "feature-branch", "master");
 
-        gitTagger.deleteTag(tagName);
-        assertTrue(gitTagger.isResponseOk(), "Tag deletion should be successful");
+        // Attempting merge and then aborting
+        gitMerge.mergeBranches("master", "feature-branch");
+        assertFalse(gitMerge.isResponseOk(), "Merge should fail due to conflict");
+
+        gitMerge.abortMerge();
+        assertTrue(gitMerge.isResponseOk(), "Abort merge should be successful");
     }
-
+    */
+    
     @Test
-    public void testListTags() throws IOException {
-        String output = gitTagger.listTags();
-        assertNotNull(output, "Should return a list of tags");
+    public void testGetMergeStatus() throws IOException {
+        String mergeStatus = gitMerge.getMergeStatus();
+        assertNotNull(mergeStatus, "Should be able to retrieve merge status");
     }
 
     // Additional methods to clean up and delete the temporary repository could be added

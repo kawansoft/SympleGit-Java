@@ -24,104 +24,104 @@
  */
 package com.symplegit.facilitator.api;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GitBranchModifier class provides functionalities to create, delete, and rename branches in a Git repository.
- * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands.
+ * The GitAdd class allows adding all changed files, or specific files to the staging area.
+ * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
  * 
  * @author GPT-4
  */
-public class GitBranchModifier implements GitWrapper {
+public class GitAdd implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitBranchModifier with a specified SympleGit instance.
+     * Constructs a GitAdd with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitBranchModifier(SympleGit sympleGit) {
+    public GitAdd(SympleGit sympleGit) {
         this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
-     * Creates a new branch in the Git repository.
+     * Adds all changed files to the staging area.
      *
-     * @param branchName The name of the branch to be created.
      * @throws IOException If an error occurs during command execution.
      */
-    public void createBranch(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "branch", branchName);
+    public void addAll() throws IOException {
+        executeGitCommandWithErrorHandler("git", "add", ".");
     }
 
     /**
-     * Cautious delete of a branch from the Git repository. (-d option).
+     * Adds a list of specified file paths to the staging area.
      *
-     * @param branchName The name of the branch to be deleted.
+     * @param filenames The list of file names to be added.
      * @throws IOException If an error occurs during command execution.
      */
-    public void deleteBranch(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "branch", "-d", branchName);
+    public void add(List<String> filenames) throws IOException {
+        if (filenames == null || filenames.isEmpty()) {
+            throw new IllegalArgumentException("Filenames list cannot be null or empty.");
+        }
+        for (String file : filenames) {
+            executeGitCommandWithErrorHandler("git", "add", file);
+        }
+    }
+
+    /**
+     * Adds a list of specified file paths to the staging area.
+     *
+     * @param filenames The list of file names to be added.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public void add(String... filenames) throws IOException {
+        if (filenames == null || filenames.length ==0) {
+            throw new IllegalArgumentException("Filenames list cannot be null or empty.");
+        }
+        for (String file : filenames) {
+            executeGitCommandWithErrorHandler("git", "add", file);
+        }
     }
     
     /**
-     * Forces delete of a branch from the Git repository. (-D option).
+     * Adds a list of File objects to the staging area.
      *
-     * @param branchName The name of the branch to be deleted.
+     * @param files The list of File objects to be added.
      * @throws IOException If an error occurs during command execution.
      */
-    public void deleteBranchForce(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "branch", "-D", branchName);
-    }
-
-    /**
-     * Renames a branch in the Git repository.
-     *
-     * @param oldBranchName The current name of the branch.
-     * @param newBranchName The new name for the branch.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public void renameBranch(String oldBranchName, String newBranchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "branch", "-m", oldBranchName, newBranchName);
-    }
-
-    /**
-     * Pushes a local branch to the remote repository.
-     *
-     * @param branchName The name of the local branch to be pushed.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public void pushBranchToRemote(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "push", "origin", branchName);
-    }
-
-    /**
-     * Deletes a branch from the remote repository.
-     *
-     * @param branchName The name of the remote branch to be deleted.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public void deleteRemoteBranch(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "push", "origin", "--delete", branchName);
+    public void addFiles(File... files) throws IOException {
+        if (files == null || files.length == 0) {
+            throw new IllegalArgumentException("File list cannot be null or empty.");
+        }
+        for (File file : files) {
+            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
+        }
     }
     
     /**
-     * Switches to a specified branch in the Git repository.
+     * Adds a list of File objects to the staging area.
      *
-     * @param branchName The name of the branch to switch to.
+     * @param files The list of File objects to be added.
      * @throws IOException If an error occurs during command execution.
      */
-    public void switchBranch(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "switch", branchName);
+    public void addFiles(List<File> files) throws IOException {
+        if (files == null || files.isEmpty()) {
+            throw new IllegalArgumentException("File list cannot be null or empty.");
+        }
+        for (File file : files) {
+            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
+        }
     }
-    
+
     /**
      * Executes a Git command and handles errors generically.
      *
@@ -136,7 +136,6 @@ public class GitBranchModifier implements GitWrapper {
             exception = gitCommander.getException();
         }
     }
-    
 
     @Override
     public boolean isResponseOk() {

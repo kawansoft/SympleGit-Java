@@ -31,23 +31,23 @@ import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GitTagger class provides functionalities to manage tags in a Git repository.
+ * The GitTag class provides functionalities to manage tags in a Git repository.
  * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands related to tagging.
  * 
  * @author GPT-4
  */
-public class GitTagger implements GitWrapper {
+public class GitTag implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitTagger with a specified SympleGit instance.
+     * Constructs a GitTag with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitTagger(SympleGit sympleGit) {
+    public GitTag(SympleGit sympleGit) {
         this.gitCommander = sympleGit.gitCommander();
     }
 

@@ -24,102 +24,63 @@
  */
 package com.symplegit.facilitator.api;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GitAdder class allows adding all changed files, or specific files to the staging area.
- * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
+ * The GitMerge class provides functionalities to manage merging operations in a Git repository.
+ * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands related to merging.
  * 
  * @author GPT-4
  */
-public class GitAdder implements GitWrapper {
+public class GitMerge implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitAdder with a specified SympleGit instance.
+     * Constructs a GitMerge with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitAdder(SympleGit sympleGit) {
+    public GitMerge(SympleGit sympleGit) {
         this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
-     * Adds all changed files to the staging area.
+     * Merges the source branch into the target branch in the Git repository.
      *
+     * @param targetBranch The name of the target branch.
+     * @param sourceBranch The name of the source branch.
      * @throws IOException If an error occurs during command execution.
      */
-    public void addAll() throws IOException {
-        executeGitCommandWithErrorHandler("git", "add", ".");
+    public void mergeBranches(String targetBranch, String sourceBranch) throws IOException {
+        executeGitCommandWithErrorHandler("git", "checkout", targetBranch);
+        executeGitCommandWithErrorHandler("git", "merge", sourceBranch);
     }
 
     /**
-     * Adds a list of specified file paths to the staging area.
+     * Aborts an ongoing merge operation in the Git repository.
      *
-     * @param filenames The list of file names to be added.
      * @throws IOException If an error occurs during command execution.
      */
-    public void add(List<String> filenames) throws IOException {
-        if (filenames == null || filenames.isEmpty()) {
-            throw new IllegalArgumentException("Filenames list cannot be null or empty.");
-        }
-        for (String file : filenames) {
-            executeGitCommandWithErrorHandler("git", "add", file);
-        }
+    public void abortMerge() throws IOException {
+        executeGitCommandWithErrorHandler("git", "merge", "--abort");
     }
 
     /**
-     * Adds a list of specified file paths to the staging area.
+     * Retrieves the merge status of the Git repository.
      *
-     * @param filenames The list of file names to be added.
+     * @return A string indicating the current merge status.
      * @throws IOException If an error occurs during command execution.
      */
-    public void add(String... filenames) throws IOException {
-        if (filenames == null || filenames.length ==0) {
-            throw new IllegalArgumentException("Filenames list cannot be null or empty.");
-        }
-        for (String file : filenames) {
-            executeGitCommandWithErrorHandler("git", "add", file);
-        }
-    }
-    
-    /**
-     * Adds a list of File objects to the staging area.
-     *
-     * @param files The list of File objects to be added.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public void addFiles(File... files) throws IOException {
-        if (files == null || files.length == 0) {
-            throw new IllegalArgumentException("File list cannot be null or empty.");
-        }
-        for (File file : files) {
-            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
-        }
-    }
-    
-    /**
-     * Adds a list of File objects to the staging area.
-     *
-     * @param files The list of File objects to be added.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public void addFiles(List<File> files) throws IOException {
-        if (files == null || files.isEmpty()) {
-            throw new IllegalArgumentException("File list cannot be null or empty.");
-        }
-        for (File file : files) {
-            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
-        }
+    public String getMergeStatus() throws IOException {
+        executeGitCommandWithErrorHandler("git", "status");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
     /**

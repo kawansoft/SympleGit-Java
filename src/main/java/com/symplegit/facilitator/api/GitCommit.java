@@ -25,46 +25,90 @@
 package com.symplegit.facilitator.api;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GetVersion class provides the functionality to retrieve the current
- * version of Git. It implements the GitWrapper interface, using GitCommander to
- * execute the 'git --version' command.
+ * GitCommit provides functionality for handling Git commits.
+ * It includes methods for committing changes, amending commits, and retrieving commit history.
+ * This class implements the GitWrapper interface and uses GitCommander for command execution.
  * 
  * @author GPT-4
  */
-public class GetVersion implements GitWrapper {
+public class GitCommit implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GetVersion instance with a specified SympleGit instance.
+     * Constructs a GitCommit with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GetVersion(SympleGit sympleGit) {
+    public GitCommit(SympleGit sympleGit) {
         this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
-     * Retrieves the current Git version.
+     * Commits changes with the provided commit message.
      *
-     * @return The current Git version as a String.
+     * @param message The commit message.
      * @throws IOException If an error occurs during command execution.
      */
-    public String getVersion() throws IOException {
-        executeGitCommandWithErrorHandler("git", "--version");
+    public void commitChanges(String message) throws IOException {
+        executeGitCommandWithErrorHandler("git", "commit", "-m", message );
+    }
 
-        if (gitCommander.isResponseOk()) {
-            return gitCommander.getProcessOutput().trim();
+    /**
+     * Amends the last commit.
+     *
+     * @throws IOException If an error occurs during command execution.
+     */
+    public void amendCommit(String message) throws IOException {
+        executeGitCommandWithErrorHandler("git", "commit", "--amend", "-m", message );
+    }
+
+    /**
+     * Retrieves the commit history of the current branch as String.
+     * Will throw an IOException if the result is > 10Mb.
+     * @return A String containing the commit history.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public String getCommitHistory() throws IOException {
+        executeGitCommandWithErrorHandler("git", "--no-pager", "log");
+        
+        if (!gitCommander.isResponseOk()) {
+            return null;
         }
-        return null;
+        
+        return gitCommander.getProcessOutput().trim();
+    }
+
+    /**
+     * Retrieves the commit history of the current branch as an InputStream.
+     *
+     * @return A InputStream pointing on the commit history.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public InputStream getCommitHistoryAsStream() throws IOException {
+        executeGitCommandWithErrorHandler("git", "--no-pager", "log");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessErrorAsInputStream() : null;
+    }
+    
+    /**
+     * Retrieves details of a specific commit given its hash.
+     *
+     * @param commitHash The hash of the commit.
+     * @return A String containing the details of the specified commit.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public String getCommitDetails(String commitHash) throws IOException {
+        executeGitCommandWithErrorHandler("git", "show", commitHash);
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput().trim() : null;
     }
 
     /**
@@ -76,7 +120,7 @@ public class GetVersion implements GitWrapper {
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
         gitCommander.executeGitCommand(command);
 
-        if (!gitCommander.isResponseOk()) {
+        if (!gitCommander.isResponseOk()) {            
             errorMessage = gitCommander.getProcessError();
             exception = gitCommander.getException();
         }
@@ -97,3 +141,4 @@ public class GetVersion implements GitWrapper {
         return exception;
     }
 }
+

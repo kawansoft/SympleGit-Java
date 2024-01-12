@@ -34,15 +34,15 @@ import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitDiffAnalyzer;
+import com.symplegit.facilitator.api.GitDiff;
 import com.symplegit.test.util.GitTestUtils;
 
 /**
- * Unit tests for the GitDiffAnalyzer class.
+ * Unit tests for the GitDiff class.
  */
-public class GitDiffAnalyzerTest {
+public class GitDiffTest {
 
-    private GitDiffAnalyzer diffAnalyzer;
+    private GitDiff diffAnalyzer;
     private SympleGit sympleGit;
     private File repoDir;
 
@@ -55,7 +55,7 @@ public class GitDiffAnalyzerTest {
 	sympleGit = SympleGit.custom()
                 .setDirectory(repoDir)
                 .build();
-        diffAnalyzer = new GitDiffAnalyzer(sympleGit);
+        diffAnalyzer = new GitDiff(sympleGit);
         
         // Use GitCommander to retrieve the last two commit hashes
         GitCommander gitCommander = sympleGit.gitCommander();

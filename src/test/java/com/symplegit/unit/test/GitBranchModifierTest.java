@@ -34,12 +34,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitBranchModifier;
+import com.symplegit.facilitator.api.GitBranchModify;
 import com.symplegit.test.util.GitTestUtils;
 
 public class GitBranchModifierTest {
 
-    private GitBranchModifier branchModifier;
+    private GitBranchModify branchModifier;
     private SympleGit sympleGit;
     private static final String TEST_BRANCH = "testBranch";
 
@@ -49,14 +49,14 @@ public class GitBranchModifierTest {
 	sympleGit = SympleGit.custom()
                 .setDirectory(repoDir)
                 .build();
-        branchModifier = new GitBranchModifier(sympleGit);
+        branchModifier = new GitBranchModify(sympleGit);
     }
 
     @Test
     public void testCreateAndDeleteBranch() throws IOException {
 	
-	GitBranchModifier gitBranchModifier = new GitBranchModifier(sympleGit);
-	gitBranchModifier.switchBranch("master");
+	GitBranchModify gitBranchModify = new GitBranchModify(sympleGit);
+	gitBranchModify.switchBranch("master");
 	
 	// Force delete of the test branch if it still exists
 	branchModifier.deleteBranchForce(TEST_BRANCH);

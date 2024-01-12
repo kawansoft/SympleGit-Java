@@ -31,7 +31,7 @@ package com.symplegit.examples;
 import java.io.IOException;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitBranchReader;
+import com.symplegit.facilitator.api.GitBranchRead;
 
 /**
  *
@@ -46,8 +46,8 @@ public class GitBranchTest {
                 .setDirectory(repoDirectoryPath)
                 .build();
 	
-	GitBranchReader gitBranchReader = new GitBranchReader(sympleGit);
-	System.out.println(gitBranchReader.getLocalBranches());
-	System.out.println(gitBranchReader.getRemoteBranches());
+	GitBranchRead gitBranchRead = new GitBranchRead(sympleGit);
+	System.out.println(gitBranchRead.getLocalBranches());
+	System.out.println(gitBranchRead.getRemoteBranches());
     }
 }

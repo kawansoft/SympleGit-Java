@@ -32,7 +32,7 @@ import java.io.IOException;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitAdder;
+import com.symplegit.facilitator.api.GitAdd;
 import com.symplegit.test.util.GitTestUtils;
 
 /**
@@ -66,13 +66,13 @@ public class GitCommanderGitAdd {
 
     private static void facilitatorApi(String repoDirectoryPath) throws IOException {
 
-	// Staging files with SympleGit using GitAdder
+	// Staging files with SympleGit using GitAdd
 	final SympleGit sympleGit = SympleGit.custom()
                 .setDirectory(repoDirectoryPath)
                 .build();
 
-	GitAdder gitAdder = new GitAdder(sympleGit);
-	gitAdder.add("testFile", "testFile2");
+	GitAdd gitAdd = new GitAdd(sympleGit);
+	gitAdd.add("testFile", "testFile2");
 	
     }
 }
