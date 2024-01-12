@@ -1,14 +1,15 @@
 package com.symplegit.facilitator.api;
 
 import java.io.IOException;
+
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
  * The GitRepo class provides functionalities for managing a Git repository. It
- * includes methods to clone, initialize, and manage the status and remotes of
- * the repository.
+ * includes methods to clone, initialize, and manage the status and  of
+ * the remote repositories.
  * 
  * @author GPT-4
  */

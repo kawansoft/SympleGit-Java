@@ -37,7 +37,6 @@ import com.symplegit.api.SympleGit;
  * between two commits, viewing staged differences, and viewing differences
  * in a specific file.
  * 
- * @author Nicolas de Pomereu
  * @author GPT-4
  */
 public class GitDiff implements GitWrapper {
