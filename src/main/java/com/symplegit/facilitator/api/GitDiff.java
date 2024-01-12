@@ -25,6 +25,7 @@
 package com.symplegit.facilitator.api;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.GitWrapper;
@@ -76,6 +77,17 @@ public class GitDiff implements GitWrapper {
     public String getStagedDiff() throws IOException {
         executeGitCommandWithErrorHandler("git", "diff", "--staged");
         return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+    }
+    
+    /**
+     * Gets the diff of currently staged changes as an InputStream.
+     *
+     * @return The staged diff output as an InputStream.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public InputStream getStagedDiffAsStream() throws IOException {
+        executeGitCommandWithErrorHandler("git", "diff", "--staged");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutputAsInputStream():null;
     }
 
     /**
