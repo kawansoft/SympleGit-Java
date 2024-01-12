@@ -5,6 +5,5 @@ The unit tests are dependant on your remote Git server.
 
 Please check com.symplegit.test.util packages.
 
-The tests cannot all be run in Maven because of directory context.
 
 
