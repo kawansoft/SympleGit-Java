@@ -34,7 +34,7 @@ public class GitRepo implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void cloneRepository(String repoUrl) throws IOException {
-	executeGitCommandWithErrorHandler("git", "clone", "--no-pager", repoUrl);
+	executeGitCommandWithErrorHandler("git", "clone", repoUrl);
     }
 
     /**
@@ -43,7 +43,7 @@ public class GitRepo implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void initializeRepository() throws IOException {
-	executeGitCommandWithErrorHandler("git", "init", "--no-pager");
+	executeGitCommandWithErrorHandler("git", "init");
     }
 
     /**
@@ -53,7 +53,7 @@ public class GitRepo implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public String getRepositoryStatus() throws IOException {
-	executeGitCommandWithErrorHandler("git", "status", "--no-pager");
+	executeGitCommandWithErrorHandler("git", "status");
 	return gitCommander.isResponseOk() ? gitCommander.getProcessOutput().trim() : null;
     }
 

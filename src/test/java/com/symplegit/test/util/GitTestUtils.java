@@ -49,14 +49,7 @@ public class GitTestUtils {
         return tempDir;
     }
     
-    /**
-     * Gets the preprogrammed GitHub URL for the repo:
-     * File repoDir = GitTestUtils.createTemporaryGitRepo();
-     * @return the GitHub URL for the repo.
-     */
-    public static String getRemoteGitHubUrl() {
-	return "https://github.com/kawansoft/git_test_repo.git";
-    }
+
 
     public static void createAndCheckoutBranch(File repoDir, String branchName) throws IOException {
         executeGitCommand(repoDir, "git", "checkout", "-b", branchName);
