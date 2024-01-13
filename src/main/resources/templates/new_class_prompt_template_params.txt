@@ -3,25 +3,17 @@
  ${1}=addAll(), add(List<String> files), add(List<File> files)
  ${2}=Git add operations
  
-${0}=GitVersion
-${1}=getVersion()
-${2}=get Git version
-
 ${0}=GitCommit
 ${1}=Methods: commitChanges(message), amendCommit(), getCommitHistory(), getCommitDetails(commitHash)
 ${2}=To handle commits.
 
-${0}=GitTag
-${1}=Methods: createTag(tagName, commitHash), deleteTag(tagName), listTags()
-${2}=For tagging operations.
+${0}=GitDiff
+${1}=Methods: getDiff(commitHash1, commitHash2), getStagedDiff(), getFileDiff(filePath)
+${2}=To compare changes.
 
 ${0}=GitMerge
 ${1}=Methods: mergeBranches(targetBranch, sourceBranch), abortMerge(), getMergeStatus()
 ${2}=For merging branches.
-
-${0}=GitDiff
-${1}=Methods: getDiff(commitHash1, commitHash2), getStagedDiff(), getFileDiff(filePath)
-${2}=To compare changes.
 
 ${0}=GitRemote
 ${1}=Methods: fetchRemote(remoteName), pushChanges(remoteName, branchName), pullChanges(remoteName, branchName), listRemotes()
@@ -31,8 +23,15 @@ ${0}=GitRepo
 ${1}=Methods: cloneRepository(repoUrl), initializeRepository(), getRepositoryStatus(), addRemote(name, url), removeRemote(name)
 ${2}=For repository-wide operations.
 
-// To be done
+${0}=GitTag
+${1}=Methods: createTag(tagName, commitHash), deleteTag(tagName), listTags()
+${2}=For tagging operations.
 
+${0}=GitVersion
+${1}=getVersion()
+${2}=get Git version
+
+// To be done
 
 ${0}=GitConfig
 ${1}=Methods: getUserConfig(), setUserConfig(userName, userEmail), getGlobalConfig(), setGlobalConfig(configKey, configValue)

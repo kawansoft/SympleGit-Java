@@ -188,22 +188,20 @@ The git process is internally launched in a Thread using a `java.util.concurrent
 
 The Facilitator API is a set of classes that wrap the `GitCommander` for each type of Git operation:
 
-| Class Name      | Git Operations |
-| --------------- | -------------- |
-| GitAdd          |                |
-| GitBranchModify |                |
-| GitBranchRead   |                |
-| GitCommit       |                |
-| GitDiff         |                |
-| GitMerge        |                |
-| GitRemote       |                |
-| GitRepo.java    |                |
-| GitTag          |                |
-| GitVersion      |                |
+| Class Name      | Usage                                         |
+| --------------- | --------------------------------------------- |
+| GitAdd          | To handle staging area.                       |
+| GitBranchModify | For branch-related operations, in write mode. |
+| GitBranchRead   | For branch-related operations, in read mode.  |
+| GitCommit       | To handle commits.                            |
+| GitDiff         | To compare changes.                           |
+| GitMerge        | For merging branches.                         |
+| GitRemote       | To compare changes.                           |
+| GitRepo         | For repository-wide operations.               |
+| GitTag          | For tagging operations.                       |
+| GitVersion      | To get the installed Git version.             |
 
-
-
-## Extending SympleGit API using Artificial Intelligence (ai-xoss)
+## Extending SympleGit Facilitator API using AI (ai-xoss)
 
 ### List Files: create create in a flash the FilesLister Class
 
