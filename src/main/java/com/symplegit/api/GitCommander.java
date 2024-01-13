@@ -63,6 +63,8 @@ public class GitCommander {
     private File tempOutputFile = null;
 
     private int timeout = 0;
+    
+    private Process process = null;
 
     /**
      * Constructs a GitCommander object with a specified SympleGit instance.
@@ -141,6 +143,7 @@ public class GitCommander {
             // Get the result of the asynchronous computation with a timeout of 1 second
             future.get(futureTimeout, TimeUnit.SECONDS);
         } catch (TimeoutException e) {
+            stopProcess();
             throw new UncheckedTimeoutException("Timeout after " + timeout + " seconds!");
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -154,7 +157,6 @@ public class GitCommander {
      */
     private void executeInThread(String... command) {
 	// builder.redirectErrorStream(true);
-	Process process = null;
 
 	debug("Git command: " + removeCommas(Arrays.toString(command)));
 
@@ -170,7 +172,7 @@ public class GitCommander {
 	    try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
 		IOUtils.copy(new BufferedInputStream(getProcessErrorAsInputStream()), osError);
 	    }
-
+	    	    
 	    debug("After tempErrorFile creation");
 
 	    // Optionally, delete the file when the JVM exits
@@ -188,14 +190,13 @@ public class GitCommander {
 
 	    // Optionally, delete the file when the JVM exits
 	    tempOutputFile.deleteOnExit();
-	    
 
 	    debug("waitFor...: " + removeCommas(Arrays.toString(command)));
 
 	    exitCode = process.waitFor();
 	    debug("exitCode: " + exitCode);
 
-	    process.destroy();
+	    //process.destroy();
 	    process.destroyForcibly();
 
 	} catch (Throwable throwable) {
@@ -207,6 +208,14 @@ public class GitCommander {
 	    }
 	}
     }
+    
+    private void stopProcess() {
+        if (this.process != null) {
+            //this.process.destroy();
+            this.process.destroyForcibly();
+        }
+    }
+    
 
     /**
      * Checks if the last executed Git command was successful.

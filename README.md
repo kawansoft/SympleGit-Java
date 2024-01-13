@@ -1,4 +1,7 @@
-# SympleGit
+# 
+
+# SympleGit v1.0 - January 12, 2024
+
 <img src="https://www.symplegit.com/img/arrow_fork2.png" />
 
 A simple Git wrapper in Java, easily extendable with Artificial Intelligence.
@@ -73,7 +76,7 @@ final SympleGit sympleGit = SympleGit.custom()
     .build();
 
 GitCommander gitCommander = sympleGit.gitCommander();
-// git add testfile testFile2 ;-)
+// Well, git add testfile testFile2 ;-)
 gitCommander.executeGitCommand("git", "add", "testFile", "testFile2"); 
 ```
 
@@ -132,13 +135,73 @@ for (String branch : branches) {
 
 Behind the scenes, `GitCommander` uses `InputStream` to retrieved the errors and output.
 
-This example  of the command provides full commit messages and metadata for each commit, which can be quite substantial for large repositories.  So we will retrieve the result  using an `InputStream` if size > 4Mb.
+This example of the Git command provides full commit messages and metadata for each commit, which can be quite substantial for large repositories.  So we will retrieve the result  using an `InputStream` if size > 4Mb.
 
-Retrieving commit messages and metadata:
+```java
+// List full commit messages and metadata for each commit, which can be quite substantial 
+// for large repositories.
+final SympleGit sympleGit = SympleGit.custom()
+	.setDirectory(repoDirectoryPath)
+	.build();
+
+GitCommander gitCommander = sympleGit.gitCommander();
+gitCommander.executeGitCommand("git", "--no-pager", "log");
+
+if (!gitCommander.isResponseOk()) {
+    System.out.println("An Error occured: " + gitCommander.getProcessError());
+    return;
+}
+
+// It's always cautious to test the output
+if (gitCommander.getSize() <= 1 * 1024 * 1024) {
+    // Small output size: use String
+    String[] lines = gitCommander.getProcessOutput().split("\n");
+    for (String line : lines) {
+		System.out.println(line);
+    }
+} else {
+    // Large output size: use an InputStream
+    try (BufferedReader reader = new BufferedReader(
+	    new InputStreamReader(gitCommander.getProcessOutputAsInputStream()));) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+		}
+    }
+}
+```
 
 ### Setting a Timeout
 
+Use `Builder.setTimeout`in order to define a timeout for the underlying process:
+
+```java
+final SympleGit sympleGit = SympleGit.custom()
+	.setDirectory(repoDirectoryPath)
+	.setTimeout(300, TimeUnit.SECONDS) // Process will be killed after 300 seconds
+	.build();
+```
+
+The git process is internally launched in a Thread using a `java.util.concurrent.Future`. This allows to stop activity, but note that the Thread itself will eventually not be stopped.
+
 ## The Facilitator API
+
+The Facilitator API is a set of classes that wrap the `GitCommander` for each type of Git operation:
+
+| Class Name      | Git Operations |
+| --------------- | -------------- |
+| GitAdd          |                |
+| GitBranchModify |                |
+| GitBranchRead   |                |
+| GitCommit       |                |
+| GitDiff         |                |
+| GitMerge        |                |
+| GitRemote       |                |
+| GitRepo.java    |                |
+| GitTag          |                |
+| GitVersion      |                |
+
+
 
 ## Extending SympleGit API using Artificial Intelligence (ai-xoss)
 

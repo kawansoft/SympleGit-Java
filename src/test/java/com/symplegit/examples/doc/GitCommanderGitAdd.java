@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.symplegit.examples;
+package com.symplegit.examples.doc;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -42,7 +42,7 @@ public class GitCommanderGitAdd {
 	repoDirectoryPath = GitTestUtils.createIfNotTexistsTemporaryGitRepo().toString();
 	
 	directApi(repoDirectoryPath);
-	facilitatorApi(repoDirectoryPath);
+	//facilitatorApi(repoDirectoryPath);
     }
 
     /**
@@ -59,6 +59,7 @@ public class GitCommanderGitAdd {
 	gitCommander.executeGitCommand("git", "add", "testFile", "testFile2");
     }
 
+    @SuppressWarnings("unused")
     private static void facilitatorApi(String repoDirectoryPath) throws IOException {
 
 	// Staging files with SympleGit using GitAdd
