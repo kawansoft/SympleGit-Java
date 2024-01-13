@@ -46,7 +46,7 @@ try (Repository repository = CookbookHelper.createNewRepository()) {
     localPath = repository.getWorkTree();
 
     try (Git git = new Git(repository)) {
- 		// Files existance skiped for the sake of clarity
+ 		// Files existence tests skipped for the sake of clarity
         
         // run the add-call
         git.add()
@@ -73,6 +73,8 @@ String repoDirectoryPath = "/path/to/my/git/repository";
 final SympleGit sympleGit = SympleGit.custom()
     .setDirectory(repoDirectoryPath)
     .build();
+
+// Files existence tests skipped for the sake of clarity
 
 GitCommander gitCommander = sympleGit.gitCommander();
 // Well, git add testfile testFile2 ;-)
@@ -186,6 +188,14 @@ final SympleGit sympleGit = SympleGit.custom()
 ```
 
 Internally, the Git process is executed within a thread using `java.util.concurrent.Future`, enabling controlled termination of operations. However, it's important to note that while this stops the process, the thread itself may continue running until it reaches a natural stopping point.
+
+### Releasing Resources by Closing the SympleGit Instance
+
+It's a recommended practice to call the `close` method on the SympleGit instance to ensure the cleanup of temporary files.
+
+SympleGit is designed to be `AutoCloseable`, allowing for easy resource management.
+
+Additionally, there's a static method available, `SympleGit.deleteTempFiles()`, which can be used to delete all temporary files created. However, exercise caution when using this method, especially in multi-user environments.
 
 ## The Facilitator API
 

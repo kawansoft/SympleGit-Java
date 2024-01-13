@@ -91,7 +91,7 @@ public class GitCommit implements GitWrapper {
      */
     public InputStream getCommitHistoryAsStream() throws IOException {
         executeGitCommandWithErrorHandler("git", "--no-pager", "log");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessErrorAsInputStream() : null;
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutputAsInputStream() : null;
     }
     
     /**

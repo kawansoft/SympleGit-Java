@@ -53,18 +53,22 @@ import com.symplegit.util.FrameworkDebug;
  */
 public class GitCommander {
 
+    static final String SYMPLEGIT_OUTPUT = "symplegit-output-";
+    static final String SYMPLEGIT_ERROR = "symplegit-error-";
+
     public static boolean DEBUG = FrameworkDebug.isSet(GitCommander.class);
 
+    private SympleGit sympleGit;
+    
     private ProcessBuilder builder;
     private Exception exception;
     private int exitCode;
 
-    private File tempErrorFile = null;
+    //private File tempErrorFile = null;
     private File tempOutputFile = null;
-
-    private int timeout = 0;
     
     private Process process = null;
+
 
     /**
      * Constructs a GitCommander object with a specified SympleGit instance.
@@ -73,48 +77,12 @@ public class GitCommander {
      * @throws NullPointerException if sympleGit is null.
      */
     GitCommander(SympleGit sympleGit) {
-	Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
+	this.sympleGit = Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
 	builder = new ProcessBuilder();
 	builder.directory(sympleGit.getDirectory());
-	this.timeout = sympleGit.getTimeout();
     }
 
 
-    /**
-     * Executes a Git command and handles its output and error streams.
-     *
-     * @param command The Git command to be executed, split into an array of
-     *                strings.
-     */
-    @SuppressWarnings("unused")
-    private void executeGitCommandOld(String... command) {
-	Objects.requireNonNull(command, "builder cannot be null!");
-
-	Thread thread = new Thread(() -> {
-	    executeInThread(command);
-	});
-	thread.start();
-
-	long begin = System.currentTimeMillis();
-	    
-        debug(" Before while (thread.isAlive())");
-        
-	while (thread.isAlive()) {
-	    	
-	    long now = System.currentTimeMillis();
-            try {	
-                Thread.sleep(100);
-            }
-            catch (InterruptedException ignore) {
-        	ignore.printStackTrace();
-            }
-            
-            if ( timeout != 0 &&  (now  - begin > 1000 * timeout)) {
-                throw new UncheckedTimeoutException("Timeout after " + timeout + " seconds!");
-            };
-	}
-	
-    }
     
     /**
      * Executes a Git command and handles its output and error streams.
@@ -136,15 +104,19 @@ public class GitCommander {
 
         Future<String> future = executor.submit(task);
 
+        long timeout = sympleGit.getTimeout();
+        TimeUnit unit = sympleGit.getUnit();
+        
+        debug("unit: " + unit);
         try {
-            
+           
             long futureTimeout = timeout == 0? Long.MAX_VALUE : timeout;
-            
+           
             // Get the result of the asynchronous computation with a timeout of 1 second
-            future.get(futureTimeout, TimeUnit.SECONDS);
+            future.get(futureTimeout, unit);
         } catch (TimeoutException e) {
             stopProcess();
-            throw new UncheckedTimeoutException("Timeout after " + timeout + " seconds!");
+            throw new UncheckedTimeoutException("Timeout after " + timeout + unit);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         } finally {
@@ -156,7 +128,7 @@ public class GitCommander {
      * @param command
      */
     private void executeInThread(String... command) {
-	// builder.redirectErrorStream(true);
+	builder.redirectErrorStream(true);
 
 	debug("Git command: " + removeCommas(Arrays.toString(command)));
 
@@ -165,25 +137,25 @@ public class GitCommander {
 	    builder.command(command); // Correctly set the command
 	    process = builder.start();
 
-	    debug("Before tempErrorFile creation");
-
-	    tempErrorFile = File.createTempFile("symplegit-error-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
-
-	    try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
-		IOUtils.copy(new BufferedInputStream(getProcessErrorAsInputStream()), osError);
-	    }
-	    	    
-	    debug("After tempErrorFile creation");
+//	    debug("Before tempErrorFile creation");
+//
+//	    tempErrorFile = File.createTempFile(SYMPLEGIT_ERROR + ApiDateUtil.getDateWithTime() + "-", ".txt");
+//
+//	    try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
+//		IOUtils.copy(new BufferedInputStream(process.getErrorStream()), osError);
+//	    }
+//	    	    
+//	    debug("After tempErrorFile creation");
 
 	    // Optionally, delete the file when the JVM exits
-	    tempErrorFile.deleteOnExit();
+	    //tempErrorFile.deleteOnExit();
 
 	    debug("Before tempOutputFile creation");
 
-	    tempOutputFile = File.createTempFile("symplegit-output-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
+	    tempOutputFile = File.createTempFile(SYMPLEGIT_OUTPUT + ApiDateUtil.getDateWithTime() + "-", ".txt");
 
-	    try (OutputStream osInput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
-		IOUtils.copy(new BufferedInputStream(process.getInputStream()), osInput);
+	    try(  OutputStream osOutput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
+		IOUtils.copy(new BufferedInputStream(process.getInputStream()), osOutput);
 	    }
 
 	    debug("After tempOutputFile creation");
@@ -206,6 +178,10 @@ public class GitCommander {
 	    } else {
 		exception = new Exception(throwable);
 	    }
+	}
+	finally {
+	    //sympleGit.addTempFile(tempErrorFile);
+	    sympleGit.addTempFile(tempOutputFile);
 	}
     }
     
@@ -247,6 +223,7 @@ public class GitCommander {
     public String getProcessOutput() throws IOException {
 	return IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
     }
+    
 
     /**
      * Gets the error output of the last executed Git command as a String.
@@ -255,7 +232,7 @@ public class GitCommander {
      * @throws IOException if an I/O error occurs while reading the error output.
      */
     public String getProcessError() throws IOException {
-	return IOUtils.toString(getProcessErrorAsInputStream(), "UTF-8");
+	return getProcessOutput(); // 
     }
 
     /**
@@ -294,8 +271,8 @@ public class GitCommander {
      */
     public InputStream getProcessErrorAsInputStream() throws IOException {
 
-	if (tempErrorFile != null && tempErrorFile.exists()) {
-	    return new BufferedInputStream(new FileInputStream(tempErrorFile));
+	if (tempOutputFile != null && tempOutputFile.exists()) {
+	    return new BufferedInputStream(new FileInputStream(tempOutputFile));
 	}
 	return null;
 
@@ -325,20 +302,6 @@ public class GitCommander {
 	return str;
     }
 
-    /**
-     * The delete of the temp files are normally done when the JVM exits with a
-     * File.deleteOnExit() call. May be optionally be done to delete immediately the
-     * temp files created.
-     */
-    public void close() {
-	if (tempErrorFile != null && tempErrorFile.exists()) {
-	    tempErrorFile.delete();
-	}
-
-	if (tempOutputFile != null && tempOutputFile.exists()) {
-	    tempOutputFile.delete();
-	}
-    }
 
     /**
      * Prints a debug message with the current timestamp if debugging is enabled.
@@ -350,5 +313,9 @@ public class GitCommander {
 	    System.out.println(new Date() + " " + sMsg);
 	}
     }
+
+
+
+
 
 }

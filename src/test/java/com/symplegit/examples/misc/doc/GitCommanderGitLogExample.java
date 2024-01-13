@@ -21,7 +21,6 @@ package com.symplegit.examples.misc.doc;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.concurrent.TimeUnit;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
@@ -36,7 +35,7 @@ public class GitCommanderGitLogExample {
 
 	final SympleGit sympleGit = SympleGit.custom()
 		.setDirectory(repoDirectoryPath)
-		.setTimeout(300, TimeUnit.SECONDS) // Process will be killed after 300 seconds
+		//.setTimeout(300, TimeUnit.SECONDS) // Process will be killed after 300 seconds
 		.build();
 
 	GitCommander gitCommander = sympleGit.gitCommander();
@@ -63,7 +62,7 @@ public class GitCommanderGitLogExample {
 		    System.out.println(line);
 		}
 	    }
-	}
+	}	
 
     }
 

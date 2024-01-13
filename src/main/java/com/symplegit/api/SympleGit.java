@@ -20,6 +20,9 @@
 package com.symplegit.api;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -30,13 +33,15 @@ import java.util.concurrent.TimeUnit;
  * simplify interactions with Git repositories.
  * 
  */
-public class SympleGit {
+public class SympleGit implements AutoCloseable {
 
     public static final int DEFAULT_TIMEOUT_SECONDS = 0;
-    
+
     private final File directory;
-    private int timeout = DEFAULT_TIMEOUT_SECONDS;
-    private TimeUnit unit = TimeUnit.SECONDS;
+    private int timeout;
+    private TimeUnit unit;
+
+    private List<File> tempFiles = new ArrayList<>();
 
     /**
      * Constructs a new instance of SympleGit with the specified configuration.
@@ -44,9 +49,9 @@ public class SympleGit {
      * @param builder The Builder object containing configuration settings.
      */
     private SympleGit(Builder builder) {
-        this.directory = builder.directory;
-        this.timeout = builder.timeout;
-        this.unit = builder.unit;
+	this.directory = builder.directory;
+	this.timeout = builder.timeout;
+	this.unit = builder.unit;
     }
 
     /**
@@ -55,7 +60,7 @@ public class SympleGit {
      * @return A new Builder instance.
      */
     public static Builder custom() {
-        return new Builder();
+	return new Builder();
     }
 
     /**
@@ -64,7 +69,7 @@ public class SympleGit {
      * @return The directory as a File object.
      */
     public File getDirectory() {
-        return directory;
+	return directory;
     }
 
     /**
@@ -73,38 +78,49 @@ public class SympleGit {
      * @return The timeout in milliseconds.
      */
     public int getTimeout() {
-        return timeout;
+	return timeout;
+    }
+
+    /**
+     * Gets the timeout setting for Git operations.
+     *
+     * @return The timeout in milliseconds.
+     * 
+     */
+    public TimeUnit getUnit() {
+	return unit;
     }
 
     // Additional methods or functionality as needed
 
     /**
-     * Builder class for SympleGit. Provides methods to configure SympleGit instances.
+     * Builder class for SympleGit. Provides methods to configure SympleGit
+     * instances.
      */
     public static class Builder {
 
-        private File directory;
-        private int timeout;
-	private TimeUnit unit;
+	private File directory;
+	private int timeout = DEFAULT_TIMEOUT_SECONDS;
+	private TimeUnit unit = TimeUnit.SECONDS;
 
-        /**
-         * Sets the directory path for the Git repository.
-         *
-         * @param directoryPath The path to the Git repository directory.
-         * @return The Builder instance for chaining.
-         */
-        public Builder setDirectory(String directoryPath) {
-            Objects.requireNonNull(directoryPath, "directoryPath cannot be null");
-            this.directory = new File(directoryPath);
-            return this;
-        }
+	/**
+	 * Sets the directory path for the Git repository.
+	 *
+	 * @param directoryPath The path to the Git repository directory.
+	 * @return The Builder instance for chaining.
+	 */
+	public Builder setDirectory(String directoryPath) {
+	    Objects.requireNonNull(directoryPath, "directoryPath cannot be null");
+	    this.directory = new File(directoryPath);
+	    return this;
+	}
 
 	public Builder setDirectory(File directoryFile) {
 	    Objects.requireNonNull(directoryFile, "directoryFile cannot be null");
-            this.directory = directoryFile;
-            return this;
+	    this.directory = directoryFile;
+	    return this;
 	}
-	
+
 	/**
 	 * Sets the timeout for Git operations.
 	 *
@@ -112,20 +128,20 @@ public class SympleGit {
 	 * @param unit    the time unit of the timeout argument
 	 * @return The Builder instance for chaining.
 	 */
-        public Builder setTimeout(int timeout, TimeUnit unit) {
-            this.timeout = timeout;
-            this.unit = unit;
-            return this;
-        }
+	public Builder setTimeout(int timeout, TimeUnit unit) {
+	    this.timeout = timeout;
+	    this.unit = unit;
+	    return this;
+	}
 
-        /**
-         * Builds and returns a SympleGit instance with the current configuration.
-         *
-         * @return A configured SympleGit instance.
-         */
-        public SympleGit build() {
-            return new SympleGit(this);
-        }
+	/**
+	 * Builds and returns a SympleGit instance with the current configuration.
+	 *
+	 * @return A configured SympleGit instance.
+	 */
+	public SympleGit build() {
+	    return new SympleGit(this);
+	}
     }
 
     /**
@@ -143,4 +159,49 @@ public class SympleGit {
 	return "SympleGit [directory=" + directory + ", timeout=" + timeout + ", unit=" + unit + "]";
     }
 
+    /**
+     * Adds a temporary error file or output to the list of temporary error files.
+     * 
+     * @param tempErrorFile the temp file containing the error message
+     */
+    void addTempFile(File tempFile) {
+	tempFiles.add(tempFile);
+    }
+
+    /**
+     * Deletes all temporary files. Should be done to to relieve java.io.tmpdir.
+     */
+    @Override
+    public void close() throws Exception {
+	if (tempFiles != null) {
+	    for (File tempFile : tempFiles) {
+		tempFile.delete();
+	    }
+	}
+    }
+
+    /**
+     * Deletes all temporary files. Be cautious when using this method (especially if JVM is shared )
+     */
+    public static void deleteTempFiles() {
+
+	FileFilter filter = new FileFilter() {
+
+	    @Override
+	    public boolean accept(File pathname) {
+		if (pathname.toString().startsWith(GitCommander.SYMPLEGIT_OUTPUT)) {
+		    return true;
+		}
+		return false;
+	    }
+	};
+	
+	File tempDir = new File(System.getProperty("java.io.tmpdir"));
+        final File[] tempfiles = tempDir.listFiles(filter);
+        if (tempfiles!= null) {
+            for (File tempFile : tempfiles) {
+                tempFile.delete();
+            }
+        }
+    }
 }
