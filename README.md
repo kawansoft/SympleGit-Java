@@ -46,12 +46,8 @@ try (Repository repository = CookbookHelper.createNewRepository()) {
     localPath = repository.getWorkTree();
 
     try (Git git = new Git(repository)) {
-        // create the file
-        File myFile = new File(repository.getDirectory().getParent(), "testfile");
-        if(!myFile.createNewFile()) {
-            throw new IOException("Could not create file " + myFile);
-        }
-
+ 		// Files existance skiped for the sake of clarity
+        
         // run the add-call
         git.add()
             .addFilepattern("testfile")
@@ -61,7 +57,6 @@ try (Repository repository = CookbookHelper.createNewRepository()) {
         System.out.println("Added file " + myFile + " to repository at " + repository.getDirectory());
     }
 }
-
 ```
 
 In contrast, SympleGit offers two straightforward options:
@@ -88,6 +83,8 @@ Alternatively, you can use the `GitAdder` class:
 
 ```java
 // Staging files with SympleGit using GitAdder
+String repoDirectoryPath = "/path/to/my/git/repository";
+
 final SympleGit sympleGit = SympleGit.custom()
             .setDirectory(repoDirectoryPath)
             .build();
@@ -117,7 +114,7 @@ For standard operations where the output size is manageable, `GitCommander` effi
 
 ```java
 // List all branches of a repo and print them on console
-String repoDirectoryPath = "/path/to/repo";
+String repoDirectoryPath = "/path/to/my/git/repository";
 final SympleGit sympleGit = SympleGit.custom()
     .setDirectory(repoDirectoryPath)
     .build();
@@ -144,6 +141,8 @@ In cases involving more extensive data, such as full commit messages and metadat
 ```java
 // List full commit messages and metadata for each commit, which can be quite substantial 
 // for large repositories.
+String repoDirectoryPath = "/path/to/my/git/repository";
+
 final SympleGit sympleGit = SympleGit.custom()
 	.setDirectory(repoDirectoryPath)
 	.build();
@@ -213,7 +212,8 @@ Utilizing the Facilitator API is straightforward. Refer to the Javadoc for detai
 
 ```java
 // Staging Files & Committing with SympleGit using GitAdd & GitCommit
-	
+String repoDirectoryPath = "/path/to/my/git/repository";
+
 // Create a SympleGit instance
 final SympleGit sympleGit = SympleGit.custom()
             .setDirectory(repoDirectoryPath)
