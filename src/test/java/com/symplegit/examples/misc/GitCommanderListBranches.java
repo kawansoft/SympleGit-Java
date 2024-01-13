@@ -17,32 +17,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.symplegit.examples;
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+package com.symplegit.examples.misc;
 
 import java.io.IOException;
 
+import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitBranchRead;
+import com.symplegit.test.util.GitTestUtils;
 
-/**
- *
- * @author ndepo
- */
-public class GitBranchTest {
+
+public class GitCommanderListBranches {
+
     public static void main(String[] args) throws IOException {
-	// Replace this with the path to your Git repository
-	String repoDirectoryPath = "I:\\_dev_sqlephant_tests\\Java";
-	
+	String repoDirectoryPath = GitTestUtils.createIfNotTexistsTemporaryGitRepo().toString();
+
+	// List all branches of a repo and print them 
 	final SympleGit sympleGit = SympleGit.custom()
-                .setDirectory(repoDirectoryPath)
-                .build();
-	
-	GitBranchRead gitBranchRead = new GitBranchRead(sympleGit);
-	System.out.println(gitBranchRead.getLocalBranches());
-	System.out.println(gitBranchRead.getRemoteBranches());
+	    .setDirectory(repoDirectoryPath)
+	    .build();
+
+	GitCommander gitCommander = sympleGit.gitCommander();
+	gitCommander.executeGitCommand("git", "branch", "-a");
+
+	if (! gitCommander.isResponseOk()) {
+	    System.out.println("An Error occured: " + gitCommander.getProcessError());
+	    return;
+	}
+
+	// OK
+	String[] branches = gitCommander.getProcessOutput().split("\n");
+	for (String branch : branches) {
+	        System.out.println(branch);
+	}
     }
+
 }

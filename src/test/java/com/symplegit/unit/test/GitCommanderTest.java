@@ -35,8 +35,6 @@ import com.symplegit.test.util.GitTestUtils;
 
 public class GitCommanderTest {
 
-
-    
     private File tempRepo;
     private GitCommander commander;
 

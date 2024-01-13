@@ -34,7 +34,7 @@ import com.symplegit.test.util.GitTestUtils;
 
 public class GitBranchModifyTest {
 
-    private GitBranchModify branchModifier;
+    private GitBranchModify gitBranchModify;
     private SympleGit sympleGit;
     private static final String TEST_BRANCH = "testBranch";
 
@@ -44,7 +44,7 @@ public class GitBranchModifyTest {
 	sympleGit = SympleGit.custom()
                 .setDirectory(repoDir)
                 .build();
-        branchModifier = new GitBranchModify(sympleGit);
+        gitBranchModify = new GitBranchModify(sympleGit);
     }
 
     @Test
@@ -54,21 +54,21 @@ public class GitBranchModifyTest {
 	gitBranchModify.switchBranch("master");
 	
 	// Force delete of the test branch if it still exists
-	branchModifier.deleteBranchForce(TEST_BRANCH);
-        //assertTrue(branchModifier.isResponseOk(), "Branch deletion should be successful");
+	gitBranchModify.deleteBranchForce(TEST_BRANCH);
+        //assertTrue(gitBranchModify.isResponseOk(), "Branch deletion should be successful");
         
         // Test branch creation
-        branchModifier.createBranch(TEST_BRANCH);
+        gitBranchModify.createBranch(TEST_BRANCH);
         
-        if (!branchModifier.isResponseOk()) {
-            System.out.println(branchModifier.getError());
+        if (!gitBranchModify.isResponseOk()) {
+            System.out.println(gitBranchModify.getError());
         }
         
-        assertTrue(branchModifier.isResponseOk(), "Branch creation should be successful");
+        assertTrue(gitBranchModify.isResponseOk(), "Branch creation should be successful");
 
         // Test branch deletion
-        branchModifier.deleteBranchForce(TEST_BRANCH);
-        assertTrue(branchModifier.isResponseOk(), "Branch deletion should be successful");
+        gitBranchModify.deleteBranchForce(TEST_BRANCH);
+        assertTrue(gitBranchModify.isResponseOk(), "Branch deletion should be successful");
     }
 
     @Test
@@ -76,28 +76,28 @@ public class GitBranchModifyTest {
         String newBranchName = TEST_BRANCH + "_new";
 
         // Create a branch to rename
-        branchModifier.createBranch(TEST_BRANCH);
-        assertTrue(branchModifier.isResponseOk(), "Branch creation should be successful");
+        gitBranchModify.createBranch(TEST_BRANCH);
+        assertTrue(gitBranchModify.isResponseOk(), "Branch creation should be successful");
 
         // Rename the branch
-        branchModifier.renameBranch(TEST_BRANCH, newBranchName);
-        assertTrue(branchModifier.isResponseOk(), "Branch renaming should be successful");
+        gitBranchModify.renameBranch(TEST_BRANCH, newBranchName);
+        assertTrue(gitBranchModify.isResponseOk(), "Branch renaming should be successful");
 
         // Clean up
-        branchModifier.deleteBranchForce(newBranchName);
+        gitBranchModify.deleteBranchForce(newBranchName);
     }
 
     @Test
     public void testSwitchBranch() throws IOException {
         // Ensure the test branch exists
-        branchModifier.createBranch(TEST_BRANCH);
+        gitBranchModify.createBranch(TEST_BRANCH);
         
         // Switch to the test branch
-        branchModifier.switchBranch(TEST_BRANCH);
-        assertTrue(branchModifier.isResponseOk(), "Branch switching should be successful");
+        gitBranchModify.switchBranch(TEST_BRANCH);
+        assertTrue(gitBranchModify.isResponseOk(), "Branch switching should be successful");
 
         // Clean up
-        branchModifier.deleteBranchForce(TEST_BRANCH);
+        gitBranchModify.deleteBranchForce(TEST_BRANCH);
     }
 
     // Note: Pushing and deleting remote branches would require a remote setup and network access.
@@ -107,7 +107,7 @@ public class GitBranchModifyTest {
     public void tearDown() {
         // Attempt to clean up the test branch if it still exists
         try {
-            branchModifier.deleteBranchForce(TEST_BRANCH);
+            gitBranchModify.deleteBranchForce(TEST_BRANCH);
         } catch (IOException ignored) {
             // Ignored as this is just cleanup
         }

@@ -36,7 +36,7 @@ import com.symplegit.test.util.GitTestUtils;
 
 public class GitBranchReadTest {
 
-    private GitBranchRead branchReader;
+    private GitBranchRead gitBranchRead;
     private SympleGit sympleGit;
     private File tempRepo;
 
@@ -46,43 +46,43 @@ public class GitBranchReadTest {
 	sympleGit = SympleGit.custom()
                 .setDirectory(tempRepo)
                 .build();
-        branchReader = new GitBranchRead(sympleGit);
+        gitBranchRead = new GitBranchRead(sympleGit);
     }
 
 //    @Test
 //    public void testIsStatusOk() throws IOException {
 //	
-//	String activeBranch = branchReader.getActiveBranch();
+//	String activeBranch = gitBranchRead.getActiveBranch();
 //	if (!activeBranch.equals("master")) {
 //	    GitBranchModify gitBranchModifier = new GitBranchModify(sympleGit);
 //	    gitBranchModifier.switchBranch("master");
 //	}
 //
-//	assertTrue(branchReader.isStatusOk(), "Status should be ok for master");
+//	assertTrue(gitBranchRead.isStatusOk(), "Status should be ok for master");
 //    }
 
     @Test
     public void testGetActiveBranch() {
-        String activeBranch = branchReader.getActiveBranch();
+        String activeBranch = gitBranchRead.getActiveBranch();
         assertNotNull(activeBranch, "Active branch should not be null");
         //assertEquals("master", activeBranch, "Active branch should be 'master'");
     }
 
     @Test
     public void testGetLocalBranches() {
-        Set<String> localBranches = branchReader.getLocalBranches();
+        Set<String> localBranches = gitBranchRead.getLocalBranches();
         assertNotNull(localBranches, "Local branches set should not be null");
         assertTrue(localBranches.contains("master"), "Local branches should include 'master'");
     }
 
     @Test
     public void testBranchExists() {
-        assertTrue(branchReader.branchExists("master"), "Branch 'master' should exist");
+        assertTrue(gitBranchRead.branchExists("master"), "Branch 'master' should exist");
     }
 
     @Test
     public void testGetRemoteBranches() throws IOException {
-        Set<String> remoteBranches = branchReader.getRemoteBranches();
+        Set<String> remoteBranches = gitBranchRead.getRemoteBranches();
         assertNotNull(remoteBranches, "Remote branches set should not be null");
         // Assuming no remote branches for a new repo, this check might need to be adjusted based on setup.
         // assertTrue(remoteBranches.isEmpty(), "Remote branches should be empty for a new repository");

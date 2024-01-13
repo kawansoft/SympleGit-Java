@@ -41,101 +41,95 @@ public class GitCommitTest {
     private File repoDir;
 
     private String latestCommitHash;
-    
+
     @BeforeEach
     void setUp() throws IOException {
-        repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo(); // Utilize existing GitTestUtils class
-        
-	sympleGit = SympleGit.custom()
-                .setDirectory(repoDir)
-                .build();
-        
-        gitCommit = new GitCommit(sympleGit);
-        
+	repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo(); // Utilize existing GitTestUtils class
+
+	sympleGit = SympleGit.custom().setDirectory(repoDir).build();
+
+	gitCommit = new GitCommit(sympleGit);
+
     }
 
-    
     @Test
     public void testCommitChanges() throws IOException {
-	
+
 	long now = System.currentTimeMillis();
-	File file = GitTestUtils.createFileInRepo(repoDir,  now + "_ testfile.txt", "Test content"); // Create a test file in the repo
-	
-        GitCommander gitCommander = sympleGit.gitCommander();
-        gitCommander.executeGitCommand("git", "add", ".");
+	File file = GitTestUtils.createFileInRepo(repoDir, now + "_ testfile.txt", "Test content"); // Create a test
+												    // file in the repo
 
-        if (! gitCommander.isResponseOk()) {
-            System.out.println("gitCommander.getProcessError(): " + gitCommit.getError());
-        }
-        
-        gitCommit.commitChanges("\"Initial commit\"");
+	GitCommander gitCommander = sympleGit.gitCommander();
+	gitCommander.executeGitCommand("git", "add", ".");
 
-        if (! gitCommit.isResponseOk()) {
-            System.out.println("gitCommit.getProcessError(): " + gitCommit.getError());
-        }
-        
-        assertTrue(gitCommit.isResponseOk(), "Commit should be successful");
-        file.delete();
-        
+	if (!gitCommander.isResponseOk()) {
+	    System.out.println("gitCommander.getProcessError(): " + gitCommit.getError());
+	}
+
+	gitCommit.commitChanges("\"Initial commit\"");
+
+	if (!gitCommit.isResponseOk()) {
+	    System.out.println("gitCommit.getProcessError(): " + gitCommit.getError());
+	}
+
+	assertTrue(gitCommit.isResponseOk(), "Commit should be successful");
+	file.delete();
+
     }
-    
-    
+
     @Test
     public void testAmendCommit() throws IOException {
 	long now = System.currentTimeMillis();
-	File file = GitTestUtils.createFileInRepo(repoDir,  now + "_ testfile.txt", "Test content"); // Create a test file in the repo
-	
+	File file = GitTestUtils.createFileInRepo(repoDir, now + "_ testfile.txt", "Test content"); // Create a test
+												    // file in the repo
+
 	GitCommander gitCommander = sympleGit.gitCommander();
-        gitCommander.executeGitCommand("git", "add", ".");
-        
-        if (! gitCommander.isResponseOk()) {
-            System.out.println("gitCommander.getProcessError(): " + gitCommander.getProcessError());
-        }
-        
-        gitCommit.commitChanges("Ammend commit");
-        
-        if (! gitCommit.isResponseOk()) {
-            System.out.println("gitCommit.getProcessError(): " + gitCommit.getError());
-        }
-        
-        gitCommit.amendCommit("ammend message");
-        
-        if (! gitCommit.isResponseOk()) {
-            System.out.println("gitCommander.getProcessError(): " + gitCommit.getError());
-        }
-                
-        assertTrue(gitCommit.isResponseOk(), "Amend commit should be successful");
-        file.delete();
+	gitCommander.executeGitCommand("git", "add", ".");
+
+	if (!gitCommander.isResponseOk()) {
+	    System.out.println("gitCommander.getProcessError(): " + gitCommander.getProcessError());
+	}
+
+	gitCommit.commitChanges("Ammend commit");
+
+	if (!gitCommit.isResponseOk()) {
+	    System.out.println("gitCommit.getProcessError(): " + gitCommit.getError());
+	}
+
+	gitCommit.amendCommit("ammend message");
+
+	if (!gitCommit.isResponseOk()) {
+	    System.out.println("gitCommander.getProcessError(): " + gitCommit.getError());
+	}
+
+	assertTrue(gitCommit.isResponseOk(), "Amend commit should be successful");
+	file.delete();
 
     }
-    
 
-
-
-    
     @Test
     public void testGetCommitHistory() throws IOException {
-        gitCommit.commitChanges("Initial commit");
-        String commitHistory = gitCommit.getCommitHistory();
-        assertNotNull(commitHistory, "Commit history should not be null");
+	gitCommit.commitChanges("Initial commit");
+	String commitHistory = gitCommit.getCommitHistory();
+	assertNotNull(commitHistory, "Commit history should not be null");
     }
 
     @Test
     public void testGetCommitDetails() throws IOException {
-	
-        // Use GitCommander to retrieve the last two commit hashes
+
+	// Use GitCommander to retrieve the last two commit hashes
 	GitCommander gitCommander = sympleGit.gitCommander();
-        gitCommander.executeGitCommand("git", "rev-parse", "HEAD~1");
-        if (gitCommander.isResponseOk()) {
-            latestCommitHash = gitCommander.getProcessOutput().trim();
-        }
-        
-        String commitDetails = gitCommit.getCommitDetails(latestCommitHash);
-        assertNotNull(commitDetails, "Commit details should not be null");
+	gitCommander.executeGitCommand("git", "rev-parse", "HEAD~1");
+	if (gitCommander.isResponseOk()) {
+	    latestCommitHash = gitCommander.getProcessOutput().trim();
+	}
+
+	String commitDetails = gitCommit.getCommitDetails(latestCommitHash);
+	assertNotNull(commitDetails, "Commit details should not be null");
     }
 
     @AfterEach
     void tearDown() {
-        // Nothing
+	// Nothing
     }
 }

@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.symplegit.examples.doc;
+package com.symplegit.examples.misc.doc;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -34,7 +34,7 @@ import com.symplegit.test.util.GitTestUtils;
  *
  * @author ndepo
  */
-public class GitCommanderGitAdd {
+public class GitCommanderGitAddExample {
     public static void main(String[] args) throws IOException {
 	// Replace this with the path to your Git repository
 	String repoDirectoryPath = "/path/to/my/git/repository";

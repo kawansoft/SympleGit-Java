@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.symplegit.examples.doc;
+package com.symplegit.examples.misc.doc;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -27,7 +27,7 @@ import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
 import com.symplegit.test.util.GitTestUtils;
 
-public class GitCommanderGitLog {
+public class GitCommanderGitLogExample {
 
     public static void main(String[] args) throws Exception {
 	String repoDirectoryPath = GitTestUtils.createIfNotTexistsTemporaryGitRepo().toString();

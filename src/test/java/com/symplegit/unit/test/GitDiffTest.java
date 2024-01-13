@@ -37,7 +37,7 @@ import com.symplegit.test.util.GitTestUtils;
  */
 public class GitDiffTest {
 
-    private GitDiff diffAnalyzer;
+    private GitDiff gitDiff;
     private SympleGit sympleGit;
     private File repoDir;
 
@@ -50,7 +50,7 @@ public class GitDiffTest {
 	sympleGit = SympleGit.custom()
                 .setDirectory(repoDir)
                 .build();
-        diffAnalyzer = new GitDiff(sympleGit);
+        gitDiff = new GitDiff(sympleGit);
         
         // Use GitCommander to retrieve the last two commit hashes
         GitCommander gitCommander = sympleGit.gitCommander();
@@ -71,7 +71,7 @@ public class GitDiffTest {
         assertNotNull(latestCommitHash, "Latest commit hash should not be null");
         assertNotNull(secondLatestCommitHash, "Second latest commit hash should not be null");
 
-        String diff = diffAnalyzer.getDiff(secondLatestCommitHash, latestCommitHash);
+        String diff = gitDiff.getDiff(secondLatestCommitHash, latestCommitHash);
         assertNotNull(diff, "Diff should not be null");
         // Additional assertions can be added based on the expected output
     }
@@ -81,7 +81,7 @@ public class GitDiffTest {
         // Mock setup: Assume there are staged changes in the temporary repo
         // Actual implementation would depend on the setup done in createTemporaryGitRepo()
 
-        String stagedDiff = diffAnalyzer.getStagedDiff();
+        String stagedDiff = gitDiff.getStagedDiff();
         assertNotNull(stagedDiff, "Staged diff should not be null");
         // Additional assertions can be added based on the expected output
     }
@@ -95,7 +95,7 @@ public class GitDiffTest {
         //assertTrue(newFile.createNewFile());
         String filePath = newFile.getAbsolutePath();
 
-        String fileDiff = diffAnalyzer.getFileDiff(filePath);
+        String fileDiff = gitDiff.getFileDiff(filePath);
         assertNotNull(fileDiff, "File diff should not be null");
         // Additional assertions can be added based on the expected output
     }
