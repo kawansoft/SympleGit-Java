@@ -21,6 +21,7 @@ package com.symplegit.api;
 
 import java.io.File;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * SympleGit provides a fluent and simplified interface for configuring and
@@ -35,6 +36,7 @@ public class SympleGit {
     
     private final File directory;
     private int timeout = DEFAULT_TIMEOUT_SECONDS;
+    private TimeUnit unit = TimeUnit.SECONDS;
 
     /**
      * Constructs a new instance of SympleGit with the specified configuration.
@@ -44,6 +46,7 @@ public class SympleGit {
     private SympleGit(Builder builder) {
         this.directory = builder.directory;
         this.timeout = builder.timeout;
+        this.unit = builder.unit;
     }
 
     /**
@@ -82,6 +85,7 @@ public class SympleGit {
 
         private File directory;
         private int timeout;
+	private TimeUnit unit;
 
         /**
          * Sets the directory path for the Git repository.
@@ -101,14 +105,16 @@ public class SympleGit {
             return this;
 	}
 	
-        /**
-         * Sets the timeout for Git operations.
-         *
-         * @param timeout The timeout value in milliseconds.
-         * @return The Builder instance for chaining.
-         */
-        public Builder setTimeout(int timeout) {
+	/**
+	 * Sets the timeout for Git operations.
+	 *
+	 * @param timeout the maximum time to wait
+	 * @param unit    the time unit of the timeout argument
+	 * @return The Builder instance for chaining.
+	 */
+        public Builder setTimeout(int timeout, TimeUnit unit) {
             this.timeout = timeout;
+            this.unit = unit;
             return this;
         }
 
@@ -120,8 +126,6 @@ public class SympleGit {
         public SympleGit build() {
             return new SympleGit(this);
         }
-
-
     }
 
     /**
@@ -136,8 +140,7 @@ public class SympleGit {
 
     @Override
     public String toString() {
-	return "SympleGit [directory=" + directory + ", timeout=" + timeout + "]";
+	return "SympleGit [directory=" + directory + ", timeout=" + timeout + ", unit=" + unit + "]";
     }
-    
-    
+
 }

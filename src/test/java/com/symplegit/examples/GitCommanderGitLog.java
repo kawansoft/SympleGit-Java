@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
@@ -42,7 +43,7 @@ public class GitCommanderGitLog {
 
 	final SympleGit sympleGit = SympleGit.custom()
                 .setDirectory(repoDirectoryPath)
-                .setTimeout(5)
+                .setTimeout(5, TimeUnit.SECONDS)
                 .build();
 	
 	System.out.println();
