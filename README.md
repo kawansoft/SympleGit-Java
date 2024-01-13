@@ -188,6 +188,8 @@ The git process is internally launched in a Thread using a `java.util.concurrent
 
 The Facilitator API is a set of classes that wrap the `GitCommander` for each type of Git operation:
 
+### API List
+
 | Class Name      | Usage                                         |
 | --------------- | --------------------------------------------- |
 | GitAdd          | To handle staging area.                       |
@@ -200,6 +202,38 @@ The Facilitator API is a set of classes that wrap the `GitCommander` for each ty
 | GitRepo         | For repository-wide operations.               |
 | GitTag          | For tagging operations.                       |
 | GitVersion      | To get the installed Git version.             |
+
+### API Usage
+
+The Facilitator API usage is straightforward. See the Javadoc.
+
+```java
+// Staging files & commit  with SympleGit using GitAdd & GitCommit
+	
+final SympleGit sympleGit = SympleGit.custom()
+            .setDirectory(repoDirectoryPath)
+            .setTimeout(5, TimeUnit.MINUTES)
+            .build();
+
+GitAdd gitAdd = new GitAdd(sympleGit);
+gitAdd.add("testFile1", "testFile2");
+
+GitCommit gitCommit = new GitCommit(sympleGit);
+gitCommit.commitChanges("Modified test files");
+
+// It's recommended to test the result of the commit call:
+if (!gitCommit.isResponseOk()) {
+    System.out.println("An Error occured: " + gitCommit.getError());
+    if (gitCommit.getException() != null) {
+		System.out.println("An Exception has been raised: " + gitCommit.getError());
+    }
+    return;
+}
+
+System.out.println("Added test files to git repository");
+```
+
+
 
 ## Extending SympleGit Facilitator API using AI (ai-xoss)
 
