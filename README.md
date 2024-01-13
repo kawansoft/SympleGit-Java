@@ -235,7 +235,7 @@ System.out.println("Added test files to git repository");
 
 
 
-## Extending SympleGit Facilitator API using AI (ai-xoss)
+## Extending SympleGit Facilitator API using AI (AI-XOSS)
 
 ### List Files: create create in a flash the FilesLister Class
 
