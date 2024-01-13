@@ -8,27 +8,31 @@ A simple Git wrapper in Java, easily extendable with Artificial Intelligence.
 
 ## What is SympleGit?
 
-SympleGit is a minimalist but robust and extendable Java Git implementation that has 3 main characteristics:
+SympleGit is a minimalist yet robust and expandable Java implementation of Git, characterized by three main features:
 
-1. It supports one to one calls corresponding to Git command line calls.
-2. It has wrappers classes for main Git actions, with easy names to use.
-3. It is extendable & customizable using Artificial Intelligence following the AI-XOSS (AI-Extendable Open Source Software) pattern, this will be detailed.
+1. It supports direct calls corresponding to Git command line operations.
+2. It includes wrapper classes for primary Git actions, with straightforward and easy-to-use names.
+3. It is extendable and customizable using Artificial Intelligence, adhering to the AI-XOSS (AI-Extendable Open Source Software) pattern. More details on this will follow.
 
-## Why choose SympleGit when there is already JGit?
+## Why Choose SympleGit Over JGit?
 
-[JGit](https://www.eclipse.org/jgit/) is a great Java implementation of Git, very well and rich featured, with a clean and fluent API. 
+[JGit](https://www.eclipse.org/jgit/) is an excellent Java implementation of Git, richly featured and well-regarded for its clean and fluent API.
 
-JGit was designed to manage Git full support in Eclipse, implementing all sophisticated actions for the end user developing  a Java project. 
+Designed primarily for complete Git support within Eclipse, JGit implements all the sophisticated actions required by end-users developing Java projects.
 
-If you want to develop a Java editor and add to Git management: [install JGit](https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit).
+For those looking to develop a Java editor and integrate Git management, [JGit is a recommended choice](https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit).
 
-But, on the other side, the API has a learning curve and there is no direct and one to one support for CLI actions. SympleGit  should thus be easier than JGit for simple Git integration in many Java projects that use basic Git actions. Let's jump into details!
+However, JGit's API comes with a learning curve and lacks direct, one-to-one support for CLI actions. Therefore, SympleGit is likely to be a more straightforward option for simple Git integration in many Java projects, particularly those utilizing basic Git functionalities. Let's delve into the details!
+
+
+
+------
 
 ## Choosing SympleGit Over JGit: Understanding the Advantages
 
-### Support for CLI Git calls
+### Support for CLI Git Calls
 
-For example, using JGit for staging files, you must always use the API:
+Using JGit for staging files typically requires utilizing the API:
 
 ```java
 // Staging files with JGIT
@@ -60,12 +64,12 @@ try (Repository repository = CookbookHelper.createNewRepository()) {
 
 ```
 
-With SympleGit, you have two options:
+In contrast, SympleGit offers two straightforward options:
 
-- A direct invocation of a the `GitCommander` class using the command-line interface (CLI) syntax, for example: `git add testfile`.
-- A call using the Facilitator API with the class `GitAdder`.
+- Direct invocation using the `GitCommander` class with command-line interface (CLI) syntax, such as: `git add testfile`.
+- Utilizing the Facilitator API with the `GitAdder` class.
 
-The code for direct invocation is:
+The code for direct invocation is simpler:
 
 ```java
 // Staging files with SympleGit using GitCommander
@@ -80,7 +84,7 @@ GitCommander gitCommander = sympleGit.gitCommander();
 gitCommander.executeGitCommand("git", "add", "testFile", "testFile2"); 
 ```
 
-The code with the `GitAdder` class is:
+Alternatively, you can use the `GitAdder` class:
 
 ```java
 // Staging files with SympleGit using GitAdder
@@ -92,22 +96,24 @@ GitAdder gitAdder = new GitAdder(sympleGit);
 gitAdder.add("testFile", "testFile2");
 ```
 
-Supporting a one to one correspondence with `GitCommander` has advantages:
+The one-to-one correspondence with `GitCommander` offers significant advantages:
 
-- It allows a non Git expert to pass the required Git command without failure, or passing time findings the right parameters in the API. If you are not a Git expert, it will be easy for the Git expert in the company to help you implement the right Git call with the right parameters. On the other side, it will be easy for a Git expert who is not a Java expert to code Gits call in a Java workflow.
-- Git is a complex software, having in Java the equivalent of CLI calls allows to pass complex or rare commands without requiring to program all the option in the API. Example: `git log --graph --abbrev-commit --decorate --date=relative --all --pretty=format:'%h - %ar | %s (%an)%d' --max-count=10`.
+- It simplifies the process for those not well-versed in Git, allowing them to execute necessary Git commands without errors or spending time searching for the correct API parameters. This makes it easier for Git experts to assist non-experts in implementing accurate Git commands. Conversely, it's also convenient for Git experts who are less familiar with Java to integrate Git calls into a Java workflow.
+- Given Git's complexity, the ability to directly use CLI commands in Java enables users to execute complex or uncommon commands without the need to program every option in the API. An example is using detailed Git log commands like `git log --graph --abbrev-commit --decorate --date=relative --all --pretty=format:'%h - %ar | %s (%an)%d' --max-count=10`.
 
-### Straightforward Git implementation
+### Straightforward Git Implementation
 
-if you are not developing a Java Editor, a straightforward Git implementation with all the basics Git commands should be sufficient and easier.
+If you're not developing a Java Editor, a more straightforward Git implementation that covers all the basic commands could be more suitable and easier to use.
 
-As a java developer, the typical case you would meet in Java project accessing is having to replace/fix code automatically in a repository after a treatment. This is why we developed SympleGit: we just wanted a simple Git implementation just to create and push a new branch after modifying source code by replacing all `Statement` with `PreparedStatement` ([for SQL Injection protection](https://www.sqlephant.com/product/#sqli)).
+As a Java developer, a common scenario involves automatically replacing or fixing code in a repository after certain operations. This was our primary motivation behind developing SympleGit. Our goal was simple: to provide an uncomplicated Git implementation that allows for the creation and pushing of new branches after modifying source code. A typical use case, for example, would be replacing all `Statement` instances with `PreparedStatement` for enhanced SQL Injection protection. You can learn more about this aspect of security at [Sqlephant](https://www.sqlephant.com/product/#sqli).
 
-## The Commander API
+### Handling Short and Large Outputs with GitCommander
 
-The `GitCommander` API allows to call any Git command, whatever the command and whatever the ouptut return size.
+The `GitCommander` API is versatile, allowing the execution of any Git command regardless of the command's complexity or the size of its output.
 
-### Short Outpout 
+#### Short Output
+
+For standard operations where the output size is manageable, `GitCommander` efficiently handles the command execution and retrieves the results directly.
 
 ```java
 // List all branches of a repo and print them on console
@@ -131,11 +137,9 @@ for (String branch : branches) {
 }
 ```
 
-### Large Output 
+#### Large Output 
 
-Behind the scenes, `GitCommander` uses `InputStream` to retrieved the errors and output.
-
-This example of the Git command provides full commit messages and metadata for each commit, which can be quite substantial for large repositories.  So we will retrieve the result  using an `InputStream` if size > 4Mb.
+In cases involving more extensive data, such as full commit messages and metadata for each commit in large repositories, `GitCommander` employs `InputStream` to manage and retrieve the output. For outputs exceeding 4MB, `InputStream` is particularly useful to process and handle the data effectively. This approach ensures that even with substantial amounts of data, `GitCommander` can efficiently process and provide the required information.
 
 ```java
 // List full commit messages and metadata for each commit, which can be quite substantial 
@@ -173,64 +177,68 @@ if (gitCommander.getSize() <= 1 * 1024 * 1024) {
 
 ### Setting a Timeout
 
-Use `Builder.setTimeout`in order to define a timeout for the underlying process:
+To manage execution time, SympleGit allows you to set a timeout for the underlying Git process using the `Builder.setTimeout` method. This feature is especially useful for ensuring that operations do not run indefinitely:
 
 ```java
 final SympleGit sympleGit = SympleGit.custom()
 	.setDirectory(repoDirectoryPath)
-	.setTimeout(300, TimeUnit.SECONDS) // Process will be killed after 300 seconds
+	.setTimeout(300, TimeUnit.SECONDS) // The process will be terminated after 300 seconds
 	.build();
 ```
 
-The git process is internally launched in a Thread using a `java.util.concurrent.Future`. This allows to stop activity, but note that the Thread itself will eventually not be stopped.
+Internally, the Git process is executed within a thread using `java.util.concurrent.Future`, enabling controlled termination of operations. However, it's important to note that while this stops the process, the thread itself may continue running until it reaches a natural stopping point.
 
 ## The Facilitator API
 
-The Facilitator API is a set of classes that wrap the `GitCommander` for each type of Git operation:
+The Facilitator API consists of a suite of classes designed to encapsulate the `GitCommander`, each tailored to specific types of Git operations. This approach streamlines the process of executing various Git commands by providing specialized, easy-to-use wrappers.
 
 ### API List
 
-| Class Name      | Usage                                         |
-| --------------- | --------------------------------------------- |
-| GitAdd          | To handle staging area.                       |
-| GitBranchModify | For branch-related operations, in write mode. |
-| GitBranchRead   | For branch-related operations, in read mode.  |
-| GitCommit       | To handle commits.                            |
-| GitDiff         | To compare changes.                           |
-| GitMerge        | For merging branches.                         |
-| GitRemote       | To compare changes.                           |
-| GitRepo         | For repository-wide operations.               |
-| GitTag          | For tagging operations.                       |
-| GitVersion      | To get the installed Git version.             |
+| Class Name      | Purpose                                                |
+| --------------- | ------------------------------------------------------ |
+| GitAdd          | Manages the staging area for changes.                  |
+| GitBranchModify | Handles branch-related operations in write mode.       |
+| GitBranchRead   | Manages branch-related operations in read mode.        |
+| GitCommit       | Facilitates the process of making commits.             |
+| GitDiff         | Compares and tracks changes in the repository.         |
+| GitMerge        | Handles merging of branches.                           |
+| GitRemote       | Manages remote repositories and tracks changes.        |
+| GitRepo         | Provides functionality for repository-wide operations. |
+| GitTag          | Manages tagging operations in the repository.          |
+| GitVersion      | Retrieves information about the installed Git version. |
 
 ### API Usage
 
-The Facilitator API usage is straightforward. See the Javadoc.
+Utilizing the Facilitator API is straightforward. Refer to the Javadoc for detailed documentation.
 
 ```java
-// Staging files & commit  with SympleGit using GitAdd & GitCommit
+// Staging Files & Committing with SympleGit using GitAdd & GitCommit
 	
+// Create a SympleGit instance
 final SympleGit sympleGit = SympleGit.custom()
             .setDirectory(repoDirectoryPath)
             .setTimeout(5, TimeUnit.MINUTES)
             .build();
 
+// Create a GitAdd instance to manage staging
 GitAdd gitAdd = new GitAdd(sympleGit);
 gitAdd.add("testFile1", "testFile2");
 
+// Create a GitCommit instance for making commits
 GitCommit gitCommit = new GitCommit(sympleGit);
 gitCommit.commitChanges("Modified test files");
 
-// It's recommended to test the result of the commit call:
+// It's advisable to check the result of the commit operation:
 if (!gitCommit.isResponseOk()) {
-    System.out.println("An Error occured: " + gitCommit.getError());
+    System.out.println("An Error occurred: " + gitCommit.getError());
     if (gitCommit.getException() != null) {
 		System.out.println("An Exception has been raised: " + gitCommit.getError());
     }
     return;
 }
 
-System.out.println("Added test files to git repository");
+System.out.println("Added test files to the Git repository");
+
 ```
 
 
