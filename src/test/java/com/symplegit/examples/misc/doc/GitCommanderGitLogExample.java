@@ -33,37 +33,38 @@ public class GitCommanderGitLogExample {
 
 	// .setTimeout(300, TimeUnit.SECONDS)
 
-	final SympleGit sympleGit = SympleGit.custom()
+	try(final SympleGit sympleGit = SympleGit.custom()
 		.setDirectory(repoDirectoryPath)
 		//.setTimeout(300, TimeUnit.SECONDS) // Process will be killed after 300 seconds
-		.build();
+		.build();)
+	{
+		GitCommander gitCommander = sympleGit.gitCommander();
+		gitCommander.executeGitCommand("git", "--no-pager", "log");
 
-	GitCommander gitCommander = sympleGit.gitCommander();
-	gitCommander.executeGitCommand("git", "--no-pager", "log");
+		if (!gitCommander.isResponseOk()) {
+		    System.out.println("An Error occured: " + gitCommander.getProcessError());
+		    return;
+		}
 
-	if (!gitCommander.isResponseOk()) {
-	    System.out.println("An Error occured: " + gitCommander.getProcessError());
-	    return;
+		// It's always cautious to test the output
+		if (gitCommander.getSize() <= 4 * 1024 * 1024) {
+		    // Small output size: use String
+		    String[] lines = gitCommander.getProcessOutput().split("\n");
+		    for (String line : lines) {
+			System.out.println(line);
+		    }
+		} else {
+		    // Large output size: use an InputStream
+		    try (BufferedReader reader = new BufferedReader(
+			    new InputStreamReader(gitCommander.getProcessOutputAsInputStream()));) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+			    System.out.println(line);
+			}
+		    }
+		}	
 	}
 
-	// It's always cautious to test the output
-	if (gitCommander.getSize() <= 4 * 1024 * 1024) {
-	    // Small output size: use String
-	    String[] lines = gitCommander.getProcessOutput().split("\n");
-	    for (String line : lines) {
-		System.out.println(line);
-	    }
-	} else {
-	    // Large output size: use an InputStream
-	    try (BufferedReader reader = new BufferedReader(
-		    new InputStreamReader(gitCommander.getProcessOutputAsInputStream()));) {
-		String line;
-		while ((line = reader.readLine()) != null) {
-		    System.out.println(line);
-		}
-	    }
-	}	
-	
 	SympleGit.deleteTempFiles();
 
     }

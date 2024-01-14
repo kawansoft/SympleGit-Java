@@ -54,9 +54,9 @@ import com.symplegit.util.FrameworkDebug;
  */
 public class GitCommander {
 
-    static final String SYMPLEGIT_OUTPUT = "symplegit-output-";
-
     public static boolean DEBUG = FrameworkDebug.isSet(GitCommander.class);
+    
+    static final String SYMPLEGIT_OUTPUT = "symplegit-output-";
 
     private SympleGit sympleGit;
 
@@ -166,14 +166,14 @@ public class GitCommander {
 
 	tempOutputFile = File.createTempFile(SYMPLEGIT_OUTPUT + ApiDateUtil.getDateWithTime() + "-", ".txt");
 
-	try (OutputStream osOutput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
-	    IOUtils.copy(new BufferedInputStream(process.getInputStream()), osOutput);
+	try (InputStream osInput = new BufferedInputStream(process.getInputStream()); OutputStream osOutput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
+	    IOUtils.copy(osInput, osOutput);
 	}
 
 	debug("After tempOutputFile creation");
 
 	// Optionally, delete the file when the JVM exits
-	tempOutputFile.deleteOnExit();
+	//tempOutputFile.deleteOnExit();
     }
 
     private void stopProcess() {
@@ -211,7 +211,9 @@ public class GitCommander {
      * @throws IOException if an I/O error occurs while reading the output.
      */
     public String getProcessOutput() throws IOException {
-	return IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
+	try (InputStream is = getProcessOutputAsInputStream()) {
+            return IOUtils.toString(is, "UTF-8");
+	}
     }
 
     /**

@@ -22,9 +22,12 @@ package com.symplegit.api;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+import com.symplegit.util.FrameworkDebug;
 
 /**
  * SympleGit provides a fluent and simplified interface for configuring and
@@ -35,6 +38,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class SympleGit implements AutoCloseable {
 
+    public static boolean DEBUG = FrameworkDebug.isSet(SympleGit.class);
+    
     public static final int DEFAULT_TIMEOUT_SECONDS = 0;
 
     private final File directory;
@@ -185,23 +190,36 @@ public class SympleGit implements AutoCloseable {
      */
     public static void deleteTempFiles() {
 
+	File tempDir = new File(System.getProperty("java.io.tmpdir"));
+	
 	FileFilter filter = new FileFilter() {
 
 	    @Override
 	    public boolean accept(File pathname) {
-		if (pathname.toString().startsWith(GitCommander.SYMPLEGIT_OUTPUT)) {
+		if (pathname.toString().startsWith(tempDir + File.separator +  GitCommander.SYMPLEGIT_OUTPUT)) {
 		    return true;
 		}
 		return false;
 	    }
 	};
-	
-	File tempDir = new File(System.getProperty("java.io.tmpdir"));
+
         final File[] tempfiles = tempDir.listFiles(filter);
         if (tempfiles!= null) {
             for (File tempFile : tempfiles) {
-                tempFile.delete();
+                boolean deleted = tempFile.delete();
+        	debug("Deleting temporary file: " + deleted + ": " + tempFile.getAbsolutePath());
             }
         }
+    }
+    
+    /**
+     * Prints a debug message with the current timestamp if debugging is enabled.
+     *
+     * @param sMsg The debug message to be printed.
+     */
+    protected static  void debug(String sMsg) {
+	if (DEBUG) {
+	    System.out.println(new Date() + " " + sMsg);
+	}
     }
 }
