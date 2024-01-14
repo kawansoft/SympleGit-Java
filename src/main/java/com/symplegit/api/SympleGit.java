@@ -186,7 +186,10 @@ public class SympleGit implements AutoCloseable {
     }
 
     /**
-     * Deletes all temporary files. Be cautious when using this method (especially if JVM is shared )
+     * Deletes all temporary files. <br>
+     * To be used to clean java.io.tmpdir temp directory of SympleGit temp files, if SympleGit was not systematically closed in applications.
+     * <br><br>
+     * Be cautious when using this method (especially if JVM is shared )
      */
     public static void deleteTempFiles() {
 
