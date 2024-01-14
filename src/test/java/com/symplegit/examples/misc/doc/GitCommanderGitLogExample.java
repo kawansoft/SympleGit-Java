@@ -63,6 +63,8 @@ public class GitCommanderGitLogExample {
 		}
 	    }
 	}	
+	
+	SympleGit.deleteTempFiles();
 
     }
 

@@ -23,6 +23,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,21 +55,18 @@ import com.symplegit.util.FrameworkDebug;
 public class GitCommander {
 
     static final String SYMPLEGIT_OUTPUT = "symplegit-output-";
-    static final String SYMPLEGIT_ERROR = "symplegit-error-";
 
     public static boolean DEBUG = FrameworkDebug.isSet(GitCommander.class);
 
     private SympleGit sympleGit;
-    
+
     private ProcessBuilder builder;
     private Exception exception;
     private int exitCode;
 
-    //private File tempErrorFile = null;
     private File tempOutputFile = null;
-    
-    private Process process = null;
 
+    private Process process = null;
 
     /**
      * Constructs a GitCommander object with a specified SympleGit instance.
@@ -82,8 +80,6 @@ public class GitCommander {
 	builder.directory(sympleGit.getDirectory());
     }
 
-
-    
     /**
      * Executes a Git command and handles its output and error streams.
      *
@@ -91,37 +87,37 @@ public class GitCommander {
      *                strings.
      */
     public void executeGitCommand(String... command) {
-	
-        ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        Callable<String> task = new Callable<String>() {
-            @Override
-            public String call() throws InterruptedException {
-        	executeInThread(command);
-                return "OK";
-            }
-        };
+	ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        Future<String> future = executor.submit(task);
+	Callable<String> task = new Callable<String>() {
+	    @Override
+	    public String call() throws InterruptedException {
+		executeInThread(command);
+		return "OK";
+	    }
+	};
 
-        long timeout = sympleGit.getTimeout();
-        TimeUnit unit = sympleGit.getUnit();
-        
-        debug("unit: " + unit);
-        try {
-           
-            long futureTimeout = timeout == 0? Long.MAX_VALUE : timeout;
-           
-            // Get the result of the asynchronous computation with a timeout of 1 second
-            future.get(futureTimeout, unit);
-        } catch (TimeoutException e) {
-            stopProcess();
-            throw new UncheckedTimeoutException("Timeout after " + timeout + unit);
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        } finally {
-            executor.shutdown(); // Always remember to shut down the executor service
-        }
+	Future<String> future = executor.submit(task);
+
+	long timeout = sympleGit.getTimeout();
+	TimeUnit unit = sympleGit.getUnit();
+
+	debug("unit: " + unit);
+	try {
+
+	    long futureTimeout = timeout == 0 ? Long.MAX_VALUE : timeout;
+
+	    // Get the result of the asynchronous computation with a timeout of 1 second
+	    future.get(futureTimeout, unit);
+	} catch (TimeoutException e) {
+	    stopProcess();
+	    throw new UncheckedTimeoutException("Timeout after " + timeout + unit);
+	} catch (InterruptedException | ExecutionException e) {
+	    e.printStackTrace();
+	} finally {
+	    executor.shutdown(); // Always remember to shut down the executor service
+	}
     }
 
     /**
@@ -133,42 +129,17 @@ public class GitCommander {
 	debug("Git command: " + removeCommas(Arrays.toString(command)));
 
 	try {
-	    
+
 	    builder.command(command); // Correctly set the command
 	    process = builder.start();
 
-//	    debug("Before tempErrorFile creation");
-//
-//	    tempErrorFile = File.createTempFile(SYMPLEGIT_ERROR + ApiDateUtil.getDateWithTime() + "-", ".txt");
-//
-//	    try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
-//		IOUtils.copy(new BufferedInputStream(process.getErrorStream()), osError);
-//	    }
-//	    	    
-//	    debug("After tempErrorFile creation");
-
-	    // Optionally, delete the file when the JVM exits
-	    //tempErrorFile.deleteOnExit();
-
-	    debug("Before tempOutputFile creation");
-
-	    tempOutputFile = File.createTempFile(SYMPLEGIT_OUTPUT + ApiDateUtil.getDateWithTime() + "-", ".txt");
-
-	    try(  OutputStream osOutput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
-		IOUtils.copy(new BufferedInputStream(process.getInputStream()), osOutput);
-	    }
-
-	    debug("After tempOutputFile creation");
-
-	    // Optionally, delete the file when the JVM exits
-	    tempOutputFile.deleteOnExit();
-
+	    createOutputTempFile();
 	    debug("waitFor...: " + removeCommas(Arrays.toString(command)));
 
 	    exitCode = process.waitFor();
 	    debug("exitCode: " + exitCode);
 
-	    //process.destroy();
+	    // process.destroy();
 	    process.destroyForcibly();
 
 	} catch (Throwable throwable) {
@@ -178,20 +149,39 @@ public class GitCommander {
 	    } else {
 		exception = new Exception(throwable);
 	    }
-	}
-	finally {
-	    //sympleGit.addTempFile(tempErrorFile);
+	} finally {
+	    // sympleGit.addTempFile(tempErrorFile);
 	    sympleGit.addTempFile(tempOutputFile);
 	}
     }
-    
-    private void stopProcess() {
-        if (this.process != null) {
-            //this.process.destroy();
-            this.process.destroyForcibly();
-        }
+
+    /**
+     * Create a temporary file to store the output of the last executed Git command.
+     * 
+     * @throws IOException
+     * @throws FileNotFoundException
+     */
+    private void createOutputTempFile() throws IOException, FileNotFoundException {
+	debug("Before tempOutputFile creation");
+
+	tempOutputFile = File.createTempFile(SYMPLEGIT_OUTPUT + ApiDateUtil.getDateWithTime() + "-", ".txt");
+
+	try (OutputStream osOutput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
+	    IOUtils.copy(new BufferedInputStream(process.getInputStream()), osOutput);
+	}
+
+	debug("After tempOutputFile creation");
+
+	// Optionally, delete the file when the JVM exits
+	tempOutputFile.deleteOnExit();
     }
-    
+
+    private void stopProcess() {
+	if (this.process != null) {
+	    // this.process.destroy();
+	    this.process.destroyForcibly();
+	}
+    }
 
     /**
      * Checks if the last executed Git command was successful.
@@ -213,9 +203,9 @@ public class GitCommander {
     }
 
     /**
-     * Gets the standard output of the last executed Git command as a String.
-     * <br>
-     * It's good practice to test the length of the output as it can be retrieved with {@link #getSize()}.
+     * Gets the standard output of the last executed Git command as a String. <br>
+     * It's good practice to test the length of the output as it can be retrieved
+     * with {@link #getSize()}.
      *
      * @return The standard output of the last executed Git command.
      * @throws IOException if an I/O error occurs while reading the output.
@@ -223,7 +213,6 @@ public class GitCommander {
     public String getProcessOutput() throws IOException {
 	return IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
     }
-    
 
     /**
      * Gets the error output of the last executed Git command as a String.
@@ -232,7 +221,7 @@ public class GitCommander {
      * @throws IOException if an I/O error occurs while reading the error output.
      */
     public String getProcessError() throws IOException {
-	return getProcessOutput(); // 
+	return getProcessOutput(); // Fusion of stream output and error output
     }
 
     /**
@@ -270,12 +259,7 @@ public class GitCommander {
      * @throws IOException if the error file does not exist or an I/O error occurs.
      */
     public InputStream getProcessErrorAsInputStream() throws IOException {
-
-	if (tempOutputFile != null && tempOutputFile.exists()) {
-	    return new BufferedInputStream(new FileInputStream(tempOutputFile));
-	}
-	return null;
-
+	return getProcessOutputAsInputStream(); // Fusion of stream output and error output
     }
 
     /**
@@ -302,7 +286,6 @@ public class GitCommander {
 	return str;
     }
 
-
     /**
      * Prints a debug message with the current timestamp if debugging is enabled.
      *
@@ -313,9 +296,5 @@ public class GitCommander {
 	    System.out.println(new Date() + " " + sMsg);
 	}
     }
-
-
-
-
 
 }
