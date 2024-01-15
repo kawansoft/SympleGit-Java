@@ -29,6 +29,19 @@ import com.symplegit.api.SympleGit;
  * The GitRemote class is responsible for managing remote repository operations.
  * It provides functionalities to fetch, push, pull and list remote repositories.
  * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
+ * <br><br>
+ * Usage
+ * <pre> <code>
+	String repoDirectoryPath = "/path/to/my/git/repository";
+	final SympleGit sympleGit = SympleGit.custom()
+		.setDirectory(repoDirectoryPath)
+		.build();
+		
+	GitRemote gitRemote = new GitRemote(sympleGit);
+	
+	// Call a method
+	gitRemote.fetchRemote("/my/git/repository");
+ * </code> </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4

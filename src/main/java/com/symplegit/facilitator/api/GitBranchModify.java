@@ -28,7 +28,21 @@ import com.symplegit.api.SympleGit;
 /**
  * The GitBranchModify class provides functionalities to create, delete, and rename branches in a Git repository.
  * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands.
+ * <br><br>
+ * Usage
+ * <pre> <code>
+	String repoDirectoryPath = "/path/to/my/git/repository";
+	final SympleGit sympleGit = SympleGit.custom()
+		.setDirectory(repoDirectoryPath)
+		.build();
+
+	GitBranchModify gitBranchModify = new GitBranchModify(sympleGit);
+	
+	// Call a method
+	gitBranchModify.deleteBranch("myBranch");
+ * </code> </pre>
  * 
+ * @author KawanSoft SAS
  * @author GPT-4
  */
 public class GitBranchModify implements GitWrapper {

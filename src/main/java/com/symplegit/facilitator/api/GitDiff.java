@@ -31,7 +31,21 @@ import com.symplegit.api.SympleGit;
  * to compare changes in a Git repository. It supports comparing differences
  * between two commits, viewing staged differences, and viewing differences
  * in a specific file.
+ * <br><br>
+ * Usage
+ * <pre> <code>
+	String repoDirectoryPath = "/path/to/my/git/repository";
+	final SympleGit sympleGit = SympleGit.custom()
+		.setDirectory(repoDirectoryPath)
+		.build();
+		
+	GitDiff gitDiff = new GitDiff(sympleGit);
+	// Call a method
+	String diff = gitDiff.getFileDiff("path/to/my/file.txt");
+	
+ * </code> </pre>
  * 
+ * @author KawanSoft SAS
  * @author GPT-4
  */
 public class GitDiff implements GitWrapper {

@@ -48,17 +48,46 @@ import com.symplegit.util.FrameworkDebug;
 /**
  * The GitCommander class is responsible for executing Git commands and handling
  * their outputs. It uses a ProcessBuilder to run Git commands and captures
- * their output and error streams.
- * <br>
+ * their output and error streams. <br>
  * Usage:
  * 
+ * <pre>
+ * <code>
+ 	String repoDirectoryPath = "/path/to/my/git/repository";
+	final SympleGit sympleGit = SympleGit.custom()
+		.setDirectory(repoDirectoryPath)
+		.build();
+
+	String branchName = "myNewBranch";
+	
+	// Create gitCommander instance from SympleGit & create a branch
+	GitCommander gitCommander = sympleGit.gitCommander();
+	gitCommander.executeGitCommand("git", "branch", branchName);
+	
+	// Test all is OK:
+	if (gitCommander.isResponseOk()) {
+	    System.out.println("Branch " + branchName + " successfully created!");
+	}
+	else {
+	    String error = gitCommander.getProcessError();
+	    System.out.println("Could not create branch: " +error);
+	}
+	
+	// Example of output: Get the active branch name
+	gitCommander.executeGitCommand("git", "branch", branchName);
+	if (gitCommander.isResponseOk()) {
+            System.out.println("Active Branch " + gitCommander.getProcessOutput());
+        }
+    }
+ * </code>
+ * </pre>
  *
  * @author KawanSoft SAS
  */
 public class GitCommander {
 
     public static boolean DEBUG = FrameworkDebug.isSet(GitCommander.class);
-    
+
     static final String SYMPLEGIT_OUTPUT = "symplegit-output-";
 
     private SympleGit sympleGit;
@@ -169,14 +198,15 @@ public class GitCommander {
 
 	tempOutputFile = File.createTempFile(SYMPLEGIT_OUTPUT + ApiDateUtil.getDateWithTime() + "-", ".txt");
 
-	try (InputStream osInput = new BufferedInputStream(process.getInputStream()); OutputStream osOutput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
+	try (InputStream osInput = new BufferedInputStream(process.getInputStream());
+		OutputStream osOutput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
 	    IOUtils.copy(osInput, osOutput);
 	}
 
 	debug("After tempOutputFile creation");
 
 	// Optionally, delete the file when the JVM exits
-	//tempOutputFile.deleteOnExit();
+	// tempOutputFile.deleteOnExit();
     }
 
     private void stopProcess() {
@@ -215,7 +245,7 @@ public class GitCommander {
      */
     public String getProcessOutput() throws IOException {
 	try (InputStream is = getProcessOutputAsInputStream()) {
-            return IOUtils.toString(is, "UTF-8");
+	    return IOUtils.toString(is, "UTF-8");
 	}
     }
 

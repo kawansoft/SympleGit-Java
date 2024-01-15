@@ -28,7 +28,21 @@ import com.symplegit.api.SympleGit;
 /**
  * The GitTag class provides functionalities to manage tags in a Git repository.
  * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands related to tagging.
+ * <br><br>
+ * Usage
+ * <pre> <code>
+	String repoDirectoryPath = "/path/to/my/git/repository";
+	final SympleGit sympleGit = SympleGit.custom()
+		.setDirectory(repoDirectoryPath)
+		.build();
+
+	GitTag gitTag = new GitTag(sympleGit);
+	
+	// Call a method
+	gitTag.deleteTag("myTag");
+ * </code> </pre>
  * 
+ * @author KawanSoft SAS
  * @author GPT-4
  */
 public class GitTag implements GitWrapper {

@@ -30,7 +30,21 @@ import com.symplegit.api.SympleGit;
  * GitCommit provides functionality for handling Git commits.
  * It includes methods for committing changes, amending commits, and retrieving commit history.
  * This class implements the GitWrapper interface and uses GitCommander for command execution.
+ * <br><br>
+ * Usage
+ * <pre> <code>
+	String repoDirectoryPath = "/path/to/my/git/repository";
+	final SympleGit sympleGit = SympleGit.custom()
+		.setDirectory(repoDirectoryPath)
+		.build();
+ 
+	GitCommit commit = new GitCommit(sympleGit);
+	
+	// Call a method
+	commit.commitChanges("My new commit message");
+ * </code> </pre>
  * 
+ * @author KawanSoft SAS
  * @author GPT-4
  */
 public class GitCommit implements GitWrapper {

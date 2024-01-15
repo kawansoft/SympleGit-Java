@@ -21,6 +21,12 @@ package com.symplegit.examples.misc.javadoc;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
+import com.symplegit.facilitator.api.GitAdd;
+import com.symplegit.facilitator.api.GitCommit;
+import com.symplegit.facilitator.api.GitMerge;
+import com.symplegit.facilitator.api.GitRemote;
+import com.symplegit.facilitator.api.GitRepo;
+import com.symplegit.facilitator.api.GitTag;
 
 public class SympleGitJavadoc {
 
@@ -31,24 +37,40 @@ public class SympleGitJavadoc {
 		.setDirectory(repoDirectoryPath)
 		.build();
 
-	String branchName = "myNewBranch";
-	
-	// Create gitCommander instance from SympleGit & create a branch
-	GitCommander gitCommander = sympleGit.gitCommander();
-	gitCommander.executeGitCommand("git", "branch", branchName);
-	
-	// Test all is OK:
-	if (gitCommander.isResponseOk()) {
-	    System.out.println("Branch " + branchName + " successfully created!");
-	}
-	else {
-	    String error = gitCommander.getProcessError();
-	    System.out.println("Could not create branch: " +error);
-	}
-	
-	// Get the reult of a command
-	gitCommander.executeGitCommand("git", "branch", branchName);
+	// From there:
+	// 1) Call directly a Git Command
 
+	GitCommander gitCommander = sympleGit.gitCommander();
+	gitCommander.executeGitCommand("git", "add", "testFile1", "testFile2");
+
+	// Or 2) call the Facilitator API with the build in classes
+	 
+	GitAdd gitAdd = new GitAdd(sympleGit);
+	gitAdd.add("testFile1", "testFile2");
+
+	GitCommit gitCommit = new GitCommit(sympleGit);
+	gitCommit.commitChanges("Modified test files"); 
+	
+	GitMerge gitMerge = new GitMerge(sympleGit);
+	
+	// Call a method
+	gitMerge.mergeBranches("branch_1", "branch_2");
+	
+	GitRemote gitRemote = new GitRemote(sympleGit);
+	
+	// Call a method
+	gitRemote.fetchRemote("/my/git/repository");
+	
+	
+	GitRepo gitRepo = new GitRepo(sympleGit);
+	
+	// Call a method
+	gitRepo.cloneRepository("https://github.com/kawansoft/SympleGit-Java");
+	
+	GitTag gitTag = new GitTag(sympleGit);
+	
+	// Call a method
+	gitTag.deleteTag("myTag");
     }
 
 }

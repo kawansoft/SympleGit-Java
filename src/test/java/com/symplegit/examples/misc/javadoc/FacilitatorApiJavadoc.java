@@ -19,11 +19,17 @@
  */
 package com.symplegit.examples.misc.javadoc;
 
-import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
+import com.symplegit.facilitator.api.GitAdd;
+import com.symplegit.facilitator.api.GitBranchModify;
+import com.symplegit.facilitator.api.GitBranchRead;
+import com.symplegit.facilitator.api.GitCommit;
+import com.symplegit.facilitator.api.GitDiff;
+import com.symplegit.facilitator.api.GitVersion;
 
-public class GitCommanderJavadoc {
+public class FacilitatorApiJavadoc {
 
+    @SuppressWarnings("unused")
     public static void main(String[] args) throws Exception {
 
 	String repoDirectoryPath = "/path/to/my/git/repository";
@@ -31,26 +37,31 @@ public class GitCommanderJavadoc {
 		.setDirectory(repoDirectoryPath)
 		.build();
 
-	String branchName = "myNewBranch";
+	 
+	GitAdd gitAdd = new GitAdd(sympleGit);
 	
-	// Create gitCommander instance from SympleGit & create a branch
-	GitCommander gitCommander = sympleGit.gitCommander();
-	gitCommander.executeGitCommand("git", "branch", branchName);
+	// Call GitAdd method
+	gitAdd.addAll();
+
+	GitBranchModify gitBranchModify = new GitBranchModify(sympleGit);
 	
-	// Test all is OK:
-	if (gitCommander.isResponseOk()) {
-	    System.out.println("Branch " + branchName + " successfully created!");
-	}
-	else {
-	    String error = gitCommander.getProcessError();
-	    System.out.println("Could not create branch: " +error);
-	}
+	// Call a method
+	gitBranchModify.deleteBranch("myBranch");
 	
-	// Example of output: Get the active branch name
-	gitCommander.executeGitCommand("git", "branch", branchName);
-	if (gitCommander.isResponseOk()) {
-            System.out.println("Active Branch " + gitCommander.getProcessOutput());
-        }
+	GitBranchRead GitBranchRead = new GitBranchRead(sympleGit);
+	@SuppressWarnings("unused")
+	String active = GitBranchRead.getActiveBranch();
+	
+	GitDiff gitDiff = new GitDiff(sympleGit);
+	// Call a method
+	String diff = gitDiff.getFileDiff("path/to/my/file.txt");
+	
+	GitCommit commit = new GitCommit(sympleGit);
+	// Call a method
+	commit.commitChanges("My new commit message");
+	
+	GitVersion gitVersion = new GitVersion(sympleGit);
+	System.out.println("Git Version: " + gitVersion.getVersion());
     }
 
 }

@@ -44,7 +44,7 @@ import com.symplegit.util.FrameworkDebug;
 		.build();
 
 	// From there:
-	// 1) Call directly a Git Comamnd
+	// 1) Call directly a Git Command
 
 	GitCommander gitCommander = sympleGit.gitCommander();
 	gitCommander.executeGitCommand("git", "add", "testFile1", "testFile2");

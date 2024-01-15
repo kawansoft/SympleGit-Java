@@ -30,6 +30,19 @@ import com.symplegit.api.SympleGit;
  * version of Git. It implements the GitWrapper interface, using GitCommander to
  * execute the 'git --version' command.
  * 
+ * <br><br>
+ * Usage
+ * <pre> <code>
+	String repoDirectoryPath = "/path/to/my/git/repository";
+	final SympleGit sympleGit = SympleGit.custom()
+		.setDirectory(repoDirectoryPath)
+		.build();
+
+	GitVersion gitVersion = new GitVersion(sympleGit);
+	System.out.println("Git Version: " + gitVersion.getVersion());
+ * </code> </pre>
+ * 
+ * @author KawanSoft SAS
  * @author GPT-4
  */
 public class GitVersion implements GitWrapper {

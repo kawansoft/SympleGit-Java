@@ -38,7 +38,21 @@ import com.symplegit.util.FrameworkDebug;
  * The GitBranchRead class provides functionalities to read the status of a branch, test if a branch exists,
  * list all local branches, list all remote branches.
  * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands.
+
+ * Usage
+ * <pre> <code>
+	String repoDirectoryPath = "/path/to/my/git/repository";
+	final SympleGit sympleGit = SympleGit.custom()
+		.setDirectory(repoDirectoryPath)
+		.build();
+
+	GitBranchRead GitBranchRead = new GitBranchRead(sympleGit);
+	
+	// Call a method
+	String active = GitBranchRead.getActiveBranch();
+ * </code> </pre>
  * 
+ * @author KawanSoft SAS
  * @author KawanSoft SAS
  */
 public class GitBranchRead {

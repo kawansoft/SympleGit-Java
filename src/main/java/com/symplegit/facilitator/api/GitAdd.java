@@ -30,7 +30,21 @@ import com.symplegit.api.SympleGit;
 /**
  * The GitAdd class allows adding all changed files, or specific files to the staging area.
  * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
+ * <br><br>
+ * Usage
+ * <pre> <code>
+	String repoDirectoryPath = "/path/to/my/git/repository";
+	final SympleGit sympleGit = SympleGit.custom()
+		.setDirectory(repoDirectoryPath)
+		.build();
+		
+	GitAdd gitAdd = new GitAdd(sympleGit);
+	
+	// Call a method
+	gitAdd.addAll();
+ * </code> </pre>
  * 
+ * @author KawanSoft SAS
  * @author GPT-4
  */
 public class GitAdd implements GitWrapper {
