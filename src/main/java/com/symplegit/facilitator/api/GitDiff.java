@@ -40,6 +40,7 @@ import com.symplegit.api.SympleGit;
 		.build();
 		
 	GitDiff gitDiff = new GitDiff(sympleGit);
+	
 	// Call a method
 	String diff = gitDiff.getFileDiff("path/to/my/file.txt");
 	
