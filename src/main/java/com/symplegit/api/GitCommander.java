@@ -50,7 +50,8 @@ import com.symplegit.util.FrameworkDebug;
  * their outputs. It uses a ProcessBuilder to run Git commands and captures
  * their output and error streams.
  * <br>
- * Usage
+ * Usage:
+ * 
  *
  * @author KawanSoft SAS
  */

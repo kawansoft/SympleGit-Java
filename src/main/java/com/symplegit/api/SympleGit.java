@@ -47,7 +47,7 @@ import com.symplegit.util.FrameworkDebug;
 	// 1) Call directly a Git Comamnd
 
 	GitCommander gitCommander = sympleGit.gitCommander();
-	gitCommander.executeGitCommand("git", "--no-pager", "log");
+	gitCommander.executeGitCommand("git", "add", "testFile1", "testFile2");
 
 	// Or 2) call the Facilitator API with the build in classes
 	 

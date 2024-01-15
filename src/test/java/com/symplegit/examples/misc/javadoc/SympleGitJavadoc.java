@@ -19,56 +19,35 @@
  */
 package com.symplegit.examples.misc.javadoc;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitAdd;
-import com.symplegit.facilitator.api.GitCommit;
 
 public class SympleGitJavadoc {
 
     public static void main(String[] args) throws Exception {
-
 
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()
 		.setDirectory(repoDirectoryPath)
 		.build();
 
-	// From there:
-	// 1) Call directly a Git Comamnd
-
+	String branchName = "myNewBranch";
+	
+	// Create gitCommander instance from SympleGit & create a branch
 	GitCommander gitCommander = sympleGit.gitCommander();
-	gitCommander.executeGitCommand("git", "--no-pager", "log");
-
-	// Or 2) call the Facilitator API with the build in classes
-	GitAdd gitAdd = new GitAdd(sympleGit);
-	gitAdd.add("testFile1", "testFile2");
-
-	GitCommit gitCommit = new GitCommit(sympleGit);
-	gitCommit.commitChanges("Modified test files");
-
-	// It's always cautious to test the output
-	if (gitCommander.getSize() <= 4 * 1024 * 1024) {
-	    // Small output size: use String
-	    String[] lines = gitCommander.getProcessOutput().split("\n");
-	    for (String line : lines) {
-		System.out.println(line);
-	    }
-	} else {
-	    // Large output size: use an InputStream
-	    try (BufferedReader reader = new BufferedReader(
-		    new InputStreamReader(gitCommander.getProcessOutputAsInputStream()));) {
-		String line;
-		while ((line = reader.readLine()) != null) {
-		    System.out.println(line);
-		}
-	    }
+	gitCommander.executeGitCommand("git", "branch", branchName);
+	
+	// Test all is OK:
+	if (gitCommander.isResponseOk()) {
+	    System.out.println("Branch " + branchName + " successfully created!");
 	}
-
-	SympleGit.deleteTempFiles();
+	else {
+	    String error = gitCommander.getProcessError();
+	    System.out.println("Could not create branch: " +error);
+	}
+	
+	// Get the reult of a command
+	gitCommander.executeGitCommand("git", "branch", branchName);
 
     }
 
