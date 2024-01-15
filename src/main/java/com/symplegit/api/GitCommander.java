@@ -60,7 +60,7 @@ import com.symplegit.util.FrameworkDebug;
 
 	String branchName = "myNewBranch";
 	
-	// Create gitCommander instance from SympleGit & create a branch
+	// Create gitCommander instance from SympleGit and create a branch
 	GitCommander gitCommander = sympleGit.gitCommander();
 	gitCommander.executeGitCommand("git", "branch", branchName);
 	
@@ -86,6 +86,7 @@ import com.symplegit.util.FrameworkDebug;
  */
 public class GitCommander {
 
+    /** Debug flag. */
     public static boolean DEBUG = FrameworkDebug.isSet(GitCommander.class);
 
     static final String SYMPLEGIT_OUTPUT = "symplegit-output-";
@@ -264,7 +265,6 @@ public class GitCommander {
      * will allow to decide if the content can be directly retrieved as a String.
      *
      * @return The length of the standard output of the last executed Git command.
-     * @throws IOException if an I/O error occurs while reading the output.
      */
     public long getSize() {
 	return tempOutputFile.length();

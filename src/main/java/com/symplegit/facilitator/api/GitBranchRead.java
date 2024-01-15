@@ -57,6 +57,7 @@ import com.symplegit.util.FrameworkDebug;
  */
 public class GitBranchRead implements GitWrapper {
 
+    /** Debug flag. */
     public static boolean DEBUG = FrameworkDebug.isSet(GitBranchRead.class);
     
     private String outputString = null;
@@ -66,7 +67,12 @@ public class GitBranchRead implements GitWrapper {
     private Exception exception;
 
     private SympleGit sympleGit;
-    
+
+    /**
+     * Constructs a GitBranchRead with a specified SympleGit instance.
+     *
+     * @param sympleGit The SympleGit instance to be used for Git command execution.
+     */
     public GitBranchRead(SympleGit sympleGit) {
         this.sympleGit = Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
 

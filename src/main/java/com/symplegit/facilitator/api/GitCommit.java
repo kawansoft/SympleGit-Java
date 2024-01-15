@@ -74,7 +74,7 @@ public class GitCommit implements GitWrapper {
 
     /**
      * Amends the last commit.
-     *
+     * @param message The commit message.
      * @throws IOException If an error occurs during command execution.
      */
     public void amendCommit(String message) throws IOException {

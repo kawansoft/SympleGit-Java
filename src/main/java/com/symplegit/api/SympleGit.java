@@ -63,9 +63,11 @@ import com.symplegit.util.FrameworkDebug;
  */
 public class SympleGit implements AutoCloseable {
 
+    /** Debug flag. */
     public static boolean DEBUG = FrameworkDebug.isSet(SympleGit.class);
 
-    public static final int DEFAULT_TIMEOUT_SECONDS = 0;
+    /** The default timeout for Git operations. */
+    private static final int DEFAULT_TIMEOUT_SECONDS = 0;
 
     private final File directory;
     private int timeout;
