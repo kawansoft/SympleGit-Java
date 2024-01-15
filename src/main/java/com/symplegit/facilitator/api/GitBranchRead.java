@@ -86,6 +86,7 @@ public class GitBranchRead implements GitWrapper {
     
     /**
      * Says if status is "nothing to commit, working tree clean" or not
+     * @return  true if status is "nothing to commit, working tree clean", false otherwise
      */
     public boolean isStatusOk() {
 

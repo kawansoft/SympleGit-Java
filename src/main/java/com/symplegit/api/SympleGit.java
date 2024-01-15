@@ -147,6 +147,12 @@ public class SympleGit implements AutoCloseable {
 	    return this;
 	}
 
+	/**
+	 * Sets the directory path for the Git repository.
+	 *
+	 * @param directoryFile The File of the Git repository directory.
+	 * @return The Builder instance for chaining.
+	 */
 	public Builder setDirectory(File directoryFile) {
 	    Objects.requireNonNull(directoryFile, "directoryFile cannot be null");
 	    this.directory = directoryFile;
