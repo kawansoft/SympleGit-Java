@@ -1,7 +1,7 @@
 
- ${0}=GitAdd
- ${1}=addAll(), add(List<String> files), add(List<File> files)
- ${2}=Git add operations
+${0}=GitAdd
+${1}=addAll(), add(List<String> files), add(List<File> files)
+${2}=Git add operations
  
 ${0}=GitCommit
 ${1}=Methods: commitChanges(message), amendCommit(), getCommitHistory(), getCommitDetails(commitHash)
@@ -35,7 +35,6 @@ ${2}=get Git version
 
 ${0}=GitConfig
 ${1}=Methods: getUserConfig(), setUserConfig(userName, userEmail), getGlobalConfig(), setGlobalConfig(configKey, configValue)
-${2}= For Git configuration management.
-
+${2}=For Git configuration management.
 
 

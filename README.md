@@ -1,10 +1,8 @@
-# 
-
 # SympleGit v1.0 - January 12, 2024
 
 <img src="https://www.symplegit.com/img/arrow_fork2.png" />
 
-A simple Git wrapper in Java, easily extendable with Artificial Intelligence.
+SympleGit is a Java-based Git wrapper, co-developed with AI assistance, offering simplicity and ease of extension through AI integration.
 
 ## What is SympleGit?
 
@@ -189,6 +187,8 @@ final SympleGit sympleGit = SympleGit.custom()
 
 Internally, the Git process is executed within a thread using `java.util.concurrent.Future`, enabling controlled termination of operations. However, it's important to note that while this stops the process, the thread itself may continue running until it reaches a natural stopping point.
 
+When the specified timeout is reached, GitCommander (or the Facilitator API) throws an unchecked exception, `UncheckedTimeoutException`. This mechanism ensures that operations do not exceed the predefined time limit, enhancing the reliability and predictability of the API's behavior in time-sensitive scenarios
+
 ### Releasing Resources by Closing the SympleGit Instance
 
 It's a recommended practice to call the `close` method on the SympleGit instance to ensure the cleanup of temporary files.
@@ -253,7 +253,150 @@ System.out.println("Added test files to the Git repository");
 
 
 
-## Extending SympleGit Facilitator API using AI (AI-XOSS)
+## SympleGit and Artificial Intelligence
 
-### List Files: create create in a flash the FilesLister Class
+### Using AI (GPT-4) to Generate the Facilitator API
+
+All classes in the Facilitator API were generated using GPT-4 and have not been manually updated since (except of Javadoc enhancement). This approach also extends to all unit tests, which were similarly produced by GPT-4.
+
+The generation process for these classes utilized a single, parameterized prompt. This prompt included three specific parameters:
+
+- `${0}`: Represents the [class name].
+- `${1}`: A list of method names, separated by commas.
+- `${2}`: The intended purpose of the class.
+
+Moreover, the prompt included source code from SympleGit, which enabled GPT-4 to efficiently produce contextually relevant new code. (Note: Only GPT-4 is supported; the prompt has not been tested with GPT-3.5 or other AI providers.)
+
+For illustration purposes, the template below was employed to generate the `GitRepo` class. To keep it simple, the actual source code of the referenced classes has been omitted from this prompt.
+
+```bash
+You are a Java expert and a Git expert, world class.
+
+I will pass you 4 Java classes:
+- GitSymple: a class that is the main point of entry, and allows to get GitCommander with GitSymple.getCommander()
+- GitCommander: a class that allows to pass Git commands and get output and errors.
+- GitWrapper: an interface for Git Wrapper classes 
+- GitBranchExample: a simplified example of a wrapper class that does an only update and only a read Git operation.
+
+These classes will be used as a guideline for building a new Wrapper class.
+I want you to write following these guidelines a ${0} wrapped class that will have these methods:
+
+${1} 
+
+in order to wrap these Git operations: ${2}
+
+The values of ${0}, ${1} ,and ${2} are at the end of this prompt.
+
+Add a "@author GPT-4" at first Javadoc.
+Please include clean & professional Javadoc in the generated class.
+
+Please make sure to use Git commands with the options that do not use a pager or an editor.
+
+Here are the classes:
+[content of GitSymple.java]
+[content of GitCommander.java]
+[content of GitWrapper.java]
+[content of GitBranchExample.java]
+
+${0}=GitRepo
+${1}=Methods: cloneRepository(repoUrl), initializeRepository(), getRepositoryStatus(), addRemote(name, url), removeRemote(name)
+${2}=For repository-wide operations.
+```
+
+The `GitBranchExample` serves as a 'generic' example within the Facilitator classes and is the sole class manually written to guide the volatile and session "training" of GPT-4 for our needs. 
+
+This template was then applied to all other classes, with modifications limited to the values of the three parameters:
+
+```bash
+${0}=GitAdd
+${1}=addAll(), add(List<String> files), add(List<File> files)
+${2}=Git add operations.
+ 
+${0}=GitCommit
+${1}=Methods: commitChanges(message), amendCommit(), getCommitHistory(), getCommitDetails(commitHash)
+${2}=To handle commits.
+
+${0}=GitDiff
+${1}=Methods: getDiff(commitHash1, commitHash2), getStagedDiff(), getFileDiff(filePath)
+${2}=To compare changes.
+
+${0}=GitMerge
+${1}=Methods: mergeBranches(targetBranch, sourceBranch), abortMerge(), getMergeStatus()
+${2}=For merging branches.
+
+${0}=GitRemote
+${1}=Methods: fetchRemote(remoteName), pushChanges(remoteName, branchName), pullChanges(remoteName, branchName), listRemotes()
+${2}=For operations on remote repositories.
+
+${0}=GitRepo
+${1}=Methods: cloneRepository(repoUrl), initializeRepository(), getRepositoryStatus(), addRemote(name, url), removeRemote(name)
+${2}=For repository-wide operations.
+
+${0}=GitTag
+${1}=Methods: createTag(tagName, commitHash), deleteTag(tagName), listTags()
+${2}=For tagging operations.
+
+${0}=GitVersion
+${1}=getVersion()
+${2}=get Git version.
+```
+
+
+
+### The SympleGit AI Code Generation Prompt
+
+The complete prompt used for generating code with SympleGit is accessible at the following link: [Insert Link Here].
+
+### Extending SympleGit Facilitator API using a Development Pattern (AI-XOSS)
+
+#### How to Extend the SympleGit Facilitator API
+
+Curious about what's next? The SympleGit open source software can now be effortlessly extended by simply submitting a prompt to GPT-4, accompanied by the parameters for any new class you aim to create.
+
+For instance, if you want to manage Git configurations, you can resubmit the prompt template with the following three parameter values:
+
+```bash
+${0}=GitConfig
+${1}=Methods: getUserConfig(), setUserConfig(userName, userEmail), getGlobalConfig(), setGlobalConfig(configKey, configValue)
+${2}=For managing Git configurations.
+```
+
+This approach of developing open source code with AI, utilizing parametrized templates, is termed "AI-Extendable Open Source Software" or AI-XOSS.
+
+### The AI-XOSS Pattern
+
+AI-XOSS (AI-Extendable Open Source Software) is a software development pattern that integrates artificial intelligence (AI) capabilities into open-source software projects. This innovative approach allows users, even those with limited AI knowledge, to enhance software functionalities using AI-assisted tools.
+
+The AI-XOSS pattern combines AI technologies with open-source development principles, resulting in software that is both adaptive and user-friendly. A key aspect of AI-XOSS is its user-centric design, enabling users to expand software capabilities through AI with minimal technical barriers.
+
+The primary objective of the AI-XOSS pattern is to encourage open-source developers to publish software that is extendable using AI, without requiring users to have any AI expertise, except for knowing how to submit a prompt to a language model like GPT-4.
+
+Utilizing the AI-XOSS pattern offers numerous advantages for both open-source developers and their community of users/developers:
+
+1. Open-source software authors can release products that may not include every anticipated feature initially, reducing the time to market.
+2. Users don't need to request pull requests or wait for the next version; they can extend the software for their specific needs without traditional programming.
+3. It fosters a collaborative ecosystem where users contribute to the software’s evolution, potentially leading to more innovative and diverse functionalities.
+4. The pattern can reduce the overall development burden on the core team, as users can independently develop extensions and customizations.
+5. It democratizes software development, enabling a wider range of contributors to participate in the software creation process.
+6. AI-XOSS can lead to faster iteration and improvement of software, as AI-generated solutions can be quickly tested and refined.
+7. This approach can potentially increase the software's adaptability to different use cases and environments, enhancing its versatility and appeal.
+8. AI-XOSS may attract a broader user base, as the ease of customization and extension can appeal to both technical and non-technical users.
+
+
+
+-----------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
