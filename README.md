@@ -187,13 +187,11 @@ final SympleGit sympleGit = SympleGit.custom()
 
 Internally, the Git process is executed within a thread using `java.util.concurrent.Future`, enabling controlled termination of operations. However, it's important to note that while this stops the process, the thread itself may continue running until it reaches a natural stopping point.
 
-When the specified timeout is reached, GitCommander (or the Facilitator API) throws an unchecked exception, `UncheckedTimeoutException`. This mechanism ensures that operations do not exceed the predefined time limit, enhancing the reliability and predictability of the API's behavior in time-sensitive scenarios
+When the specified timeout is reached, GitCommander (or the Facilitator API) throws an unchecked exception, `UncheckedTimeoutException`. This mechanism ensures that operations do not exceed the predefined time limit.
 
 ### Releasing Resources by Closing the SympleGit Instance
 
-It's a recommended practice to call the `close` method on the SympleGit instance to ensure the cleanup of temporary files.
-
-SympleGit is designed to be `AutoCloseable`, allowing for easy resource management.
+It's a recommended practice to call the `close` method on the SympleGit instance to ensure the cleanup of temporary files. SympleGit is designed to be `AutoCloseable`, allowing for easy resource management.
 
 Additionally, there's a static method available, `SympleGit.deleteTempFiles()`, which can be used to delete all temporary files created. However, exercise caution when using this method, especially in multi-user environments.
 
@@ -262,12 +260,12 @@ All classes in the Facilitator API were generated using GPT-4 and have not been 
 The generation process for these classes utilized a single, parameterized prompt. This prompt included three specific parameters:
 
 - `${0}`: Represents the [class name].
-- `${1}`: A list of method names, separated by commas.
+- `${1}`: A list of method names, each potentially with self-descriptive parameters, separated by commas.
 - `${2}`: The intended purpose of the class.
 
 Moreover, the prompt included source code from SympleGit, which enabled GPT-4 to efficiently produce contextually relevant new code. (Note: Only GPT-4 is supported; the prompt has not been tested with GPT-3.5 or other AI providers.)
 
-For illustration purposes, the template below was employed to generate the `GitRepo` class. To keep it simple, the actual source code of the referenced classes has been omitted from this prompt.
+For illustration purposes, the template below was employed to generate the `GitRepo` class. To keep it simple, the actual source code of the referenced classes has been omitted from this prompt (full prompt is below):
 
 ```bash
 You are a Java expert and a Git expert, world class.
