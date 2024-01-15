@@ -30,7 +30,7 @@ import com.symplegit.api.SympleGit;
  * It provides functionalities to fetch, push, pull and list remote repositories.
  * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
  * 
- * @author Nicolas de Pomereu
+ * @author KawanSoft SAS
  * @author GPT-4
  */
 public class GitRemote implements GitWrapper {

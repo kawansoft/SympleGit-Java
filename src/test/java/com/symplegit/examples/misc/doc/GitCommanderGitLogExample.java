@@ -38,6 +38,7 @@ public class GitCommanderGitLogExample {
 		//.setTimeout(300, TimeUnit.SECONDS) // Process will be killed after 300 seconds
 		.build();)
 	{
+	    
 		GitCommander gitCommander = sympleGit.gitCommander();
 		gitCommander.executeGitCommand("git", "--no-pager", "log");
 
@@ -45,7 +46,7 @@ public class GitCommanderGitLogExample {
 		    System.out.println("An Error occured: " + gitCommander.getProcessError());
 		    return;
 		}
-
+		
 		// It's always cautious to test the output
 		if (gitCommander.getSize() <= 4 * 1024 * 1024) {
 		    // Small output size: use String

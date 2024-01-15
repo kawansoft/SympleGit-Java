@@ -49,8 +49,10 @@ import com.symplegit.util.FrameworkDebug;
  * The GitCommander class is responsible for executing Git commands and handling
  * their outputs. It uses a ProcessBuilder to run Git commands and captures
  * their output and error streams.
+ * <br>
+ * Usage
  *
- * @author Nicolas de Pomereu
+ * @author KawanSoft SAS
  */
 public class GitCommander {
 

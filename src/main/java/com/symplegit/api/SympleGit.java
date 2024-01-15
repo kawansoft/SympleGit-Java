@@ -33,13 +33,38 @@ import com.symplegit.util.FrameworkDebug;
  * SympleGit provides a fluent and simplified interface for configuring and
  * using Git operations. It utilizes a builder pattern for easy configuration
  * and initialization. It is a part of the SympleGit package, which aims to
- * simplify interactions with Git repositories.
- * 
+ * simplify interactions with Git repositories. <br>
+ * <br>
+ * Usage:
+ * <pre>
+ * <code>
+	String repoDirectoryPath = "/path/to/my/git/repository";
+	final SympleGit sympleGit = SympleGit.custom()
+		.setDirectory(repoDirectoryPath)
+		.build();
+
+	// From there:
+	// 1) Call directly a Git Comamnd
+
+	GitCommander gitCommander = sympleGit.gitCommander();
+	gitCommander.executeGitCommand("git", "--no-pager", "log");
+
+	// Or 2) call the Facilitator API with the build in classes
+	 
+	GitAdd gitAdd = new GitAdd(sympleGit);
+	gitAdd.add("testFile1", "testFile2");
+
+	GitCommit gitCommit = new GitCommit(sympleGit);
+	gitCommit.commitChanges("Modified test files");   
+	
+ * </code>
+ * </pre>
+ * @author KawanSoft SAS
  */
 public class SympleGit implements AutoCloseable {
 
     public static boolean DEBUG = FrameworkDebug.isSet(SympleGit.class);
-    
+
     public static final int DEFAULT_TIMEOUT_SECONDS = 0;
 
     private final File directory;
@@ -187,40 +212,41 @@ public class SympleGit implements AutoCloseable {
 
     /**
      * Deletes all temporary files. <br>
-     * To be used to clean java.io.tmpdir temp directory of SympleGit temp files, if SympleGit was not systematically closed in applications.
-     * <br><br>
+     * To be used to clean java.io.tmpdir temp directory of SympleGit temp files, if
+     * SympleGit was not systematically closed in applications. <br>
+     * <br>
      * Be cautious when using this method (especially if JVM is shared )
      */
     public static void deleteTempFiles() {
 
 	File tempDir = new File(System.getProperty("java.io.tmpdir"));
-	
+
 	FileFilter filter = new FileFilter() {
 
 	    @Override
 	    public boolean accept(File pathname) {
-		if (pathname.toString().startsWith(tempDir + File.separator +  GitCommander.SYMPLEGIT_OUTPUT)) {
+		if (pathname.toString().startsWith(tempDir + File.separator + GitCommander.SYMPLEGIT_OUTPUT)) {
 		    return true;
 		}
 		return false;
 	    }
 	};
 
-        final File[] tempfiles = tempDir.listFiles(filter);
-        if (tempfiles!= null) {
-            for (File tempFile : tempfiles) {
-                boolean deleted = tempFile.delete();
-        	debug("Deleting temporary file: " + deleted + ": " + tempFile.getAbsolutePath());
-            }
-        }
+	final File[] tempfiles = tempDir.listFiles(filter);
+	if (tempfiles != null) {
+	    for (File tempFile : tempfiles) {
+		boolean deleted = tempFile.delete();
+		debug("Deleting temporary file: " + deleted + ": " + tempFile.getAbsolutePath());
+	    }
+	}
     }
-    
+
     /**
      * Prints a debug message with the current timestamp if debugging is enabled.
      *
      * @param sMsg The debug message to be printed.
      */
-    protected static  void debug(String sMsg) {
+    protected static void debug(String sMsg) {
 	if (DEBUG) {
 	    System.out.println(new Date() + " " + sMsg);
 	}

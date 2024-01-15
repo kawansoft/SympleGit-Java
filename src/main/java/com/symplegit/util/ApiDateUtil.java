@@ -25,7 +25,7 @@ import java.util.GregorianCalendar;
 /**
  * Formated dtaes as trings for API classes.
  *
- * @author Nicolas de Pomereu
+ * @author KawanSoft SAS
  *
  */
 public class ApiDateUtil {

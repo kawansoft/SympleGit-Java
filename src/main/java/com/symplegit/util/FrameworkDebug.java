@@ -30,10 +30,9 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @author Nicolas de Pomereu
  *
  *         Allow to debug files contained in
- *         user.home/.kanwansoft/aceql-debug-server.ini.
+ *         user.home/.symplegit/symplegit-debug-server.ini.
  *
  */
 public class FrameworkDebug {

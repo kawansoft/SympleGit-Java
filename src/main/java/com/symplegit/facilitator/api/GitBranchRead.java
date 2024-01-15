@@ -39,7 +39,7 @@ import com.symplegit.util.FrameworkDebug;
  * list all local branches, list all remote branches.
  * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands.
  * 
- * @author Nicolas de Pomereu
+ * @author KawanSoft SAS
  */
 public class GitBranchRead {
 
