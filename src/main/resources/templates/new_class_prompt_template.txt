@@ -606,7 +606,7 @@ public interface GitWrapper {
  * Any modifications to this file must keep this entire header
  * intact.
  */
-package com.symplegit.facilitator.api;
+package com.symplegit.api.facilitator;
 
 import java.io.IOException;
 

@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.symplegit.facilitator.api;
+package com.symplegit.api.facilitator;
 
 import java.io.IOException;
 
@@ -26,8 +26,10 @@ import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GitMerge class provides functionalities to manage merging operations in a Git repository.
- * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands related to merging.
+ * The GitVersion class provides the functionality to retrieve the current
+ * version of Git. It implements the GitWrapper interface, using GitCommander to
+ * execute the 'git --version' command.
+ * 
  * <br><br>
  * Usage
  * <pre> <code>
@@ -36,61 +38,41 @@ import com.symplegit.api.SympleGit;
 		.setDirectory(repoDirectoryPath)
 		.build();
 
-	 GitMerge gitMerge = new GitMerge(sympleGit);
-	
-	// Call a method
-	gitMerge.mergeBranches("branch_1", "branch_2");
-
+	GitVersion gitVersion = new GitVersion(sympleGit);
+	System.out.println("Git Version: " + gitVersion.getVersion());
  * </code> </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4
  */
-public class GitMerge implements GitWrapper {
+public class GitVersion implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitMerge with a specified SympleGit instance.
+     * Constructs a GitVersion instance with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitMerge(SympleGit sympleGit) {
+    public GitVersion(SympleGit sympleGit) {
         this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
-     * Merges the source branch into the target branch in the Git repository.
+     * Retrieves the current Git version.
      *
-     * @param targetBranch The name of the target branch.
-     * @param sourceBranch The name of the source branch.
+     * @return The current Git version as a String.
      * @throws IOException If an error occurs during command execution.
      */
-    public void mergeBranches(String targetBranch, String sourceBranch) throws IOException {
-        executeGitCommandWithErrorHandler("git", "checkout", targetBranch);
-        executeGitCommandWithErrorHandler("git", "merge", sourceBranch);
-    }
+    public String getVersion() throws IOException {
+        executeGitCommandWithErrorHandler("git", "--version");
 
-    /**
-     * Aborts an ongoing merge operation in the Git repository.
-     *
-     * @throws IOException If an error occurs during command execution.
-     */
-    public void abortMerge() throws IOException {
-        executeGitCommandWithErrorHandler("git", "merge", "--abort");
-    }
-
-    /**
-     * Retrieves the merge status of the Git repository.
-     *
-     * @return A string indicating the current merge status.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public String getMergeStatus() throws IOException {
-        executeGitCommandWithErrorHandler("git", "status");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+        if (gitCommander.isResponseOk()) {
+            return gitCommander.getProcessOutput().trim();
+        }
+        return null;
     }
 
     /**

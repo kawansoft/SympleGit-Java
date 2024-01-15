@@ -31,7 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitBranchRead;
+import com.symplegit.api.facilitator.GitBranchRead;
 import com.symplegit.test.util.GitTestUtils;
 
 public class GitBranchReadTest {

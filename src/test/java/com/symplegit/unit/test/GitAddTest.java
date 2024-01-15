@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitAdd;
+import com.symplegit.api.facilitator.GitAdd;
 import com.symplegit.test.util.GitTestUtils;
 
 public class GitAddTest {

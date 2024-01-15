@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitDiff;
+import com.symplegit.api.facilitator.GitDiff;
 import com.symplegit.test.util.GitTestUtils;
 
 /**

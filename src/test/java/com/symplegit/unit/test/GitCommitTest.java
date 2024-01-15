@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitCommit;
+import com.symplegit.api.facilitator.GitCommit;
 import com.symplegit.test.util.GitTestUtils;
 
 public class GitCommitTest {

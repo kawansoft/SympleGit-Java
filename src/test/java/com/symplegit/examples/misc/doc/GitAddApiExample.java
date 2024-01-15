@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitAdd;
-import com.symplegit.facilitator.api.GitCommit;
+import com.symplegit.api.facilitator.GitAdd;
+import com.symplegit.api.facilitator.GitCommit;
 import com.symplegit.test.util.GitTestUtils;
 
 public class GitAddApiExample {

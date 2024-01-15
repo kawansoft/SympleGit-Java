@@ -21,12 +21,12 @@ package com.symplegit.examples.misc.javadoc;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitAdd;
-import com.symplegit.facilitator.api.GitCommit;
-import com.symplegit.facilitator.api.GitMerge;
-import com.symplegit.facilitator.api.GitRemote;
-import com.symplegit.facilitator.api.GitRepo;
-import com.symplegit.facilitator.api.GitTag;
+import com.symplegit.api.facilitator.GitAdd;
+import com.symplegit.api.facilitator.GitCommit;
+import com.symplegit.api.facilitator.GitMerge;
+import com.symplegit.api.facilitator.GitRemote;
+import com.symplegit.api.facilitator.GitRepo;
+import com.symplegit.api.facilitator.GitTag;
 
 public class SympleGitJavadoc {
 

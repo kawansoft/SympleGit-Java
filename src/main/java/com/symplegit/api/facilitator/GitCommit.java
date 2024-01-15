@@ -17,19 +17,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.symplegit.facilitator.api;
+package com.symplegit.api.facilitator;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.io.InputStream;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GitAdd class allows adding all changed files, or specific files to the staging area.
- * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
+ * GitCommit provides functionality for handling Git commits.
+ * It includes methods for committing changes, amending commits, and retrieving commit history.
+ * This class implements the GitWrapper interface and uses GitCommander for command execution.
  * <br><br>
  * Usage
  * <pre> <code>
@@ -37,98 +37,87 @@ import com.symplegit.api.SympleGit;
 	final SympleGit sympleGit = SympleGit.custom()
 		.setDirectory(repoDirectoryPath)
 		.build();
-		
-	GitAdd gitAdd = new GitAdd(sympleGit);
+ 
+	GitCommit commit = new GitCommit(sympleGit);
 	
 	// Call a method
-	gitAdd.addAll();
+	commit.commitChanges("My new commit message");
  * </code> </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4
  */
-public class GitAdd implements GitWrapper {
+public class GitCommit implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitAdd with a specified SympleGit instance.
+     * Constructs a GitCommit with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitAdd(SympleGit sympleGit) {
+    public GitCommit(SympleGit sympleGit) {
         this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
-     * Adds all changed files to the staging area.
+     * Commits changes with the provided commit message.
      *
+     * @param message The commit message.
      * @throws IOException If an error occurs during command execution.
      */
-    public void addAll() throws IOException {
-        executeGitCommandWithErrorHandler("git", "add", ".");
+    public void commitChanges(String message) throws IOException {
+        executeGitCommandWithErrorHandler("git", "commit", "-m", message );
     }
 
     /**
-     * Adds a list of specified file paths to the staging area.
-     *
-     * @param filenames The list of file names to be added.
+     * Amends the last commit.
+     * @param message The commit message.
      * @throws IOException If an error occurs during command execution.
      */
-    public void add(List<String> filenames) throws IOException {
-        if (filenames == null || filenames.isEmpty()) {
-            throw new IllegalArgumentException("Filenames list cannot be null or empty.");
-        }
-        for (String file : filenames) {
-            executeGitCommandWithErrorHandler("git", "add", file);
-        }
+    public void amendCommit(String message) throws IOException {
+        executeGitCommandWithErrorHandler("git", "commit", "--amend", "-m", message );
     }
 
     /**
-     * Adds a list of specified file paths to the staging area.
-     *
-     * @param filenames The list of file names to be added.
+     * Retrieves the commit history of the current branch as String.
+     * Will throw an IOException if the result is > 10Mb.
+     * @return A String containing the commit history.
      * @throws IOException If an error occurs during command execution.
      */
-    public void add(String... filenames) throws IOException {
-        if (filenames == null || filenames.length ==0) {
-            throw new IllegalArgumentException("Filenames list cannot be null or empty.");
+    public String getCommitHistory() throws IOException {
+        executeGitCommandWithErrorHandler("git", "--no-pager", "log");
+        
+        if (!gitCommander.isResponseOk()) {
+            return null;
         }
-        for (String file : filenames) {
-            executeGitCommandWithErrorHandler("git", "add", file);
-        }
+        
+        return gitCommander.getProcessOutput().trim();
+    }
+
+    /**
+     * Retrieves the commit history of the current branch as an InputStream.
+     *
+     * @return A InputStream pointing on the commit history.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public InputStream getCommitHistoryAsStream() throws IOException {
+        executeGitCommandWithErrorHandler("git", "--no-pager", "log");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutputAsInputStream() : null;
     }
     
     /**
-     * Adds a list of File objects to the staging area.
+     * Retrieves details of a specific commit given its hash.
      *
-     * @param files The list of File objects to be added.
+     * @param commitHash The hash of the commit.
+     * @return A String containing the details of the specified commit.
      * @throws IOException If an error occurs during command execution.
      */
-    public void addFiles(File... files) throws IOException {
-        if (files == null || files.length == 0) {
-            throw new IllegalArgumentException("File list cannot be null or empty.");
-        }
-        for (File file : files) {
-            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
-        }
-    }
-    
-    /**
-     * Adds a list of File objects to the staging area.
-     *
-     * @param files The list of File objects to be added.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public void addFiles(List<File> files) throws IOException {
-        if (files == null || files.isEmpty()) {
-            throw new IllegalArgumentException("File list cannot be null or empty.");
-        }
-        for (File file : files) {
-            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
-        }
+    public String getCommitDetails(String commitHash) throws IOException {
+        executeGitCommandWithErrorHandler("git", "show", commitHash);
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput().trim() : null;
     }
 
     /**
@@ -140,7 +129,7 @@ public class GitAdd implements GitWrapper {
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
         gitCommander.executeGitCommand(command);
 
-        if (!gitCommander.isResponseOk()) {
+        if (!gitCommander.isResponseOk()) {            
             errorMessage = gitCommander.getProcessError();
             exception = gitCommander.getException();
         }
@@ -161,3 +150,4 @@ public class GitAdd implements GitWrapper {
         return exception;
     }
 }
+

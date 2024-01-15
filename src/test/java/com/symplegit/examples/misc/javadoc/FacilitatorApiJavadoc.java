@@ -20,12 +20,12 @@
 package com.symplegit.examples.misc.javadoc;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitAdd;
-import com.symplegit.facilitator.api.GitBranchModify;
-import com.symplegit.facilitator.api.GitBranchRead;
-import com.symplegit.facilitator.api.GitCommit;
-import com.symplegit.facilitator.api.GitDiff;
-import com.symplegit.facilitator.api.GitVersion;
+import com.symplegit.api.facilitator.GitAdd;
+import com.symplegit.api.facilitator.GitBranchModify;
+import com.symplegit.api.facilitator.GitBranchRead;
+import com.symplegit.api.facilitator.GitCommit;
+import com.symplegit.api.facilitator.GitDiff;
+import com.symplegit.api.facilitator.GitVersion;
 
 public class FacilitatorApiJavadoc {
 

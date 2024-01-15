@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.symplegit.facilitator.api;
+package com.symplegit.api.facilitator;
 
 import java.io.IOException;
 
@@ -26,9 +26,8 @@ import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GitRepo class provides functionalities for managing a Git repository. It
- * includes methods to clone, initialize, and manage the status and  of
- * the remote repositories.
+ * The GitMerge class provides functionalities to manage merging operations in a Git repository.
+ * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands related to merging.
  * <br><br>
  * Usage
  * <pre> <code>
@@ -37,79 +36,61 @@ import com.symplegit.api.SympleGit;
 		.setDirectory(repoDirectoryPath)
 		.build();
 
-	GitRepo gitRepo = new GitRepo(sympleGit);
+	 GitMerge gitMerge = new GitMerge(sympleGit);
 	
 	// Call a method
-	gitRepo.cloneRepository("https://github.com/kawansoft/SympleGit-Java");
+	gitMerge.mergeBranches("branch_1", "branch_2");
+
  * </code> </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4
  */
-public class GitRepo implements GitWrapper {
+public class GitMerge implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitRepo with a specified SympleGit instance.
+     * Constructs a GitMerge with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitRepo(SympleGit sympleGit) {
-	this.gitCommander = sympleGit.gitCommander();
+    public GitMerge(SympleGit sympleGit) {
+        this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
-     * Clones a Git repository from the specified URL.
+     * Merges the source branch into the target branch in the Git repository.
      *
-     * @param repoUrl The URL of the Git repository to clone.
+     * @param targetBranch The name of the target branch.
+     * @param sourceBranch The name of the source branch.
      * @throws IOException If an error occurs during command execution.
      */
-    public void cloneRepository(String repoUrl) throws IOException {
-	executeGitCommandWithErrorHandler("git", "clone", repoUrl);
+    public void mergeBranches(String targetBranch, String sourceBranch) throws IOException {
+        executeGitCommandWithErrorHandler("git", "checkout", targetBranch);
+        executeGitCommandWithErrorHandler("git", "merge", sourceBranch);
     }
 
     /**
-     * Initializes a new Git repository in the current directory.
+     * Aborts an ongoing merge operation in the Git repository.
      *
      * @throws IOException If an error occurs during command execution.
      */
-    public void initializeRepository() throws IOException {
-	executeGitCommandWithErrorHandler("git", "init");
+    public void abortMerge() throws IOException {
+        executeGitCommandWithErrorHandler("git", "merge", "--abort");
     }
 
     /**
-     * Gets the status of the Git repository.
+     * Retrieves the merge status of the Git repository.
      *
-     * @return The status of the Git repository.
+     * @return A string indicating the current merge status.
      * @throws IOException If an error occurs during command execution.
      */
-    public String getRepositoryStatus() throws IOException {
-	executeGitCommandWithErrorHandler("git", "status");
-	return gitCommander.isResponseOk() ? gitCommander.getProcessOutput().trim() : null;
-    }
-
-    /**
-     * Adds a remote to the Git repository.
-     *
-     * @param name The name of the remote.
-     * @param url  The URL of the remote.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public void addRemote(String name, String url) throws IOException {
-	executeGitCommandWithErrorHandler("git", "remote", "add", name, url);
-    }
-
-    /**
-     * Removes a remote from the Git repository.
-     *
-     * @param name The name of the remote to remove.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public void removeRemote(String name) throws IOException {
-	executeGitCommandWithErrorHandler("git", "remote", "remove", name);
+    public String getMergeStatus() throws IOException {
+        executeGitCommandWithErrorHandler("git", "status");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
     /**
@@ -119,25 +100,26 @@ public class GitRepo implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
-	gitCommander.executeGitCommand(command);
-	if (!gitCommander.isResponseOk()) {
-	    errorMessage = gitCommander.getProcessError();
-	    exception = gitCommander.getException();
-	}
+        gitCommander.executeGitCommand(command);
+
+        if (!gitCommander.isResponseOk()) {
+            errorMessage = gitCommander.getProcessError();
+            exception = gitCommander.getException();
+        }
     }
 
     @Override
     public boolean isResponseOk() {
-	return gitCommander.isResponseOk();
+        return gitCommander.isResponseOk();
     }
 
     @Override
     public String getError() {
-	return errorMessage;
+        return errorMessage;
     }
 
     @Override
     public Exception getException() {
-	return exception;
+        return exception;
     }
 }

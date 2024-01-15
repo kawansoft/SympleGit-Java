@@ -29,7 +29,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitBranchModify;
+import com.symplegit.api.facilitator.GitBranchModify;
 import com.symplegit.test.util.GitTestUtils;
 
 public class GitBranchModifyTest {

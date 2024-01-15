@@ -26,7 +26,7 @@ package com.symplegit.examples.misc;
 import java.io.IOException;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitBranchRead;
+import com.symplegit.api.facilitator.GitBranchRead;
 
 /**
  *

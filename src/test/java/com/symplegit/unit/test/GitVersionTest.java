@@ -28,7 +28,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitVersion;
+import com.symplegit.api.facilitator.GitVersion;
 import com.symplegit.test.util.GitTestUtils;
 
 public class GitVersionTest {

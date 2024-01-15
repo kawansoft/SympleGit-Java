@@ -31,7 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitRepo;
+import com.symplegit.api.facilitator.GitRepo;
 import com.symplegit.test.util.GitHubTestRepos;
 import com.symplegit.test.util.GitTestUtils;
 

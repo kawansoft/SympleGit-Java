@@ -17,17 +17,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.symplegit.facilitator.api;
+package com.symplegit.api.facilitator;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GitTag class provides functionalities to manage tags in a Git repository.
- * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands related to tagging.
+ * The GitDiff class is responsible for providing functionalities
+ * to compare changes in a Git repository. It supports comparing differences
+ * between two commits, viewing staged differences, and viewing differences
+ * in a specific file.
  * <br><br>
  * Usage
  * <pre> <code>
@@ -35,60 +38,76 @@ import com.symplegit.api.SympleGit;
 	final SympleGit sympleGit = SympleGit.custom()
 		.setDirectory(repoDirectoryPath)
 		.build();
-
-	GitTag gitTag = new GitTag(sympleGit);
+		
+	GitDiff gitDiff = new GitDiff(sympleGit);
 	
 	// Call a method
-	gitTag.deleteTag("myTag");
+	String diff = gitDiff.getFileDiff("path/to/my/file.txt");
+	
  * </code> </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4
  */
-public class GitTag implements GitWrapper {
+public class GitDiff implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitTag with a specified SympleGit instance.
+     * Constructs a GitDiff with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitTag(SympleGit sympleGit) {
+    public GitDiff(SympleGit sympleGit) {
         this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
-     * Creates a new tag in the Git repository.
+     * Gets the diff between two commits.
      *
-     * @param tagName The name of the tag to be created.
-     * @param commitHash The commit hash to which the tag should be attached.
+     * @param commitHash1 The hash of the first commit.
+     * @param commitHash2 The hash of the second commit.
+     * @return The diff output as a String.
      * @throws IOException If an error occurs during command execution.
      */
-    public void createTag(String tagName, String commitHash) throws IOException {
-        executeGitCommandWithErrorHandler("git", "tag", tagName, commitHash);
+    public String getDiff(String commitHash1, String commitHash2) throws IOException {
+        executeGitCommandWithErrorHandler("git", "diff", commitHash1, commitHash2);
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
     /**
-     * Deletes a tag from the Git repository.
+     * Gets the diff of currently staged changes.
      *
-     * @param tagName The name of the tag to be deleted.
+     * @return The staged diff output as a String.
      * @throws IOException If an error occurs during command execution.
      */
-    public void deleteTag(String tagName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "tag", "-d", tagName);
+    public String getStagedDiff() throws IOException {
+        executeGitCommandWithErrorHandler("git", "diff", "--staged");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+    }
+    
+    /**
+     * Gets the diff of currently staged changes as an InputStream.
+     *
+     * @return The staged diff output as an InputStream.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public InputStream getStagedDiffAsStream() throws IOException {
+        executeGitCommandWithErrorHandler("git", "diff", "--staged");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutputAsInputStream():null;
     }
 
     /**
-     * Lists all tags in the Git repository.
+     * Gets the diff for a specific file.
      *
-     * @return A string containing all the tags.
+     * @param filePath The path to the file.
+     * @return The file diff output as a String.
      * @throws IOException If an error occurs during command execution.
      */
-    public String listTags() throws IOException {
-        executeGitCommandWithErrorHandler("git", "tag");
+    public String getFileDiff(String filePath) throws IOException {
+        executeGitCommandWithErrorHandler("git", "diff", filePath);
         return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
@@ -100,7 +119,6 @@ public class GitTag implements GitWrapper {
      */
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
         gitCommander.executeGitCommand(command);
-
         if (!gitCommander.isResponseOk()) {
             errorMessage = gitCommander.getProcessError();
             exception = gitCommander.getException();

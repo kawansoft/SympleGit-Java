@@ -17,20 +17,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.symplegit.facilitator.api;
+package com.symplegit.api.facilitator;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.List;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GitDiff class is responsible for providing functionalities
- * to compare changes in a Git repository. It supports comparing differences
- * between two commits, viewing staged differences, and viewing differences
- * in a specific file.
+ * The GitAdd class allows adding all changed files, or specific files to the staging area.
+ * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
  * <br><br>
  * Usage
  * <pre> <code>
@@ -39,76 +38,97 @@ import com.symplegit.api.SympleGit;
 		.setDirectory(repoDirectoryPath)
 		.build();
 		
-	GitDiff gitDiff = new GitDiff(sympleGit);
+	GitAdd gitAdd = new GitAdd(sympleGit);
 	
 	// Call a method
-	String diff = gitDiff.getFileDiff("path/to/my/file.txt");
-	
+	gitAdd.addAll();
  * </code> </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4
  */
-public class GitDiff implements GitWrapper {
+public class GitAdd implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitDiff with a specified SympleGit instance.
+     * Constructs a GitAdd with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitDiff(SympleGit sympleGit) {
+    public GitAdd(SympleGit sympleGit) {
         this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
-     * Gets the diff between two commits.
+     * Adds all changed files to the staging area.
      *
-     * @param commitHash1 The hash of the first commit.
-     * @param commitHash2 The hash of the second commit.
-     * @return The diff output as a String.
      * @throws IOException If an error occurs during command execution.
      */
-    public String getDiff(String commitHash1, String commitHash2) throws IOException {
-        executeGitCommandWithErrorHandler("git", "diff", commitHash1, commitHash2);
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+    public void addAll() throws IOException {
+        executeGitCommandWithErrorHandler("git", "add", ".");
     }
 
     /**
-     * Gets the diff of currently staged changes.
+     * Adds a list of specified file paths to the staging area.
      *
-     * @return The staged diff output as a String.
+     * @param filenames The list of file names to be added.
      * @throws IOException If an error occurs during command execution.
      */
-    public String getStagedDiff() throws IOException {
-        executeGitCommandWithErrorHandler("git", "diff", "--staged");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+    public void add(List<String> filenames) throws IOException {
+        if (filenames == null || filenames.isEmpty()) {
+            throw new IllegalArgumentException("Filenames list cannot be null or empty.");
+        }
+        for (String file : filenames) {
+            executeGitCommandWithErrorHandler("git", "add", file);
+        }
+    }
+
+    /**
+     * Adds a list of specified file paths to the staging area.
+     *
+     * @param filenames The list of file names to be added.
+     * @throws IOException If an error occurs during command execution.
+     */
+    public void add(String... filenames) throws IOException {
+        if (filenames == null || filenames.length ==0) {
+            throw new IllegalArgumentException("Filenames list cannot be null or empty.");
+        }
+        for (String file : filenames) {
+            executeGitCommandWithErrorHandler("git", "add", file);
+        }
     }
     
     /**
-     * Gets the diff of currently staged changes as an InputStream.
+     * Adds a list of File objects to the staging area.
      *
-     * @return The staged diff output as an InputStream.
+     * @param files The list of File objects to be added.
      * @throws IOException If an error occurs during command execution.
      */
-    public InputStream getStagedDiffAsStream() throws IOException {
-        executeGitCommandWithErrorHandler("git", "diff", "--staged");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutputAsInputStream():null;
+    public void addFiles(File... files) throws IOException {
+        if (files == null || files.length == 0) {
+            throw new IllegalArgumentException("File list cannot be null or empty.");
+        }
+        for (File file : files) {
+            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
+        }
     }
-
+    
     /**
-     * Gets the diff for a specific file.
+     * Adds a list of File objects to the staging area.
      *
-     * @param filePath The path to the file.
-     * @return The file diff output as a String.
+     * @param files The list of File objects to be added.
      * @throws IOException If an error occurs during command execution.
      */
-    public String getFileDiff(String filePath) throws IOException {
-        executeGitCommandWithErrorHandler("git", "diff", filePath);
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+    public void addFiles(List<File> files) throws IOException {
+        if (files == null || files.isEmpty()) {
+            throw new IllegalArgumentException("File list cannot be null or empty.");
+        }
+        for (File file : files) {
+            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
+        }
     }
 
     /**
@@ -119,6 +139,7 @@ public class GitDiff implements GitWrapper {
      */
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
         gitCommander.executeGitCommand(command);
+
         if (!gitCommander.isResponseOk()) {
             errorMessage = gitCommander.getProcessError();
             exception = gitCommander.getException();

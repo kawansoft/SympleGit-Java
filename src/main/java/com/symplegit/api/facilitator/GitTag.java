@@ -17,19 +17,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.symplegit.facilitator.api;
+package com.symplegit.api.facilitator;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * GitCommit provides functionality for handling Git commits.
- * It includes methods for committing changes, amending commits, and retrieving commit history.
- * This class implements the GitWrapper interface and uses GitCommander for command execution.
+ * The GitTag class provides functionalities to manage tags in a Git repository.
+ * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands related to tagging.
  * <br><br>
  * Usage
  * <pre> <code>
@@ -37,87 +35,61 @@ import com.symplegit.api.SympleGit;
 	final SympleGit sympleGit = SympleGit.custom()
 		.setDirectory(repoDirectoryPath)
 		.build();
- 
-	GitCommit commit = new GitCommit(sympleGit);
+
+	GitTag gitTag = new GitTag(sympleGit);
 	
 	// Call a method
-	commit.commitChanges("My new commit message");
+	gitTag.deleteTag("myTag");
  * </code> </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4
  */
-public class GitCommit implements GitWrapper {
+public class GitTag implements GitWrapper {
 
     private GitCommander gitCommander;
     private String errorMessage;
     private Exception exception;
 
     /**
-     * Constructs a GitCommit with a specified SympleGit instance.
+     * Constructs a GitTag with a specified SympleGit instance.
      *
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
-    public GitCommit(SympleGit sympleGit) {
+    public GitTag(SympleGit sympleGit) {
         this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
-     * Commits changes with the provided commit message.
+     * Creates a new tag in the Git repository.
      *
-     * @param message The commit message.
+     * @param tagName The name of the tag to be created.
+     * @param commitHash The commit hash to which the tag should be attached.
      * @throws IOException If an error occurs during command execution.
      */
-    public void commitChanges(String message) throws IOException {
-        executeGitCommandWithErrorHandler("git", "commit", "-m", message );
+    public void createTag(String tagName, String commitHash) throws IOException {
+        executeGitCommandWithErrorHandler("git", "tag", tagName, commitHash);
     }
 
     /**
-     * Amends the last commit.
-     * @param message The commit message.
+     * Deletes a tag from the Git repository.
+     *
+     * @param tagName The name of the tag to be deleted.
      * @throws IOException If an error occurs during command execution.
      */
-    public void amendCommit(String message) throws IOException {
-        executeGitCommandWithErrorHandler("git", "commit", "--amend", "-m", message );
+    public void deleteTag(String tagName) throws IOException {
+        executeGitCommandWithErrorHandler("git", "tag", "-d", tagName);
     }
 
     /**
-     * Retrieves the commit history of the current branch as String.
-     * Will throw an IOException if the result is > 10Mb.
-     * @return A String containing the commit history.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public String getCommitHistory() throws IOException {
-        executeGitCommandWithErrorHandler("git", "--no-pager", "log");
-        
-        if (!gitCommander.isResponseOk()) {
-            return null;
-        }
-        
-        return gitCommander.getProcessOutput().trim();
-    }
-
-    /**
-     * Retrieves the commit history of the current branch as an InputStream.
+     * Lists all tags in the Git repository.
      *
-     * @return A InputStream pointing on the commit history.
+     * @return A string containing all the tags.
      * @throws IOException If an error occurs during command execution.
      */
-    public InputStream getCommitHistoryAsStream() throws IOException {
-        executeGitCommandWithErrorHandler("git", "--no-pager", "log");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutputAsInputStream() : null;
-    }
-    
-    /**
-     * Retrieves details of a specific commit given its hash.
-     *
-     * @param commitHash The hash of the commit.
-     * @return A String containing the details of the specified commit.
-     * @throws IOException If an error occurs during command execution.
-     */
-    public String getCommitDetails(String commitHash) throws IOException {
-        executeGitCommandWithErrorHandler("git", "show", commitHash);
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput().trim() : null;
+    public String listTags() throws IOException {
+        executeGitCommandWithErrorHandler("git", "tag");
+        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
     /**
@@ -129,7 +101,7 @@ public class GitCommit implements GitWrapper {
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
         gitCommander.executeGitCommand(command);
 
-        if (!gitCommander.isResponseOk()) {            
+        if (!gitCommander.isResponseOk()) {
             errorMessage = gitCommander.getProcessError();
             exception = gitCommander.getException();
         }
@@ -150,4 +122,3 @@ public class GitCommit implements GitWrapper {
         return exception;
     }
 }
-

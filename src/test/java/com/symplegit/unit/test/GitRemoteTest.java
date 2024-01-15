@@ -29,7 +29,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.SympleGit;
-import com.symplegit.facilitator.api.GitRemote;
+import com.symplegit.api.facilitator.GitRemote;
 import com.symplegit.test.util.GitTestUtils;
 
 /**
