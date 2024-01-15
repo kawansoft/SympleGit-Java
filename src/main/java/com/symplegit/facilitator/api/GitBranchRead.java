@@ -20,7 +20,6 @@
 package com.symplegit.facilitator.api;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.Date;
 import java.util.HashSet;
@@ -31,6 +30,7 @@ import java.util.TreeSet;
 import org.apache.commons.lang3.StringUtils;
 
 import com.symplegit.api.GitCommander;
+import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 import com.symplegit.util.FrameworkDebug;
 
@@ -55,7 +55,7 @@ import com.symplegit.util.FrameworkDebug;
  * @author KawanSoft SAS
  * @author KawanSoft SAS
  */
-public class GitBranchRead {
+public class GitBranchRead implements GitWrapper {
 
     public static boolean DEBUG = FrameworkDebug.isSet(GitBranchRead.class);
     
@@ -80,10 +80,6 @@ public class GitBranchRead {
     
     /**
      * Says if status is "nothing to commit, working tree clean" or not
-     *
-     * @param projectDir
-     * @return
-     * @throws IOException
      */
     public boolean isStatusOk() {
 
@@ -231,7 +227,7 @@ public class GitBranchRead {
      * Gets a set of the remote branches only
      * @return  a set of the remote branches only
      */
-    public Set<String> getRemoteBranches() throws IOException {
+    public Set<String> getRemoteBranches() {
 
         Set<String> branches = new TreeSet<>();
         isOk = false;
@@ -273,14 +269,17 @@ public class GitBranchRead {
         return branches;
     }
     
+    @Override
     public boolean isResponseOk() {
         return isOk;
     }
 
+    @Override
     public String getError() {
         return errorMessage;
     }
 
+    @Override
     public Exception getException() {
         return exception;
     }
