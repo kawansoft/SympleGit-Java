@@ -1,4 +1,4 @@
-# SympleGit v1.0 - January 12, 2024
+# SympleGit v1.0 - January 15, 2024
 
 <img src="https://www.symplegit.com/img/arrow_fork2.png" />
 
@@ -255,7 +255,12 @@ System.out.println("Added test files to the Git repository");
 
 ### Using AI (GPT-4) to Generate the Facilitator API
 
-All classes in the Facilitator API were generated using GPT-4 and have not been manually updated since (except of Javadoc enhancement). This approach also extends to all unit tests, which were similarly produced by GPT-4.
+All classes in the Facilitator API were generated using GPT-4 and have not been manually updated since, with the following exceptions:
+
+- Enhancement of Javadoc documentation.
+- The `InputStream getStagedDiffAsStream()` method was manually added to `GitDiff`.
+
+ This approach also extends to all unit tests, which were similarly produced by GPT-4.
 
 The generation process for these classes utilized a single, parameterized prompt. This prompt included three specific parameters:
 
