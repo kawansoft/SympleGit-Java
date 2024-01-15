@@ -30,7 +30,7 @@ import com.symplegit.api.SympleGit;
  * includes methods to clone, initialize, and manage the status and  of
  * the remote repositories.
  * <br><br>
- * Usage
+ * Usage:
  * <pre> <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()

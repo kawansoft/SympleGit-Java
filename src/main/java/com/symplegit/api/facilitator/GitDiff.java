@@ -32,7 +32,7 @@ import com.symplegit.api.SympleGit;
  * between two commits, viewing staged differences, and viewing differences
  * in a specific file.
  * <br><br>
- * Usage
+ * Usage:
  * <pre> <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()

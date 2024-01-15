@@ -29,7 +29,7 @@ import com.symplegit.api.SympleGit;
  * The GitMerge class provides functionalities to manage merging operations in a Git repository.
  * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands related to merging.
  * <br><br>
- * Usage
+ * Usage:
  * <pre> <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()

@@ -31,7 +31,7 @@ import com.symplegit.api.SympleGit;
  * It includes methods for committing changes, amending commits, and retrieving commit history.
  * This class implements the GitWrapper interface and uses GitCommander for command execution.
  * <br><br>
- * Usage
+ * Usage:
  * <pre> <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()

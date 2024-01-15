@@ -39,7 +39,7 @@ import com.symplegit.util.FrameworkDebug;
  * list all local branches, list all remote branches.
  * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands.
 
- * Usage
+ * Usage:
  * <pre> <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()

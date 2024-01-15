@@ -30,7 +30,7 @@ import com.symplegit.api.SympleGit;
  * It provides functionalities to fetch, push, pull and list remote repositories.
  * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
  * <br><br>
- * Usage
+ * Usage:
  * <pre> <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()

@@ -31,7 +31,7 @@ import com.symplegit.api.SympleGit;
  * execute the 'git --version' command.
  * 
  * <br><br>
- * Usage
+ * Usage:
  * <pre> <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()
