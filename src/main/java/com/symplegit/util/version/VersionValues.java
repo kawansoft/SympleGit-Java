@@ -17,12 +17,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.symplegit.version;
+package com.symplegit.util.version;
 /**
  * Contains the package Version info
  */
 
 public class VersionValues {
     public static final String VERSION = "v1.0";
-    public static final String DATE = "15-Jan-2024";
+    public static final String DATE = "16-Jan-2024";
 }
