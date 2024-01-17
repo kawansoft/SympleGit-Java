@@ -1,7 +1,6 @@
 package com.symplegit.examples.misc;
 
 import java.io.IOException;
-
 import com.symplegit.api.GitCommander;
 import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
@@ -34,7 +33,7 @@ public class GitConfig implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public String getUserConfig() throws IOException {
-        executeGitCommandWithErrorHandler("git", "config", "--list", "--no-pager");
+        executeGitCommandWithErrorHandler("git", "config", "--list");
         return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
@@ -57,7 +56,7 @@ public class GitConfig implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public String getGlobalConfig() throws IOException {
-        executeGitCommandWithErrorHandler("git", "config", "--global", "--list", "--no-pager");
+        executeGitCommandWithErrorHandler("git", "config", "--global", "--list");
         return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 

@@ -24,7 +24,18 @@ public class GitConfigTest {
 	
 	GitConfig gitConfig = new GitConfig(sympleGit);
 	System.out.println("gitConfig.getGlobalConfig(): " + gitConfig.getGlobalConfig());
+	System.out.println();
+	
 	System.out.println("gitConfig.getUserConfig()  : " + gitConfig.getUserConfig());
+	System.out.println();
+	gitConfig.setUserConfig("Nico de Pomereu", "ndepomereu@kawansoft.com");
+	System.out.println();
+	System.out.println("gitConfig.getUserConfig()  : " + gitConfig.getUserConfig());
+	System.out.println();
+	gitConfig.setUserConfig("Nicolas de Pomereu", "ndepomereu@kawansoft.com");
+	System.out.println();
+	System.out.println("gitConfig.getUserConfig()  : " + gitConfig.getUserConfig());
+
 	
     }
 

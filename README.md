@@ -300,7 +300,8 @@ The values of ${0}, ${1} ,and ${2} are at the end of this prompt.
 Add a "@author GPT-4" at first Javadoc.
 Please include clean & professional Javadoc in the generated class.
 
-Please make sure to use Git commands with the options that do not use a pager or an editor.
+Please make sure to use Git commands with the options that do not use a pager or an editor. 
+(Remember that, if required, "--no-pager" option must follow immediately "git" command.)
 
 Here are the 4 classes:
 
