@@ -76,4 +76,16 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
+    <name>Symple Git</name>
+    <organization>
+    	<url>https://www.kawansoft.com</url>
+    	<name>KawanSoft</name>
+    </organization>
+    <url>https://www.symplegit.com/</url>
+    <inceptionYear>2024</inceptionYear>
+    <scm>
+    	<url>https://github.com/kawansoft/SympleGit-Java</url>
+    	<developerConnection>https://github.com/kawansoft/SympleGit-Java</developerConnection>
+    </scm>
+    <description>SympleGit is a Java-based Git wrapper, co-developed with AI assistance, offering simplicity and ease of extension through AI integration.</description>
 </project>
