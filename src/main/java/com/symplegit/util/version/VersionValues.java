@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 package com.symplegit.util.version;
+
 /**
  * Contains the package Version info
  */
