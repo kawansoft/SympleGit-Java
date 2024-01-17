@@ -36,6 +36,7 @@ import com.symplegit.util.FrameworkDebug;
  * simplify interactions with Git repositories. <br>
  * <br>
  * Usage:
+ * 
  * <pre>
  * <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
@@ -59,6 +60,7 @@ import com.symplegit.util.FrameworkDebug;
 	
  * </code>
  * </pre>
+ * 
  * @author KawanSoft SAS
  */
 public class SympleGit implements AutoCloseable {

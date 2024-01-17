@@ -27,13 +27,15 @@ import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GitDiff class is responsible for providing functionalities
- * to compare changes in a Git repository. It supports comparing differences
- * between two commits, viewing staged differences, and viewing differences
- * in a specific file.
- * <br><br>
+ * The GitDiff class is responsible for providing functionalities to compare
+ * changes in a Git repository. It supports comparing differences between two
+ * commits, viewing staged differences, and viewing differences in a specific
+ * file. <br>
+ * <br>
  * Usage:
- * <pre> <code>
+ * 
+ * <pre>
+ *  <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()
 		.setDirectory(repoDirectoryPath)
@@ -44,7 +46,8 @@ import com.symplegit.api.SympleGit;
 	// Call a method
 	String diff = gitDiff.getFileDiff("path/to/my/file.txt");
 	
- * </code> </pre>
+ * </code>
+ * </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4
@@ -61,7 +64,7 @@ public class GitDiff implements GitWrapper {
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
     public GitDiff(SympleGit sympleGit) {
-        this.gitCommander = sympleGit.gitCommander();
+	this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
@@ -73,8 +76,8 @@ public class GitDiff implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public String getDiff(String commitHash1, String commitHash2) throws IOException {
-        executeGitCommandWithErrorHandler("git", "diff", commitHash1, commitHash2);
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+	executeGitCommandWithErrorHandler("git", "diff", commitHash1, commitHash2);
+	return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
     /**
@@ -84,10 +87,10 @@ public class GitDiff implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public String getStagedDiff() throws IOException {
-        executeGitCommandWithErrorHandler("git", "diff", "--staged");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+	executeGitCommandWithErrorHandler("git", "diff", "--staged");
+	return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
-    
+
     /**
      * Gets the diff of currently staged changes as an InputStream.
      *
@@ -95,8 +98,8 @@ public class GitDiff implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public InputStream getStagedDiffAsStream() throws IOException {
-        executeGitCommandWithErrorHandler("git", "diff", "--staged");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutputAsInputStream():null;
+	executeGitCommandWithErrorHandler("git", "diff", "--staged");
+	return gitCommander.isResponseOk() ? gitCommander.getProcessOutputAsInputStream() : null;
     }
 
     /**
@@ -107,8 +110,8 @@ public class GitDiff implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public String getFileDiff(String filePath) throws IOException {
-        executeGitCommandWithErrorHandler("git", "diff", filePath);
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+	executeGitCommandWithErrorHandler("git", "diff", filePath);
+	return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
     /**
@@ -118,25 +121,25 @@ public class GitDiff implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
-        gitCommander.executeGitCommand(command);
-        if (!gitCommander.isResponseOk()) {
-            errorMessage = gitCommander.getProcessError();
-            exception = gitCommander.getException();
-        }
+	gitCommander.executeGitCommand(command);
+	if (!gitCommander.isResponseOk()) {
+	    errorMessage = gitCommander.getProcessError();
+	    exception = gitCommander.getException();
+	}
     }
 
     @Override
     public boolean isResponseOk() {
-        return gitCommander.isResponseOk();
+	return gitCommander.isResponseOk();
     }
 
     @Override
     public String getError() {
-        return errorMessage;
+	return errorMessage;
     }
 
     @Override
     public Exception getException() {
-        return exception;
+	return exception;
     }
 }

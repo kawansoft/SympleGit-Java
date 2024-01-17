@@ -27,12 +27,15 @@ import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * GitCommit provides functionality for handling Git commits.
- * It includes methods for committing changes, amending commits, and retrieving commit history.
- * This class implements the GitWrapper interface and uses GitCommander for command execution.
- * <br><br>
+ * GitCommit provides functionality for handling Git commits. It includes
+ * methods for committing changes, amending commits, and retrieving commit
+ * history. This class implements the GitWrapper interface and uses GitCommander
+ * for command execution. <br>
+ * <br>
  * Usage:
- * <pre> <code>
+ * 
+ * <pre>
+ *  <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()
 		.setDirectory(repoDirectoryPath)
@@ -42,7 +45,8 @@ import com.symplegit.api.SympleGit;
 	
 	// Call a method
 	commit.commitChanges("My new commit message");
- * </code> </pre>
+ * </code>
+ * </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4
@@ -59,7 +63,7 @@ public class GitCommit implements GitWrapper {
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
     public GitCommit(SympleGit sympleGit) {
-        this.gitCommander = sympleGit.gitCommander();
+	this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
@@ -69,32 +73,34 @@ public class GitCommit implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void commitChanges(String message) throws IOException {
-        executeGitCommandWithErrorHandler("git", "commit", "-m", message );
+	executeGitCommandWithErrorHandler("git", "commit", "-m", message);
     }
 
     /**
      * Amends the last commit.
+     * 
      * @param message The commit message.
      * @throws IOException If an error occurs during command execution.
      */
     public void amendCommit(String message) throws IOException {
-        executeGitCommandWithErrorHandler("git", "commit", "--amend", "-m", message );
+	executeGitCommandWithErrorHandler("git", "commit", "--amend", "-m", message);
     }
 
     /**
-     * Retrieves the commit history of the current branch as String.
-     * Will throw an IOException if the result is > 10Mb.
+     * Retrieves the commit history of the current branch as String. Will throw an
+     * IOException if the result is > 10Mb.
+     * 
      * @return A String containing the commit history.
      * @throws IOException If an error occurs during command execution.
      */
     public String getCommitHistory() throws IOException {
-        executeGitCommandWithErrorHandler("git", "--no-pager", "log");
-        
-        if (!gitCommander.isResponseOk()) {
-            return null;
-        }
-        
-        return gitCommander.getProcessOutput().trim();
+	executeGitCommandWithErrorHandler("git", "--no-pager", "log");
+
+	if (!gitCommander.isResponseOk()) {
+	    return null;
+	}
+
+	return gitCommander.getProcessOutput().trim();
     }
 
     /**
@@ -104,10 +110,10 @@ public class GitCommit implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public InputStream getCommitHistoryAsStream() throws IOException {
-        executeGitCommandWithErrorHandler("git", "--no-pager", "log");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutputAsInputStream() : null;
+	executeGitCommandWithErrorHandler("git", "--no-pager", "log");
+	return gitCommander.isResponseOk() ? gitCommander.getProcessOutputAsInputStream() : null;
     }
-    
+
     /**
      * Retrieves details of a specific commit given its hash.
      *
@@ -116,8 +122,8 @@ public class GitCommit implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public String getCommitDetails(String commitHash) throws IOException {
-        executeGitCommandWithErrorHandler("git", "show", commitHash);
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput().trim() : null;
+	executeGitCommandWithErrorHandler("git", "show", commitHash);
+	return gitCommander.isResponseOk() ? gitCommander.getProcessOutput().trim() : null;
     }
 
     /**
@@ -127,27 +133,26 @@ public class GitCommit implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
-        gitCommander.executeGitCommand(command);
+	gitCommander.executeGitCommand(command);
 
-        if (!gitCommander.isResponseOk()) {            
-            errorMessage = gitCommander.getProcessError();
-            exception = gitCommander.getException();
-        }
+	if (!gitCommander.isResponseOk()) {
+	    errorMessage = gitCommander.getProcessError();
+	    exception = gitCommander.getException();
+	}
     }
 
     @Override
     public boolean isResponseOk() {
-        return gitCommander.isResponseOk();
+	return gitCommander.isResponseOk();
     }
 
     @Override
     public String getError() {
-        return errorMessage;
+	return errorMessage;
     }
 
     @Override
     public Exception getException() {
-        return exception;
+	return exception;
     }
 }
-

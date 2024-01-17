@@ -26,11 +26,14 @@ import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GitBranchModify class provides functionalities to create, delete, and rename branches in a Git repository.
- * It implements the GitWrapper interface and uses the GitCommander class to execute Git commands.
- * <br><br>
+ * The GitBranchModify class provides functionalities to create, delete, and
+ * rename branches in a Git repository. It implements the GitWrapper interface
+ * and uses the GitCommander class to execute Git commands. <br>
+ * <br>
  * Usage:
- * <pre> <code>
+ * 
+ * <pre>
+ *  <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()
 		.setDirectory(repoDirectoryPath)
@@ -40,7 +43,8 @@ import com.symplegit.api.SympleGit;
 	
 	// Call a method
 	gitBranchModify.deleteBranch("myBranch");
- * </code> </pre>
+ * </code>
+ * </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4
@@ -57,7 +61,7 @@ public class GitBranchModify implements GitWrapper {
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
     public GitBranchModify(SympleGit sympleGit) {
-        this.gitCommander = sympleGit.gitCommander();
+	this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
@@ -67,7 +71,7 @@ public class GitBranchModify implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void createBranch(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "branch", branchName);
+	executeGitCommandWithErrorHandler("git", "branch", branchName);
     }
 
     /**
@@ -77,9 +81,9 @@ public class GitBranchModify implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void deleteBranch(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "branch", "-d", branchName);
+	executeGitCommandWithErrorHandler("git", "branch", "-d", branchName);
     }
-    
+
     /**
      * Forces delete of a branch from the Git repository. (-D option).
      *
@@ -87,7 +91,7 @@ public class GitBranchModify implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void deleteBranchForce(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "branch", "-D", branchName);
+	executeGitCommandWithErrorHandler("git", "branch", "-D", branchName);
     }
 
     /**
@@ -98,7 +102,7 @@ public class GitBranchModify implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void renameBranch(String oldBranchName, String newBranchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "branch", "-m", oldBranchName, newBranchName);
+	executeGitCommandWithErrorHandler("git", "branch", "-m", oldBranchName, newBranchName);
     }
 
     /**
@@ -108,7 +112,7 @@ public class GitBranchModify implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void pushBranchToRemote(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "push", "origin", branchName);
+	executeGitCommandWithErrorHandler("git", "push", "origin", branchName);
     }
 
     /**
@@ -118,9 +122,9 @@ public class GitBranchModify implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void deleteRemoteBranch(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "push", "origin", "--delete", branchName);
+	executeGitCommandWithErrorHandler("git", "push", "origin", "--delete", branchName);
     }
-    
+
     /**
      * Switches to a specified branch in the Git repository.
      *
@@ -128,9 +132,9 @@ public class GitBranchModify implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void switchBranch(String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "switch", branchName);
+	executeGitCommandWithErrorHandler("git", "switch", branchName);
     }
-    
+
     /**
      * Executes a Git command and handles errors generically.
      *
@@ -138,27 +142,26 @@ public class GitBranchModify implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
-        gitCommander.executeGitCommand(command);
+	gitCommander.executeGitCommand(command);
 
-        if (!gitCommander.isResponseOk()) {
-            errorMessage = gitCommander.getProcessError();
-            exception = gitCommander.getException();
-        }
+	if (!gitCommander.isResponseOk()) {
+	    errorMessage = gitCommander.getProcessError();
+	    exception = gitCommander.getException();
+	}
     }
-    
 
     @Override
     public boolean isResponseOk() {
-        return gitCommander.isResponseOk();
+	return gitCommander.isResponseOk();
     }
 
     @Override
     public String getError() {
-        return errorMessage;
+	return errorMessage;
     }
 
     @Override
     public Exception getException() {
-        return exception;
+	return exception;
     }
 }

@@ -27,11 +27,13 @@ import com.symplegit.api.SympleGit;
 
 /**
  * The GitRepo class provides functionalities for managing a Git repository. It
- * includes methods to clone, initialize, and manage the status and  of
- * the remote repositories.
- * <br><br>
+ * includes methods to clone, initialize, and manage the status and of the
+ * remote repositories. <br>
+ * <br>
  * Usage:
- * <pre> <code>
+ * 
+ * <pre>
+ *  <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()
 		.setDirectory(repoDirectoryPath)
@@ -41,7 +43,8 @@ import com.symplegit.api.SympleGit;
 	
 	// Call a method
 	gitRepo.cloneRepository("https://github.com/kawansoft/SympleGit-Java");
- * </code> </pre>
+ * </code>
+ * </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4

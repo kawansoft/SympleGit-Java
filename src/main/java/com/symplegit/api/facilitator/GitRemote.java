@@ -27,11 +27,14 @@ import com.symplegit.api.SympleGit;
 
 /**
  * The GitRemote class is responsible for managing remote repository operations.
- * It provides functionalities to fetch, push, pull and list remote repositories.
- * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
- * <br><br>
+ * It provides functionalities to fetch, push, pull and list remote
+ * repositories. This class implements the GitWrapper interface, using
+ * GitCommander for executing Git commands. <br>
+ * <br>
  * Usage:
- * <pre> <code>
+ * 
+ * <pre>
+ *  <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()
 		.setDirectory(repoDirectoryPath)
@@ -41,7 +44,8 @@ import com.symplegit.api.SympleGit;
 	
 	// Call a method
 	gitRemote.fetchRemote("/my/git/repository");
- * </code> </pre>
+ * </code>
+ * </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4
@@ -58,20 +62,20 @@ public class GitRemote implements GitWrapper {
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
     public GitRemote(SympleGit sympleGit) {
-        this.gitCommander = sympleGit.gitCommander();
+	this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
      * Adds a new remote repository.
      *
      * @param remoteName The name of the remote repository.
-     * @param remoteUrl The URL of the remote repository.
+     * @param remoteUrl  The URL of the remote repository.
      * @throws IOException If an error occurs during command execution.
      */
     public void addRemote(String remoteName, String remoteUrl) throws IOException {
-        executeGitCommandWithErrorHandler("git", "remote", "add", remoteName, remoteUrl);
+	executeGitCommandWithErrorHandler("git", "remote", "add", remoteName, remoteUrl);
     }
-    
+
     /**
      * Fetches updates from a specified remote repository.
      *
@@ -79,7 +83,7 @@ public class GitRemote implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void fetchRemote(String remoteName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "fetch", remoteName);
+	executeGitCommandWithErrorHandler("git", "fetch", remoteName);
     }
 
     /**
@@ -90,7 +94,7 @@ public class GitRemote implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void pushChanges(String remoteName, String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "push", remoteName, branchName);
+	executeGitCommandWithErrorHandler("git", "push", remoteName, branchName);
     }
 
     /**
@@ -101,7 +105,7 @@ public class GitRemote implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void pullChanges(String remoteName, String branchName) throws IOException {
-        executeGitCommandWithErrorHandler("git", "pull", remoteName, branchName);
+	executeGitCommandWithErrorHandler("git", "pull", remoteName, branchName);
     }
 
     /**
@@ -111,8 +115,8 @@ public class GitRemote implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public String listRemotes() throws IOException {
-        executeGitCommandWithErrorHandler("git", "remote", "-v");
-        return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
+	executeGitCommandWithErrorHandler("git", "remote", "-v");
+	return gitCommander.isResponseOk() ? gitCommander.getProcessOutput() : null;
     }
 
     /**
@@ -122,25 +126,25 @@ public class GitRemote implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
-        gitCommander.executeGitCommand(command);
-        if (!gitCommander.isResponseOk()) {
-            errorMessage = gitCommander.getProcessError();
-            exception = gitCommander.getException();
-        }
+	gitCommander.executeGitCommand(command);
+	if (!gitCommander.isResponseOk()) {
+	    errorMessage = gitCommander.getProcessError();
+	    exception = gitCommander.getException();
+	}
     }
 
     @Override
     public boolean isResponseOk() {
-        return gitCommander.isResponseOk();
+	return gitCommander.isResponseOk();
     }
 
     @Override
     public String getError() {
-        return errorMessage;
+	return errorMessage;
     }
 
     @Override
     public Exception getException() {
-        return exception;
+	return exception;
     }
 }

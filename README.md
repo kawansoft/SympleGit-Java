@@ -265,7 +265,7 @@ System.out.println("Added test files to the Git repository");
 
 All classes in the Facilitator API were generated using GPT-4 and have not been manually updated since, with the following exceptions:
 
-1. Enhancement of Javadoc documentation.
+1. Enhancing Javadoc Documentation and Improving code formatting.
 2. The `getStagedDiffAsStream()` method in `GitDiff` was added manually due to the possibility of the command returning a large volume of data.
 
  This approach also extends to all unit tests, which were similarly produced by GPT-4.
@@ -284,6 +284,7 @@ For illustration purposes, the template below was employed to generate the `GitR
 You are a Java expert and a Git expert, world class.
 
 I will pass you 4 Java classes:
+
 - SympleGit: a class that is the main point of entry, and allows to get GitCommander with SympleGit.getCommander()
 - GitCommander: a class that allows to pass Git commands and get output and errors.
 - GitWrapper: an interface for Git Wrapper classes 
@@ -304,6 +305,7 @@ Please include clean & professional Javadoc in the generated class.
 Please make sure to use Git commands with the options that don't use a pager or an editor.
 
 Here are the 4 classes:
+
 [content of SympleGit.java]
 [content of GitCommander.java]
 [content of GitWrapper.java]

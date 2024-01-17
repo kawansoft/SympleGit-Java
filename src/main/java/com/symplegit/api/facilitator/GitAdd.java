@@ -28,11 +28,14 @@ import com.symplegit.api.GitWrapper;
 import com.symplegit.api.SympleGit;
 
 /**
- * The GitAdd class allows adding all changed files, or specific files to the staging area.
- * This class implements the GitWrapper interface, using GitCommander for executing Git commands.
- * <br><br>
+ * The GitAdd class allows adding all changed files, or specific files to the
+ * staging area. This class implements the GitWrapper interface, using
+ * GitCommander for executing Git commands. <br>
+ * <br>
  * Usage:
- * <pre> <code>
+ * 
+ * <pre>
+ *  <code>
 	String repoDirectoryPath = "/path/to/my/git/repository";
 	final SympleGit sympleGit = SympleGit.custom()
 		.setDirectory(repoDirectoryPath)
@@ -42,7 +45,8 @@ import com.symplegit.api.SympleGit;
 	
 	// Call a method
 	gitAdd.addAll();
- * </code> </pre>
+ * </code>
+ * </pre>
  * 
  * @author KawanSoft SAS
  * @author GPT-4
@@ -59,7 +63,7 @@ public class GitAdd implements GitWrapper {
      * @param sympleGit The SympleGit instance to be used for Git command execution.
      */
     public GitAdd(SympleGit sympleGit) {
-        this.gitCommander = sympleGit.gitCommander();
+	this.gitCommander = sympleGit.gitCommander();
     }
 
     /**
@@ -68,7 +72,7 @@ public class GitAdd implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void addAll() throws IOException {
-        executeGitCommandWithErrorHandler("git", "add", ".");
+	executeGitCommandWithErrorHandler("git", "add", ".");
     }
 
     /**
@@ -78,12 +82,12 @@ public class GitAdd implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void add(List<String> filenames) throws IOException {
-        if (filenames == null || filenames.isEmpty()) {
-            throw new IllegalArgumentException("Filenames list cannot be null or empty.");
-        }
-        for (String file : filenames) {
-            executeGitCommandWithErrorHandler("git", "add", file);
-        }
+	if (filenames == null || filenames.isEmpty()) {
+	    throw new IllegalArgumentException("Filenames list cannot be null or empty.");
+	}
+	for (String file : filenames) {
+	    executeGitCommandWithErrorHandler("git", "add", file);
+	}
     }
 
     /**
@@ -93,14 +97,14 @@ public class GitAdd implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void add(String... filenames) throws IOException {
-        if (filenames == null || filenames.length ==0) {
-            throw new IllegalArgumentException("Filenames list cannot be null or empty.");
-        }
-        for (String file : filenames) {
-            executeGitCommandWithErrorHandler("git", "add", file);
-        }
+	if (filenames == null || filenames.length == 0) {
+	    throw new IllegalArgumentException("Filenames list cannot be null or empty.");
+	}
+	for (String file : filenames) {
+	    executeGitCommandWithErrorHandler("git", "add", file);
+	}
     }
-    
+
     /**
      * Adds a list of File objects to the staging area.
      *
@@ -108,14 +112,14 @@ public class GitAdd implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void addFiles(File... files) throws IOException {
-        if (files == null || files.length == 0) {
-            throw new IllegalArgumentException("File list cannot be null or empty.");
-        }
-        for (File file : files) {
-            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
-        }
+	if (files == null || files.length == 0) {
+	    throw new IllegalArgumentException("File list cannot be null or empty.");
+	}
+	for (File file : files) {
+	    executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
+	}
     }
-    
+
     /**
      * Adds a list of File objects to the staging area.
      *
@@ -123,12 +127,12 @@ public class GitAdd implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     public void addFiles(List<File> files) throws IOException {
-        if (files == null || files.isEmpty()) {
-            throw new IllegalArgumentException("File list cannot be null or empty.");
-        }
-        for (File file : files) {
-            executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
-        }
+	if (files == null || files.isEmpty()) {
+	    throw new IllegalArgumentException("File list cannot be null or empty.");
+	}
+	for (File file : files) {
+	    executeGitCommandWithErrorHandler("git", "add", file.getAbsolutePath());
+	}
     }
 
     /**
@@ -138,26 +142,26 @@ public class GitAdd implements GitWrapper {
      * @throws IOException If an error occurs during command execution.
      */
     private void executeGitCommandWithErrorHandler(String... command) throws IOException {
-        gitCommander.executeGitCommand(command);
+	gitCommander.executeGitCommand(command);
 
-        if (!gitCommander.isResponseOk()) {
-            errorMessage = gitCommander.getProcessError();
-            exception = gitCommander.getException();
-        }
+	if (!gitCommander.isResponseOk()) {
+	    errorMessage = gitCommander.getProcessError();
+	    exception = gitCommander.getException();
+	}
     }
 
     @Override
     public boolean isResponseOk() {
-        return gitCommander.isResponseOk();
+	return gitCommander.isResponseOk();
     }
 
     @Override
     public String getError() {
-        return errorMessage;
+	return errorMessage;
     }
 
     @Override
     public Exception getException() {
-        return exception;
+	return exception;
     }
 }
