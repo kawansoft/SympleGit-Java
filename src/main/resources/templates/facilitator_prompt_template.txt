@@ -779,7 +779,6 @@ public class GitBranchExample implements GitWrapper {
 }
 
 
-
 ${0}=GitRepo
 ${1}=Methods: cloneRepository(repoUrl), initializeRepository(), getRepositoryStatus(), addRemote(name, url), removeRemote(name)
 ${2}=For repository-wide operations.
