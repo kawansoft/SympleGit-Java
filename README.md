@@ -12,6 +12,16 @@ SympleGit is a minimalist yet robust and expandable Java implementation of Git, 
 2. It includes wrapper classes for primary Git actions, with straightforward and easy-to-use names.
 3. It is extendable and customizable using Artificial Intelligence, adhering to the AI-XOSS (AI-Extendable Open Source Software) pattern. More details on this will follow.
 
+## Installation
+
+### Maven
+
+```xml
+<groupId>com.symplegit</groupId>
+<artifactId>symplegit</artifactId>
+<version>1.0</version>
+```
+
 ## Why Choose SympleGit Over JGit?
 
 [JGit](https://www.eclipse.org/jgit/) is an excellent Java implementation of Git, richly featured and well-regarded for its clean and fluent API.
