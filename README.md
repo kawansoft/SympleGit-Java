@@ -32,8 +32,6 @@ For those looking to develop a Java editor and integrate Git management, [JGit i
 
 However, JGit's API comes with a learning curve and lacks direct, one-to-one support for CLI actions. Therefore, SympleGit is likely to be a more straightforward option for simple Git integration in many Java projects, particularly those utilizing basic Git functionalities. Let's delve into the details!
 
-
-
 ------
 
 ## Choosing SympleGit Over JGit: Understanding the Advantages
@@ -197,7 +195,7 @@ final SympleGit sympleGit = SympleGit.custom()
 
 Internally, the Git process is executed within a thread using `java.util.concurrent.Future`, enabling controlled termination of operations. However, it's important to note that while this stops the process, the thread itself may continue running until it reaches a natural stopping point.
 
-When the specified timeout is reached, GitCommander (or the Facilitator API) throws an unchecked exception, `UncheckedTimeoutException`. This mechanism ensures that operations do not exceed the predefined time limit.
+When the specified timeout is reached, GitCommander (or the Facilitator API) throws an unchecked exception, [UncheckedTimeoutException](https://www.symplegit.com/rest/soft/v1.0/javadoc/com/symplegit/api/exception/UncheckedTimeoutException.html). This mechanism ensures that operations do not exceed the predefined time limit.
 
 ### Releasing Resources by Closing the SympleGit Instance
 
@@ -372,7 +370,7 @@ As the repoDirt is real and exists as Git repo, do not use mock in the code, use
 ${0}=GitRepo
 ```
 
-See the source code tests for more info.
+See the [source code tests](https://github.com/kawansoft/SympleGit-Java/tree/master/src/test/java/com/symplegit/test/util) for more info.
 
 ### The SympleGit AI Code Generation Prompt
 
