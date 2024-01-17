@@ -57,10 +57,10 @@ try (Repository repository = CookbookHelper.createNewRepository()) {
 }
 ```
 
-In contrast, SympleGit offers two straightforward options:
+In contrast, [SympleGit](https://www.symplegit.com/rest/soft/javadoc) offers two straightforward options:
 
-- Direct invocation using the `GitCommander` class with command-line interface (CLI) syntax, such as: `git add testfile`.
-- Utilizing the Facilitator API with the `GitAdder` class.
+- Direct invocation using the [GitCommander](https://www.symplegit.com/rest/soft/v1.0/javadoc/com/symplegit/api/GitCommander.html) class with command-line interface (CLI) syntax, such as: `git add testfile`.
+- Utilizing the Facilitator API with the [GitAdder](https://www.symplegit.com/rest/soft/v1.0/javadoc/com/symplegit/api/facilitator/GitAdd.html) class.
 
 The code for direct invocation is simpler:
 
@@ -106,7 +106,7 @@ As a Java developer, a common scenario involves automatically replacing or fixin
 
 ### Handling Short and Large Outputs with GitCommander
 
-The `GitCommander` API is versatile, allowing the execution of any Git command regardless of the command's complexity or the size of its output.
+The [GitCommander](https://www.symplegit.com/rest/soft/v1.0/javadoc/com/symplegit/api/GitCommander.html) API is versatile, allowing the execution of any Git command regardless of the command's complexity or the size of its output.
 
 #### Short Output
 
@@ -216,7 +216,7 @@ The Facilitator API consists of a suite of classes designed to encapsulate the `
 
 ### API Usage
 
-Utilizing the Facilitator API is straightforward. Refer to the Javadoc for detailed documentation.
+Utilizing the Facilitator API is straightforward. Refer to the [Javadoc](https://www.symplegit.com/rest/soft/v1.0/javadoc/com/symplegit/api/facilitator/package-summary.html) for detailed documentation.
 
 ```java
 // Staging Files & Committing with SympleGit using GitAdd & GitCommit

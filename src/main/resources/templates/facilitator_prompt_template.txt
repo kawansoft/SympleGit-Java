@@ -1,7 +1,7 @@
 You are a Java expert and a Git expert, world class.
 
 I will pass you 4 Java classes:
-- GitSymple: a class that is the main point of entry, and allows to get GitCommander with GitSymple.getCommander()
+- SympleGit: a class that is the main point of entry, and allows to get GitCommander with SympleGit.getCommander()
 - GitCommander: a class that allows to pass Git commands and get output and errors.
 - GitWrapper: an interface for Git Wrapper classes 
 - GitBranchExample: a simplified example of a wrapper class that does an only update and only a read Git operation.
@@ -20,50 +20,82 @@ Please include clean & professional Javadoc in the generated class.
 
 Please make sure to use Git commands with the options that don't use a pager or an editor.
 
-Here are the classes:
-
- * This file is part of SympleGit. 
- * SympleGit: Git in Java for the rest of us.                                     
- * Copyright (C) 2024,  KawanSoft SAS.
- * (http://www.kawansoft.com). All rights reserved.                                
- *                                                                               
- * SympleGit is free software; you can redistribute it and/or                 
- * modify it under the terms of the GNU Lesser General Public                    
- * License as published by the Free Software Foundation; either                  
- * version 2.1 of the License, or (at your option) any later version.            
- *                                                                               
- * SympleGit is distributed in the hope that it will be useful,               
- * but WITHOUT ANY WARRANTY; without even the implied warranty of                
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU             
- * Lesser General Public License for more details.                               
- *                                                                               
- * You should have received a copy of the GNU Lesser General Public              
- * License along with this library; if not, write to the Free Software           
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
- * 02110-1301  USA
+Here are the 4 classes:
+ * This file is part of SympleGit
+ * SympleGit: Straightforward  Git in Java. Follows 
+ *           'AI-Extensible Open Source Software' pattern
+ * Copyright (C) 2024,  KawanSoft SAS
+ * (http://www.kawansoft.com). All rights reserved.
  *
- * Any modifications to this file must keep this entire header
- * intact.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-
 package com.symplegit.api;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import com.symplegit.util.FrameworkDebug;
 
 /**
  * SympleGit provides a fluent and simplified interface for configuring and
  * using Git operations. It utilizes a builder pattern for easy configuration
  * and initialization. It is a part of the SympleGit package, which aims to
- * simplify interactions with Git repositories.
- * 
- */
-public class SympleGit {
+ * simplify interactions with Git repositories. <br>
+ * <br>
+ * Usage:
+ * <pre>
+ * <code>
+    String repoDirectoryPath = "/path/to/my/git/repository";
+    final SympleGit sympleGit = SympleGit.custom()
+        .setDirectory(repoDirectoryPath)
+        .build();
 
-    public static final int DEFAULT_TIMEOUT_SECONDS = 0;
+    // From there:
+    // 1) Call directly a Git Command
+
+    GitCommander gitCommander = sympleGit.gitCommander();
+    gitCommander.executeGitCommand("git", "add", "testFile1", "testFile2");
+
+    // Or 2) call the Facilitator API with the build in classes
+     
+    GitAdd gitAdd = new GitAdd(sympleGit);
+    gitAdd.add("testFile1", "testFile2");
+
+    GitCommit gitCommit = new GitCommit(sympleGit);
+    gitCommit.commitChanges("Modified test files");   
     
+ * </code>
+ * </pre>
+ * @author KawanSoft SAS
+ */
+public class SympleGit implements AutoCloseable {
+
+    /** Debug flag. */
+    public static boolean DEBUG = FrameworkDebug.isSet(SympleGit.class);
+
+    /** The default timeout for Git operations. */
+    private static final int DEFAULT_TIMEOUT_SECONDS = 0;
+
     private final File directory;
-    private int timeout = DEFAULT_TIMEOUT_SECONDS;
+    private int timeout;
+    private TimeUnit unit;
+
+    private List<File> tempFiles = new ArrayList<>();
 
     /**
      * Constructs a new instance of SympleGit with the specified configuration.
@@ -71,8 +103,9 @@ public class SympleGit {
      * @param builder The Builder object containing configuration settings.
      */
     private SympleGit(Builder builder) {
-        this.directory = builder.directory;
-        this.timeout = builder.timeout;
+    this.directory = builder.directory;
+    this.timeout = builder.timeout;
+    this.unit = builder.unit;
     }
 
     /**
@@ -81,7 +114,7 @@ public class SympleGit {
      * @return A new Builder instance.
      */
     public static Builder custom() {
-        return new Builder();
+    return new Builder();
     }
 
     /**
@@ -90,7 +123,7 @@ public class SympleGit {
      * @return The directory as a File object.
      */
     public File getDirectory() {
-        return directory;
+    return directory;
     }
 
     /**
@@ -99,58 +132,76 @@ public class SympleGit {
      * @return The timeout in milliseconds.
      */
     public int getTimeout() {
-        return timeout;
+    return timeout;
+    }
+
+    /**
+     * Gets the timeout setting for Git operations.
+     *
+     * @return The timeout in milliseconds.
+     * 
+     */
+    public TimeUnit getUnit() {
+    return unit;
     }
 
     // Additional methods or functionality as needed
 
     /**
-     * Builder class for SympleGit. Provides methods to configure SympleGit instances.
+     * Builder class for SympleGit. Provides methods to configure SympleGit
+     * instances.
      */
     public static class Builder {
 
-        private File directory;
-        private int timeout;
+    private File directory;
+    private int timeout = DEFAULT_TIMEOUT_SECONDS;
+    private TimeUnit unit = TimeUnit.SECONDS;
 
-        /**
-         * Sets the directory path for the Git repository.
-         *
-         * @param directoryPath The path to the Git repository directory.
-         * @return The Builder instance for chaining.
-         */
-        public Builder setDirectory(String directoryPath) {
-            Objects.requireNonNull(directoryPath, "directoryPath cannot be null");
-            this.directory = new File(directoryPath);
-            return this;
-        }
+    /**
+     * Sets the directory path for the Git repository.
+     *
+     * @param directoryPath The path to the Git repository directory.
+     * @return The Builder instance for chaining.
+     */
+    public Builder setDirectory(String directoryPath) {
+        Objects.requireNonNull(directoryPath, "directoryPath cannot be null");
+        this.directory = new File(directoryPath);
+        return this;
+    }
 
+    /**
+     * Sets the directory path for the Git repository.
+     *
+     * @param directoryFile The File of the Git repository directory.
+     * @return The Builder instance for chaining.
+     */
     public Builder setDirectory(File directoryFile) {
         Objects.requireNonNull(directoryFile, "directoryFile cannot be null");
-            this.directory = directoryFile;
-            return this;
+        this.directory = directoryFile;
+        return this;
     }
-    
-        /**
-         * Sets the timeout for Git operations.
-         *
-         * @param timeout The timeout value in milliseconds.
-         * @return The Builder instance for chaining.
-         */
-        public Builder setTimeout(int timeout) {
-            this.timeout = timeout;
-            return this;
-        }
 
-        /**
-         * Builds and returns a SympleGit instance with the current configuration.
-         *
-         * @return A configured SympleGit instance.
-         */
-        public SympleGit build() {
-            return new SympleGit(this);
-        }
+    /**
+     * Sets the timeout for Git operations.
+     *
+     * @param timeout the maximum time to wait
+     * @param unit    the time unit of the timeout argument
+     * @return The Builder instance for chaining.
+     */
+    public Builder setTimeout(int timeout, TimeUnit unit) {
+        this.timeout = timeout;
+        this.unit = unit;
+        return this;
+    }
 
-
+    /**
+     * Builds and returns a SympleGit instance with the current configuration.
+     *
+     * @return A configured SympleGit instance.
+     */
+    public SympleGit build() {
+        return new SympleGit(this);
+    }
     }
 
     /**
@@ -165,35 +216,90 @@ public class SympleGit {
 
     @Override
     public String toString() {
-    return "SympleGit [directory=" + directory + ", timeout=" + timeout + "]";
+    return "SympleGit [directory=" + directory + ", timeout=" + timeout + ", unit=" + unit + "]";
     }
-    
-    
+
+    /**
+     * Adds a temporary error file or output to the list of temporary error files.
+     * 
+     * @param tempErrorFile the temp file containing the error message
+     */
+    void addTempFile(File tempFile) {
+    tempFiles.add(tempFile);
+    }
+
+    /**
+     * Deletes all temporary files. Should be done to to relieve java.io.tmpdir.
+     */
+    @Override
+    public void close() throws Exception {
+    if (tempFiles != null) {
+        for (File tempFile : tempFiles) {
+        tempFile.delete();
+        }
+    }
+    }
+
+    /**
+     * Deletes all temporary files. <br>
+     * To be used to clean java.io.tmpdir temp directory of SympleGit temp files, if
+     * SympleGit was not systematically closed in applications. <br>
+     * <br>
+     * Be cautious when using this method (especially if JVM is shared )
+     */
+    public static void deleteTempFiles() {
+
+    File tempDir = new File(System.getProperty("java.io.tmpdir"));
+
+    FileFilter filter = new FileFilter() {
+
+        @Override
+        public boolean accept(File pathname) {
+        if (pathname.toString().startsWith(tempDir + File.separator + GitCommander.SYMPLEGIT_OUTPUT)) {
+            return true;
+        }
+        return false;
+        }
+    };
+
+    final File[] tempfiles = tempDir.listFiles(filter);
+    if (tempfiles != null) {
+        for (File tempFile : tempfiles) {
+        boolean deleted = tempFile.delete();
+        debug("Deleting temporary file: " + deleted + ": " + tempFile.getAbsolutePath());
+        }
+    }
+    }
+
+    /**
+     * Prints a debug message with the current timestamp if debugging is enabled.
+     *
+     * @param sMsg The debug message to be printed.
+     */
+    protected static void debug(String sMsg) {
+    if (DEBUG) {
+        System.out.println(new Date() + " " + sMsg);
+    }
+    }
 }
 
-
- * This file is part of SympleGit. 
- * SympleGit: Git in Java for the rest of us.                                     
- * Copyright (C) 2024,  KawanSoft SAS.
- * (http://www.kawansoft.com). All rights reserved.                                
- *                                                                               
- * SympleGit is free software; you can redistribute it and/or                 
- * modify it under the terms of the GNU Lesser General Public                    
- * License as published by the Free Software Foundation; either                  
- * version 2.1 of the License, or (at your option) any later version.            
- *                                                                               
- * SympleGit is distributed in the hope that it will be useful,               
- * but WITHOUT ANY WARRANTY; without even the implied warranty of                
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU             
- * Lesser General Public License for more details.                               
- *                                                                               
- * You should have received a copy of the GNU Lesser General Public              
- * License along with this library; if not, write to the Free Software           
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
- * 02110-1301  USA
+ * This file is part of SympleGit
+ * SympleGit: Straightforward  Git in Java. Follows 
+ *           'AI-Extensible Open Source Software' pattern
+ * Copyright (C) 2024,  KawanSoft SAS
+ * (http://www.kawansoft.com). All rights reserved.
  *
- * Any modifications to this file must keep this entire header
- * intact.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.symplegit.api;
 
@@ -201,6 +307,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -225,22 +332,58 @@ import com.symplegit.util.FrameworkDebug;
 /**
  * The GitCommander class is responsible for executing Git commands and handling
  * their outputs. It uses a ProcessBuilder to run Git commands and captures
- * their output and error streams.
+ * their output and error streams. <br>
+ * Usage:
+ * 
+ * <pre>
+ * <code>
+    String repoDirectoryPath = "/path/to/my/git/repository";
+    final SympleGit sympleGit = SympleGit.custom()
+        .setDirectory(repoDirectoryPath)
+        .build();
+
+    String branchName = "myNewBranch";
+    
+    // Create gitCommander instance from SympleGit and create a branch
+    GitCommander gitCommander = sympleGit.gitCommander();
+    gitCommander.executeGitCommand("git", "branch", branchName);
+    
+    // Test all is OK:
+    if (gitCommander.isResponseOk()) {
+        System.out.println("Branch " + branchName + " successfully created!");
+    }
+    else {
+        String error = gitCommander.getProcessError();
+        System.out.println("Could not create branch: " +error);
+    }
+    
+    // Example of output: Get the active branch name
+    gitCommander.executeGitCommand("git", "branch", branchName);
+    if (gitCommander.isResponseOk()) {
+            System.out.println("Active Branch " + gitCommander.getProcessOutput());
+        }
+    }
+ * </code>
+ * </pre>
  *
- * @author Nicolas de Pomereu
+ * @author KawanSoft SAS
  */
 public class GitCommander {
 
+    /** Debug flag. */
     public static boolean DEBUG = FrameworkDebug.isSet(GitCommander.class);
+
+    static final String SYMPLEGIT_OUTPUT = "symplegit-output-";
+
+    private SympleGit sympleGit;
 
     private ProcessBuilder builder;
     private Exception exception;
     private int exitCode;
 
-    private File tempErrorFile = null;
     private File tempOutputFile = null;
 
-    private int timeout = 0;
+    private Process process = null;
 
     /**
      * Constructs a GitCommander object with a specified SympleGit instance.
@@ -249,49 +392,11 @@ public class GitCommander {
      * @throws NullPointerException if sympleGit is null.
      */
     GitCommander(SympleGit sympleGit) {
-    Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
+    this.sympleGit = Objects.requireNonNull(sympleGit, "sympleGit cannot be null!");
     builder = new ProcessBuilder();
     builder.directory(sympleGit.getDirectory());
-    this.timeout = sympleGit.getTimeout();
     }
 
-
-    /**
-     * Executes a Git command and handles its output and error streams.
-     *
-     * @param command The Git command to be executed, split into an array of
-     *                strings.
-     */
-    @SuppressWarnings("unused")
-    private void executeGitCommandOld(String... command) {
-    Objects.requireNonNull(command, "builder cannot be null!");
-
-    Thread thread = new Thread(() -> {
-        executeInThread(command);
-    });
-    thread.start();
-
-    long begin = System.currentTimeMillis();
-        
-        debug(" Before while (thread.isAlive())");
-        
-    while (thread.isAlive()) {
-            
-        long now = System.currentTimeMillis();
-            try {   
-                Thread.sleep(100);
-            }
-            catch (InterruptedException ignore) {
-            ignore.printStackTrace();
-            }
-            
-            if ( timeout != 0 &&  (now  - begin > 1000 * timeout)) {
-                throw new UncheckedTimeoutException("Timeout after " + timeout + " seconds!");
-            };
-    }
-    
-    }
-    
     /**
      * Executes a Git command and handles its output and error streams.
      *
@@ -299,81 +404,59 @@ public class GitCommander {
      *                strings.
      */
     public void executeGitCommand(String... command) {
-    
-        ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        Callable<String> task = new Callable<String>() {
-            @Override
-            public String call() throws InterruptedException {
-            executeInThread(command);
-                return "OK";
-            }
-        };
+    ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        Future<String> future = executor.submit(task);
-
-        try {
-            
-            long futureTimeout = timeout == 0? Long.MAX_VALUE : timeout;
-            
-            // Get the result of the asynchronous computation with a timeout of 1 second
-            future.get(futureTimeout, TimeUnit.SECONDS);
-        } catch (TimeoutException e) {
-            throw new UncheckedTimeoutException("Timeout after " + timeout + " seconds!");
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        } finally {
-            executor.shutdown(); // Always remember to shut down the executor service
+    Callable<String> task = new Callable<String>() {
+        @Override
+        public String call() throws InterruptedException {
+        executeInThread(command);
+        return "OK";
         }
+    };
+
+    Future<String> future = executor.submit(task);
+
+    long timeout = sympleGit.getTimeout();
+    TimeUnit unit = sympleGit.getUnit();
+
+    debug("unit: " + unit);
+    try {
+
+        long futureTimeout = timeout == 0 ? Long.MAX_VALUE : timeout;
+
+        // Get the result of the asynchronous computation with a timeout of 1 second
+        future.get(futureTimeout, unit);
+    } catch (TimeoutException e) {
+        stopProcess();
+        throw new UncheckedTimeoutException("Timeout after " + timeout + unit);
+    } catch (InterruptedException | ExecutionException e) {
+        e.printStackTrace();
+    } finally {
+        executor.shutdown(); // Always remember to shut down the executor service
+    }
     }
 
     /**
      * @param command
      */
     private void executeInThread(String... command) {
-    // builder.redirectErrorStream(true);
-    Process process = null;
+    builder.redirectErrorStream(true);
 
     debug("Git command: " + removeCommas(Arrays.toString(command)));
 
     try {
-        
+
         builder.command(command); // Correctly set the command
         process = builder.start();
 
-        debug("Before tempErrorFile creation");
-
-        tempErrorFile = File.createTempFile("symplegit-error-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
-
-        try (OutputStream osError = new BufferedOutputStream(new FileOutputStream(tempErrorFile))) {
-        IOUtils.copy(new BufferedInputStream(getProcessErrorAsInputStream()), osError);
-        }
-
-        debug("After tempErrorFile creation");
-
-        // Optionally, delete the file when the JVM exits
-        tempErrorFile.deleteOnExit();
-
-        debug("Before tempOutputFile creation");
-
-        tempOutputFile = File.createTempFile("symplegit-output-" + ApiDateUtil.getDateWithTime() + "-", ".txt");
-
-        try (OutputStream osInput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
-        IOUtils.copy(new BufferedInputStream(process.getInputStream()), osInput);
-        }
-
-        debug("After tempOutputFile creation");
-
-        // Optionally, delete the file when the JVM exits
-        tempOutputFile.deleteOnExit();
-        
-
+        createOutputTempFile();
         debug("waitFor...: " + removeCommas(Arrays.toString(command)));
 
         exitCode = process.waitFor();
         debug("exitCode: " + exitCode);
 
-        process.destroy();
+        // process.destroy();
         process.destroyForcibly();
 
     } catch (Throwable throwable) {
@@ -383,6 +466,38 @@ public class GitCommander {
         } else {
         exception = new Exception(throwable);
         }
+    } finally {
+        // sympleGit.addTempFile(tempErrorFile);
+        sympleGit.addTempFile(tempOutputFile);
+    }
+    }
+
+    /**
+     * Create a temporary file to store the output of the last executed Git command.
+     * 
+     * @throws IOException
+     * @throws FileNotFoundException
+     */
+    private void createOutputTempFile() throws IOException, FileNotFoundException {
+    debug("Before tempOutputFile creation");
+
+    tempOutputFile = File.createTempFile(SYMPLEGIT_OUTPUT + ApiDateUtil.getDateWithTime() + "-", ".txt");
+
+    try (InputStream osInput = new BufferedInputStream(process.getInputStream());
+        OutputStream osOutput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
+        IOUtils.copy(osInput, osOutput);
+    }
+
+    debug("After tempOutputFile creation");
+
+    // Optionally, delete the file when the JVM exits
+    // tempOutputFile.deleteOnExit();
+    }
+
+    private void stopProcess() {
+    if (this.process != null) {
+        // this.process.destroy();
+        this.process.destroyForcibly();
     }
     }
 
@@ -406,15 +521,17 @@ public class GitCommander {
     }
 
     /**
-     * Gets the standard output of the last executed Git command as a String.
-     * <br>
-     * It's good practice to test the length of the output as it can be retrieved with {@link #getSize()}.
+     * Gets the standard output of the last executed Git command as a String. <br>
+     * It's good practice to test the length of the output as it can be retrieved
+     * with {@link #getSize()}.
      *
      * @return The standard output of the last executed Git command.
      * @throws IOException if an I/O error occurs while reading the output.
      */
     public String getProcessOutput() throws IOException {
-    return IOUtils.toString(getProcessOutputAsInputStream(), "UTF-8");
+    try (InputStream is = getProcessOutputAsInputStream()) {
+        return IOUtils.toString(is, "UTF-8");
+    }
     }
 
     /**
@@ -424,7 +541,7 @@ public class GitCommander {
      * @throws IOException if an I/O error occurs while reading the error output.
      */
     public String getProcessError() throws IOException {
-    return IOUtils.toString(getProcessErrorAsInputStream(), "UTF-8");
+    return getProcessOutput(); // Fusion of stream output and error output
     }
 
     /**
@@ -432,7 +549,6 @@ public class GitCommander {
      * will allow to decide if the content can be directly retrieved as a String.
      *
      * @return The length of the standard output of the last executed Git command.
-     * @throws IOException if an I/O error occurs while reading the output.
      */
     public long getSize() {
     return tempOutputFile.length();
@@ -462,12 +578,7 @@ public class GitCommander {
      * @throws IOException if the error file does not exist or an I/O error occurs.
      */
     public InputStream getProcessErrorAsInputStream() throws IOException {
-
-    if (tempErrorFile != null && tempErrorFile.exists()) {
-        return new BufferedInputStream(new FileInputStream(tempErrorFile));
-    }
-    return null;
-
+    return getProcessOutputAsInputStream(); // Fusion of stream output and error output
     }
 
     /**
@@ -495,21 +606,6 @@ public class GitCommander {
     }
 
     /**
-     * The delete of the temp files are normally done when the JVM exits with a
-     * File.deleteOnExit() call. May be optionally be done to delete immediately the
-     * temp files created.
-     */
-    public void close() {
-    if (tempErrorFile != null && tempErrorFile.exists()) {
-        tempErrorFile.delete();
-    }
-
-    if (tempOutputFile != null && tempOutputFile.exists()) {
-        tempOutputFile.delete();
-    }
-    }
-
-    /**
      * Prints a debug message with the current timestamp if debugging is enabled.
      *
      * @param sMsg The debug message to be printed.
@@ -521,31 +617,26 @@ public class GitCommander {
     }
 
 }
- * This file is part of SympleGit. 
- * SympleGit: Git in Java for the rest of us.                                     
- * Copyright (C) 2024,  KawanSoft SAS.
- * (http://www.kawansoft.com). All rights reserved.                                
- *                                                                               
- * SympleGit is free software; you can redistribute it and/or                 
- * modify it under the terms of the GNU Lesser General Public                    
- * License as published by the Free Software Foundation; either                  
- * version 2.1 of the License, or (at your option) any later version.            
- *                                                                               
- * SympleGit is distributed in the hope that it will be useful,               
- * but WITHOUT ANY WARRANTY; without even the implied warranty of                
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU             
- * Lesser General Public License for more details.                               
- *                                                                               
- * You should have received a copy of the GNU Lesser General Public              
- * License along with this library; if not, write to the Free Software           
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
- * 02110-1301  USA
+
+ * This file is part of SympleGit
+ * SympleGit: Straightforward  Git in Java. Follows 
+ *           'AI-Extensible Open Source Software' pattern
+ * Copyright (C) 2024,  KawanSoft SAS
+ * (http://www.kawansoft.com). All rights reserved.
  *
- * Any modifications to this file must keep this entire header
- * intact.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.symplegit.api;
-
 /**
  * The GitWrapper interface defines the essential functionalities that a wrapper
  * class for Git operations should implement. This interface ensures a
@@ -563,7 +654,6 @@ public interface GitWrapper {
      *         0), false otherwise.
      */
     public boolean isResponseOk();
-
     /**
      * Retrieves the error message from the last executed Git command, if any.
      *
@@ -571,7 +661,6 @@ public interface GitWrapper {
      *         execution. Returns null or an empty string if there was no error.
      */
     public String getError();
-
     /**
      * Gets the exception that was thrown during the last executed Git command, if
      * any.
@@ -583,28 +672,23 @@ public interface GitWrapper {
     public Exception getException();
 }
 
- * This file is part of SympleGit. 
- * SympleGit: Git in Java for the rest of us.                                     
- * Copyright (C) 2024,  KawanSoft SAS.
- * (http://www.kawansoft.com). All rights reserved.                                
- *                                                                               
- * SympleGit is free software; you can redistribute it and/or                 
- * modify it under the terms of the GNU Lesser General Public                    
- * License as published by the Free Software Foundation; either                  
- * version 2.1 of the License, or (at your option) any later version.            
- *                                                                               
- * SympleGit is distributed in the hope that it will be useful,               
- * but WITHOUT ANY WARRANTY; without even the implied warranty of                
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU             
- * Lesser General Public License for more details.                               
- *                                                                               
- * You should have received a copy of the GNU Lesser General Public              
- * License along with this library; if not, write to the Free Software           
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
- * 02110-1301  USA
+ * This file is part of SympleGit
+ * SympleGit: Straightforward  Git in Java. Follows 
+ *           'AI-Extensible Open Source Software' pattern
+ * Copyright (C) 2024,  KawanSoft SAS
+ * (http://www.kawansoft.com). All rights reserved.
  *
- * Any modifications to this file must keep this entire header
- * intact.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.symplegit.api.facilitator;
 
@@ -693,6 +777,8 @@ public class GitBranchExample implements GitWrapper {
         return exception;
     }
 }
+
+
 
 ${0}=GitRepo
 ${1}=Methods: cloneRepository(repoUrl), initializeRepository(), getRepositoryStatus(), addRemote(name, url), removeRemote(name)
