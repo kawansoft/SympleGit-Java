@@ -67,17 +67,17 @@ import com.symplegit.util.FrameworkDebug;
 	
 	// Test all is OK:
 	if (gitCommander.isResponseOk()) {
-	    System.out.println("Branch " + branchName + " successfully created!");
+	    System.out.println("Branch: " + branchName + " successfully created!");
 	}
 	else {
 	    String error = gitCommander.getProcessError();
-	    System.out.println("Could not create branch: " +error);
+	    System.out.println("Could not create branch: " + error);
 	}
 	
 	// Example of output: Get the active branch name
 	gitCommander.executeGitCommand("git", "branch");
 	if (gitCommander.isResponseOk()) {
-            System.out.println("Active Branch " + gitCommander.getProcessOutput());
+            System.out.println("Active Branch: " + gitCommander.getProcessOutput());
         }
     }
  * </code>
