@@ -268,8 +268,6 @@ All classes in the Facilitator API were generated using GPT-4 and have not been 
 1. Enhancing Javadoc Documentation and Improving code formatting.
 2. The `getStagedDiffAsStream()` method in `GitDiff` was added manually due to the possibility of the command returning a large volume of data.
 
- This approach also extends to all unit tests, which were similarly produced by GPT-4.
-
 The generation process for these classes utilized a single, parameterized prompt. This prompt included three specific parameters:
 
 - `${0}`: Represents the [class name].
@@ -302,7 +300,7 @@ The values of ${0}, ${1} ,and ${2} are at the end of this prompt.
 Add a "@author GPT-4" at first Javadoc.
 Please include clean & professional Javadoc in the generated class.
 
-Please make sure to use Git commands with the options that don't use a pager or an editor.
+Please make sure to use Git commands with the options that do not use a pager or an editor.
 
 Here are the 4 classes:
 
@@ -354,7 +352,26 @@ ${1}=getVersion()
 ${2}=get Git version.
 ```
 
+### Using GPT-4 to Generate the Facilitator API Test Classes
 
+This approach also extends to all unit tests, which were similarly produced by GPT-4:
+
+```Bash
+You are a Java expert and a Git expert, world class.
+
+Please write a complete unit test class for the following ${0} Java class.
+The value ${0} is at the end of this prompt.
+
+Use this Java line to get the repository File:
+File repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo();
+The class GitTestUtils and the createIfNotTexistsTemporaryGitRepo method already exist, do not create them.
+        
+As the repoDirt is real and exists as Git repo, do not use mock in the code, use only real calls.      
+
+${0}=GitRepo
+```
+
+See the source code tests for more info.
 
 ### The SympleGit AI Code Generation Prompt
 
