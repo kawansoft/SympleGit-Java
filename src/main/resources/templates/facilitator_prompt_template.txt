@@ -21,6 +21,7 @@ Please include clean & professional Javadoc in the generated class.
 Please make sure to use Git commands with the options that don't use a pager or an editor.
 
 Here are the 4 classes:
+
  * This file is part of SympleGit
  * SympleGit: Straightforward  Git in Java. Follows 
  *           'AI-Extensible Open Source Software' pattern

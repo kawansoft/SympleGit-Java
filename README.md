@@ -270,13 +270,13 @@ The generation process for these classes utilized a single, parameterized prompt
 
 Moreover, the prompt included source code from SympleGit, which enabled GPT-4 to efficiently produce contextually relevant new code. (Note: Only GPT-4 is supported; the prompt has not been tested with GPT-3.5 or other AI providers.)
 
-For illustration purposes, the template below was employed to generate the `GitRepo` class. To keep it simple, the actual source code of the referenced classes has been omitted from this prompt (full prompt is below):
+For illustration purposes, the template below was employed to generate the `GitRepo` class. To keep it simple, the actual source code of the referenced classes has been omitted from this prompt (full prompt [URL](https://github.com/kawansoft/SympleGit-Java/blob/master/src/main/resources/templates/facilitator_prompt_template.txt)):
 
 ```bash
 You are a Java expert and a Git expert, world class.
 
 I will pass you 4 Java classes:
-- GitSymple: a class that is the main point of entry, and allows to get GitCommander with GitSymple.getCommander()
+- SympleGit: a class that is the main point of entry, and allows to get GitCommander with SympleGit.getCommander()
 - GitCommander: a class that allows to pass Git commands and get output and errors.
 - GitWrapper: an interface for Git Wrapper classes 
 - GitBranchExample: a simplified example of a wrapper class that does an only update and only a read Git operation.
@@ -293,9 +293,9 @@ The values of ${0}, ${1} ,and ${2} are at the end of this prompt.
 Add a "@author GPT-4" at first Javadoc.
 Please include clean & professional Javadoc in the generated class.
 
-Please make sure to use Git commands with the options that do not use a pager or an editor.
+Please make sure to use Git commands with the options that don't use a pager or an editor.
 
-Here are the classes:
+Here are the 4 classes:
 [content of GitSymple.java]
 [content of GitCommander.java]
 [content of GitWrapper.java]
@@ -348,7 +348,8 @@ ${2}=get Git version.
 
 ### The SympleGit AI Code Generation Prompt
 
-The complete prompt used for generating code with SympleGit is accessible at the following link: [Insert Link Here].
+The complete prompt used for generating code with SympleGit is accessible at the following link: 
+[GitHub SympleGit Prompt Template](https://github.com/kawansoft/SympleGit-Java/blob/master/src/main/resources/templates/facilitator_prompt_template.txt).
 
 ### Extending SympleGit Facilitator API using a Development Pattern (AI-XOSS)
 
