@@ -75,7 +75,7 @@ import com.symplegit.util.FrameworkDebug;
 	}
 	
 	// Example of output: Get the active branch name
-	gitCommander.executeGitCommand("git", "branch", branchName);
+	gitCommander.executeGitCommand("git", "branch");
 	if (gitCommander.isResponseOk()) {
             System.out.println("Active Branch " + gitCommander.getProcessOutput());
         }
