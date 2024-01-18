@@ -3,7 +3,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d14142d5d6f04ba891d505e2e47b417d)](https://www.codacy.com/gh/kawansoft/SympleGit-Java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kawansoft/SympleGit-Java&amp;utm_campaign=Badge_Grade)
 ![GitHub contributors](https://img.shields.io/github/contributors/kawansoft/SympleGit-Java)
 
-# SympleGit v1.0 - January 17, 2024
+# SympleGit v1.0 - January 18, 2024
 
 <img src="https://www.symplegit.com/img/arrow_fork2.png" />
 
