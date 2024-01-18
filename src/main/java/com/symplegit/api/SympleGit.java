@@ -211,6 +211,8 @@ public class SympleGit implements AutoCloseable {
 
     /**
      * Deletes all temporary files. Should be done to to relieve java.io.tmpdir.
+     * <br>
+     * Temporary files are always deleted when the application is closed. <br>
      */
     @Override
     public void close() throws Exception {

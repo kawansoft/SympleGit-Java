@@ -79,6 +79,10 @@ import com.symplegit.util.FrameworkDebug;
 	if (gitCommander.isResponseOk()) {
             System.out.println("Active Branch: " + gitCommander.getProcessOutput());
         }
+	else {
+	    String error = gitCommander.getProcessError();
+	    System.out.println("Could not get the active branch: " + error);
+	}
     }
  * </code>
  * </pre>
@@ -208,7 +212,7 @@ public class GitCommander {
 	debug("After tempOutputFile creation");
 
 	// Optionally, delete the file when the JVM exits
-	// tempOutputFile.deleteOnExit();
+	tempOutputFile.deleteOnExit();
     }
 
     private void stopProcess() {
