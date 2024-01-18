@@ -202,13 +202,11 @@ final SympleGit sympleGit = SympleGit.custom()
 
 Internally, the Git process is executed within a thread using `java.util.concurrent.Future`, enabling controlled termination of operations. However, it's important to note that while this stops the process, the thread itself may continue running until it reaches a natural stopping point.
 
-When the specified timeout is reached, GitCommander (or the Facilitator API) throws an unchecked exception, [UncheckedTimeoutException](https://www.symplegit.com/rest/soft/v1.0/javadoc/com/symplegit/api/exception/UncheckedTimeoutException.html). This mechanism ensures that operations do not exceed the predefined time limit.
+When the specified timeout is reached, GitCommander (or the Facilitator API) throws an unchecked exception, [UncheckedTimeoutException](https://www.symplegit.com/rest/soft/v1.0/javadoc/com/symplegit/api/exception/UncheckedTimeoutException.html). 
 
 ### Releasing Resources by Closing the SympleGit Instance
 
 It's a recommended practice to call the `close` method on the SympleGit instance to ensure the cleanup of temporary files. SympleGit is designed to be `AutoCloseable`, allowing for easy resource management.
-
-Additionally, there's a static method available, `SympleGit.deleteTempFiles()`, which can be used to delete all temporary files created. However, exercise caution when using this method, especially in multi-user environments.
 
 ## The Facilitator API
 
