@@ -21,7 +21,6 @@
 package com.symplegit.api;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -223,36 +222,6 @@ public class SympleGit implements AutoCloseable {
 	}
     }
 
-    /**
-     * Deletes all temporary files. <br>
-     * To be used to clean java.io.tmpdir temp directory of SympleGit temp files, if
-     * SympleGit was not systematically closed in applications. <br>
-     * <br>
-     * Be cautious when using this method (especially if JVM is shared )
-     */
-    public static void deleteTempFiles() {
-
-	File tempDir = new File(System.getProperty("java.io.tmpdir"));
-
-	FileFilter filter = new FileFilter() {
-
-	    @Override
-	    public boolean accept(File pathname) {
-		if (pathname.toString().startsWith(tempDir + File.separator + GitCommander.SYMPLEGIT_OUTPUT)) {
-		    return true;
-		}
-		return false;
-	    }
-	};
-
-	final File[] tempfiles = tempDir.listFiles(filter);
-	if (tempfiles != null) {
-	    for (File tempFile : tempfiles) {
-		boolean deleted = tempFile.delete();
-		debug("Deleting temporary file: " + deleted + ": " + tempFile.getAbsolutePath());
-	    }
-	}
-    }
 
     /**
      * Prints a debug message with the current timestamp if debugging is enabled.
