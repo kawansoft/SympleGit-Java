@@ -32,7 +32,7 @@ SympleGit requires Java version 11 or newer.
 <version>1.0</version>
 ```
 
-***Note:** As of January 18, we are waiting for Atlassian/Jira to validate our new project. Consequently, the symplegit Maven artifact is not yet available. We apologize for this inconvenience. Please stay tuned for a couple of days.*
+***Note:** As of January 19, we are waiting for Atlassian/Jira to validate our new project. Consequently, the symplegit Maven artifact is not yet available. We apologize for this inconvenience. Please stay tuned.*
 
 ## Why Choose SympleGit Over JGit?
 
