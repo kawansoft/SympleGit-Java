@@ -22,6 +22,7 @@ package com.symplegit.api;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -106,6 +107,8 @@ public class GitCommander {
 
     private Process process = null;
 
+    private boolean paramsOk;
+
     /**
      * Constructs a GitCommander object with a specified SympleGit instance.
      *
@@ -125,6 +128,12 @@ public class GitCommander {
      *                strings.
      */
     public void executeGitCommand(String... command) {
+	
+	paramsOk = basicParamsCheks(command);
+	if (!paramsOk) {
+	    writeErrorInTempFile();
+	    return;
+	}
 
 	ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -159,11 +168,26 @@ public class GitCommander {
     }
 
     /**
+     * Write an error message in a temporary file, because command malformed
+     */
+    private void writeErrorInTempFile() {
+	try {
+	    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+		    "Please input valid git command starting with \"git\".".getBytes());
+	    createOutputTempFile(byteArrayInputStream);
+	} catch (IOException ioexception) {
+	    exception = ioexception;
+	}
+    }
+
+    /**
      * @param command
      */
     private void executeInThread(String... command) {
 	builder.redirectErrorStream(true);
 
+
+	debug("paramsOk   : " + paramsOk);
 	debug("Git command: " + removeCommas(Arrays.toString(command)));
 
 	try {
@@ -171,7 +195,8 @@ public class GitCommander {
 	    builder.command(command); // Correctly set the command
 	    process = builder.start();
 
-	    createOutputTempFile();
+	    createOutputTempFile(process.getInputStream());
+	
 	    debug("waitFor...: " + removeCommas(Arrays.toString(command)));
 
 	    exitCode = process.waitFor();
@@ -194,17 +219,26 @@ public class GitCommander {
     }
 
     /**
+     * Check basic parameters of the Git command. (It must start with "git", etc.).
+     * @param command
+     */
+    private boolean basicParamsCheks(String... command) {
+	return command == null || command.length == 0 || ! command[0].equals("git") ? false : true;
+    }
+
+    /**
      * Create a temporary file to store the output of the last executed Git command.
+     * @param inputStream the input stream to create the temporary file from.
      * 
      * @throws IOException
      * @throws FileNotFoundException
      */
-    private void createOutputTempFile() throws IOException, FileNotFoundException {
+    private void createOutputTempFile(InputStream inputStream) throws IOException, FileNotFoundException {
 	debug("Before tempOutputFile creation");
 
 	tempOutputFile = File.createTempFile(SYMPLEGIT_OUTPUT + ApiDateUtil.getDateWithTime() + "-", ".txt");
 
-	try (InputStream osInput = new BufferedInputStream(process.getInputStream());
+	try (InputStream osInput = new BufferedInputStream(inputStream);
 		OutputStream osOutput = new BufferedOutputStream(new FileOutputStream(tempOutputFile))) {
 	    IOUtils.copy(osInput, osOutput);
 	}
@@ -229,8 +263,14 @@ public class GitCommander {
      *         false otherwise.
      */
     public boolean isResponseOk() {
-	return exitCode == 0;
-    }
+	if (paramsOk) {
+	    return exitCode == 0;
+	}
+	else {
+	    return false;
+	}
+    }    
+
 
     /**
      * Retrieves the exit code of the last executed Git command.
@@ -238,7 +278,13 @@ public class GitCommander {
      * @return The exit code of the last Git command execution.
      */
     public int getExitCode() {
-	return exitCode;
+	if (paramsOk) {
+	    return  exitCode;
+	}
+	else {
+	    return -1;
+	}
+
     }
 
     /**
