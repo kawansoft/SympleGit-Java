@@ -81,6 +81,38 @@
     	<name>KawanSoft</name>
     </organization>
     <url>https://www.symplegit.com/</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>abecquereau</id>
+            <name>Alexandre Becquereau</name>
+            <email>abecquereau@kawansoft.com</email>
+            <timezone>GMT+1</timezone>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>ndepomereu</id>
+            <name>Nicolas de Pomereu</name>
+            <email>ndepomereu@kawansoft.com</email>
+            <timezone>GMT+1</timezone>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
     <inceptionYear>2024</inceptionYear>
     <scm>
     	<url>https://github.com/kawansoft/SympleGit-Java</url>

@@ -1,9 +1,10 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/kawansoft/SympleGit-Java)![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kawansoft/SympleGit-Java) ![GitHub issues](https://img.shields.io/github/issues/kawansoft/SympleGit-Java)
+![Maven Central](https://img.shields.io/maven-central/v/com.aceql/SympleGit-Java) 
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/kawansoft/SympleGit-Java) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kawansoft/SympleGit-Java/master)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d14142d5d6f04ba891d505e2e47b417d)](https://www.codacy.com/gh/kawansoft/SympleGit-Java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kawansoft/SympleGit-Java&amp;utm_campaign=Badge_Grade)
 ![GitHub contributors](https://img.shields.io/github/contributors/kawansoft/SympleGit-Java)
 
-# SympleGit v1.0 - January 18, 2024
+# SympleGit v1.0 - January 19, 2024
 
 <img src="https://www.symplegit.com/img/arrow_fork2.png" />
 
@@ -18,6 +19,10 @@ SympleGit is a minimalist yet robust and expandable Java implementation of Git, 
 3. It is extendable and customizable using Artificial Intelligence, adhering to the AI-XOSS (AI-Extendable Open Source Software) pattern. More details on this will follow.
 
 ## Installation
+
+## Java 
+
+SympleGit requires Java version 11 or newer.
 
 ### Maven
 
