@@ -1,6 +1,6 @@
-![GitHub top language](https://img.shields.io/github/languages/top/kawansoft/SympleGit-Java)![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kawansoft/SympleGit-Java) ![GitHub issues](https://img.shields.io/github/issues/kawansoft/SympleGit-Java)
-![Maven Central](https://img.shields.io/maven-central/v/com.symplegit/SympleGit-Java) 
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/kawansoft/SympleGit-Java) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kawansoft/SympleGit-Java/master)
+![GitHub top language](https://img.shields.io/github/languages/top/kawansoft/SympleGit-Java)![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kawansoft/SympleGit-Java) ![GitHub issues](https://img.shields.io/github/issues/kawansoft/SympleGit-Java) 
+
+![Maven Central](https://img.shields.io/maven-central/v/com.symplegit/SympleGit-Java)![GitHub commit activity](https://img.shields.io/github/commit-activity/y/kawansoft/SympleGit-Java) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kawansoft/SympleGit-Java/master)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d14142d5d6f04ba891d505e2e47b417d)](https://www.codacy.com/gh/kawansoft/SympleGit-Java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kawansoft/SympleGit-Java&amp;utm_campaign=Badge_Grade)
 ![GitHub contributors](https://img.shields.io/github/contributors/kawansoft/SympleGit-Java)
 
@@ -118,9 +118,11 @@ The one-to-one correspondence with `GitCommander` offers significant advantages:
 
 ### Straightforward Git Implementation
 
-If you're not developing a Java Editor, a more straightforward Git implementation that covers all the basic commands could be more suitable and easier to use.
+If you're not developing a Java Editor, a more straightforward Git implementation that covers all the basic commands could be easier to use.
 
-As a Java developer, a common scenario involves automatically replacing or fixing code in a repository after certain operations. This was our primary motivation behind developing SympleGit. Our goal was simple: to provide an uncomplicated Git implementation that allows for the creation and pushing of new branches after modifying source code. A typical use case, for example, would be replacing all `Statement` instances with `PreparedStatement` for enhanced SQL Injection protection. You can learn more about this aspect of security at [Sqlephant](https://www.sqlephant.com/product/#sqli).
+As a Java developer, a common scenario involves automatically fixing code in a repository after certain operations. This was our primary motivation behind developing SympleGit. 
+
+Our goal was simple: to provide an uncomplicated Git implementation that allows for the creation and pushing of new branches after modifying source code. A typical use case, for example, would be replacing all `Statement` instances with `PreparedStatement` for enhanced SQL Injection protection. You can learn more about this aspect of security at [Sqlephant](https://www.sqlephant.com/product/#sqli).
 
 ### Handling Short and Large Outputs with GitCommander
 
@@ -128,7 +130,7 @@ The [GitCommander](https://www.symplegit.com/rest/soft/v1.0/javadoc/com/symplegi
 
 #### Short Output
 
-For standard operations where the output size is manageable, `GitCommander` efficiently handles the command execution and retrieves the results directly.
+For standard operations, `GitCommander` efficiently handles the command execution and retrieves the results directly.
 
 ```java
 // List all branches of a repo and print them on console
@@ -154,7 +156,7 @@ for (String branch : branches) {
 
 #### Large Output 
 
-In cases involving more extensive data, such as full commit messages and metadata for each commit in large repositories, `GitCommander` employs `InputStream` to manage and retrieve the output. For outputs exceeding 4MB, `InputStream` is particularly useful to process and handle the data effectively. This approach ensures that even with substantial amounts of data, `GitCommander` can efficiently process and provide the required information.
+In cases involving more extensive data, such as full commit messages and metadata for each commit in large repositories, `GitCommander` employs `InputStream` to retrieve the output. This approach ensures that even with ~~infinite~~ substantial amounts of data, `GitCommander` can efficiently process.
 
 ```java
 // List full commit messages and metadata for each commit, which can be quite substantial 
@@ -194,7 +196,7 @@ if (gitCommander.getSize() <= 1 * 1024 * 1024) {
 
 ### Setting a Timeout
 
-To manage execution time, SympleGit allows you to set a timeout for the underlying Git process using the `Builder.setTimeout` method. This feature is especially useful for ensuring that operations do not run indefinitely:
+SympleGit enables setting a timeout for the Git process with `Builder.setTimeout`: 
 
 ```java
 final SympleGit sympleGit = SympleGit.custom()
@@ -203,13 +205,13 @@ final SympleGit sympleGit = SympleGit.custom()
 	.build();
 ```
 
-Internally, the Git process is executed within a thread using `java.util.concurrent.Future`, enabling controlled termination of operations. However, it's important to note that while this stops the process, the thread itself may continue running until it reaches a natural stopping point.
+The Git process is executed within a thread using `java.util.concurrent.Future`, enabling controlled termination of operations. However, it's important to note that while this stops the process, the thread itself may continue running until it reaches a natural stopping point.
 
-When the specified timeout is reached, GitCommander (or the Facilitator API) throws an unchecked exception, [UncheckedTimeoutException](https://www.symplegit.com/rest/soft/v1.0/javadoc/com/symplegit/api/exception/UncheckedTimeoutException.html). 
+When the timeout is reached, GitCommander (or the Facilitator API) throws an unchecked exception, [UncheckedTimeoutException](https://www.symplegit.com/rest/soft/v1.0/javadoc/com/symplegit/api/exception/UncheckedTimeoutException.html). 
 
 ### Releasing Resources by Closing the SympleGit Instance
 
-It's a recommended practice to call the `close` method on the SympleGit instance to ensure the cleanup of temporary files. SympleGit is designed to be `AutoCloseable`, allowing for easy resource management.
+It's a recommended practice to call the `close` method on the SympleGit instance to ensure the cleanup of temporary files. SympleGit is designed to be `AutoCloseable`.
 
 ## The Facilitator API
 
@@ -280,7 +282,7 @@ The generation process for these classes utilized a single, parameterized prompt
 - `${1}`: A list of method names, each potentially with self-descriptive parameters, separated by commas.
 - `${2}`: The intended purpose of the class.
 
-Moreover, the prompt included source code from SympleGit, which enabled GPT-4 to efficiently produce contextually relevant new code. (Note: Only GPT-4 is supported; the prompt will not work correctly with GPT-3.5 and has not been test with other AI providers.)
+Moreover, the prompt included source code from SympleGit, which enabled GPT-4 to efficiently produce contextually relevant new code. (Note: Only GPT-4 is supported; the prompt will *not work correctly with GPT-3.5* and has not been test with other AI providers.)
 
 For illustration purposes, the template below was employed to generate the `GitRepo` class. To keep it simple, the actual source code of the referenced classes has been omitted from this prompt (full prompt [URL](https://www.symplegit.com/rest/soft/v1.0/templates/facilitator_prompt_template.txt)):
 
@@ -323,7 +325,7 @@ ${2}=For repository-wide operations.
 
 The `GitBranchExample` serves as a 'generic' example within the Facilitator classes and is the sole class manually written to guide the volatile and session "training" of GPT-4 for our needs. 
 
-This template was then applied to all other classes, with modifications limited to the values of the three parameters:
+This template was then applied to all other classes, with modifications limited to the values of the three sub cited parameters:
 
 ```bash
 ${0}=GitAdd
@@ -382,8 +384,7 @@ See the [source code tests](https://github.com/kawansoft/SympleGit-Java/tree/mas
 
 ### The SympleGit AI Code Generation Prompt
 
-The complete prompt used for generating code with SympleGit is accessible at the following link: 
-[GitHub SympleGit Prompt Template](https://www.symplegit.com/rest/soft/v1.0/templates/facilitator_prompt_template.txt).
+The prompt used for generating code with SympleGit is accessible at the following link: [GitHub SympleGit Prompt Template](https://www.symplegit.com/rest/soft/v1.0/templates/facilitator_prompt_template.txt).
 
 ### Extending SympleGit Facilitator API using a Development Pattern (AI-XOSS)
 
@@ -403,9 +404,9 @@ This approach of developing open source code with AI, utilizing parametrized tem
 
 ### The AI-XOSS Pattern
 
-AI-XOSS (AI-Extendable Open Source Software) is a software development pattern that integrates artificial intelligence (AI) capabilities into open-source software projects. This innovative approach allows users, even those with limited AI knowledge, to enhance software functionalities using AI-assisted tools.
+AI-XOSS is a software development pattern that integrates artificial intelligence (AI) capabilities into open-source software projects. This approach allows users, even those with limited or zero AI knowledge, to enhance software using AI-assisted tools.
 
-The AI-XOSS pattern combines AI technologies with open-source development principles, resulting in software that is both adaptive and user-friendly. A key aspect of AI-XOSS is its user-centric design, enabling users to expand software capabilities through AI with minimal technical barriers.
+The AI-XOSS pattern combines AI technologies with open-source development principles, resulting in software that is both adaptive and user-friendly. A key aspect of AI-XOSS is its user-centric design, enabling users to expand software capabilities through AI.
 
 The primary objective of the AI-XOSS pattern is to encourage open-source developers to publish software that is extendable using AI, without requiring users to have any AI expertise, except for knowing how to submit a prompt to a language model like GPT-4.
 
