@@ -179,7 +179,7 @@ if (! gitCommander.isResponseOk()) {
 // OK, display branches on console
 String[] branches = gitCommander.getProcessOutput().split("\n");
 for (String branch : branches) {
-	System.out.println(branch);
+    System.out.println(branch);
 }
 ```
 
@@ -209,7 +209,7 @@ if (gitCommander.getSize() <= 1 * 1024 * 1024) {
     // Small output size: use String
     String[] lines = gitCommander.getProcessOutput().split("\n");
     for (String line : lines) {
-		System.out.println(line);
+	    System.out.println(line);
     }
 } else {
     // Large output size: use an InputStream
