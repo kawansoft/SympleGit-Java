@@ -1,4 +1,5 @@
-![GitHub top language](https://img.shields.io/github/languages/top/kawansoft/SympleGit-Java)![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kawansoft/SympleGit-Java) ![GitHub issues](https://img.shields.io/github/issues/kawansoft/SympleGit-Java) 
+![GitHub top language](https://img.shields.io/github/languages/top/kawansoft/SympleGit-Java)![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kawansoft/SympleGit-Java) 
+![GitHub issues](https://img.shields.io/github/issues/kawansoft/SympleGit-Java) 
 ![Maven Central](https://img.shields.io/maven-central/v/com.symplegit/symplegit)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/kawansoft/SympleGit-Java) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kawansoft/SympleGit-Java/master)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d14142d5d6f04ba891d505e2e47b417d)](https://www.codacy.com/gh/kawansoft/SympleGit-Java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kawansoft/SympleGit-Java&amp;utm_campaign=Badge_Grade)
