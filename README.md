@@ -387,7 +387,7 @@ ${2}=For tagging operations.
 
 ${0}=GitVersion
 ${1}=getVersion()
-${2}=get Git version.
+${2}=Get Git version.
 ```
 
 ### Using GPT-4 to Generate the Facilitator API Test Classes
