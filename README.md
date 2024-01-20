@@ -13,32 +13,32 @@ SympleGit is a Java-based Git wrapper, co-developed with AI assistance, offering
 
 Table of Contents
 -----------------
+   * [Table of Contents](#table-of-contents)
+   * [What is SympleGit?](#what-is-symplegit)
+   * [Installation](#installation)
+      * [Java](#java)
+      * [Maven](#maven)
+   * [Why Choose SympleGit Over JGit?](#why-choose-symplegit-over-jgit)
+   * [Choosing SympleGit Over JGit: Understanding the Advantages](#choosing-symplegit-over-jgit-understanding-the-advantages)
+      * [Support for CLI Git Calls](#support-for-cli-git-calls)
+      * [Straightforward Git Implementation](#straightforward-git-implementation)
+   * [The GitCommander API](#the-gitcommander-api)
+      * [Short Output](#short-output)
+      * [Large Output](#large-output)
+      * [Setting a Timeout](#setting-a-timeout)
+      * [Releasing Resources by Closing the SympleGit Instance](#releasing-resources-by-closing-the-symplegit-instance)
+   * [The Facilitator API](#the-facilitator-api)
+      * [API List](#api-list)
+      * [API Usage](#api-usage)
+   * [SympleGit and Artificial Intelligence](#symplegit-and-artificial-intelligence)
+      * [Using AI (GPT-4) to Generate the Facilitator API](#using-ai-gpt-4-to-generate-the-facilitator-api)
+      * [Using GPT-4 to Generate the Facilitator API Test Classes](#using-gpt-4-to-generate-the-facilitator-api-test-classes)
+      * [The SympleGit AI Code Generation Prompt](#the-symplegit-ai-code-generation-prompt)
+   * [Extending SympleGit Facilitator API using a Development Pattern (AI-XOSS)](#extending-symplegit-facilitator-api-using-a-development-pattern-ai-xoss)
+      * [How to Extend the SympleGit Facilitator API](#how-to-extend-the-symplegit-facilitator-api)
+      * [The AI-XOSS Pattern](#the-ai-xoss-pattern)
 
-* [What is SympleGit?](#what-is-symplegit)
-* [Installation](#installation)
-* [Java](#java)
-  * [Maven](#maven)
-* [Why Choose SympleGit Over JGit?](#why-choose-symplegit-over-jgit)
-* [Choosing SympleGit Over JGit: Understanding the Advantages](#choosing-symplegit-over-jgit-understanding-the-advantages)
-  * [Support for CLI Git Calls](#support-for-cli-git-calls)
-  * [Straightforward Git Implementation](#straightforward-git-implementation)
-  * [Handling Short and Large Outputs with GitCommander](#handling-short-and-large-outputs-with-gitcommander)
-    * [Short Output](#short-output)
-    * [Large Output](#large-output)
-  * [Setting a Timeout](#setting-a-timeout)
-  * [Releasing Resources by Closing the SympleGit Instance](#releasing-resources-by-closing-the-symplegit-instance)
-* [The Facilitator API](#the-facilitator-api)
-  * [API List](#api-list)
-  * [API Usage](#api-usage)
-* [SympleGit and Artificial Intelligence](#symplegit-and-artificial-intelligence)
-  * [Using AI (GPT-4) to Generate the Facilitator API](#using-ai-gpt-4-to-generate-the-facilitator-api)
-  * [Using GPT-4 to Generate the Facilitator API Test Classes](#using-gpt-4-to-generate-the-facilitator-api-test-classes)
-  * [The SympleGit AI Code Generation Prompt](#the-symplegit-ai-code-generation-prompt)
-* [Extending SympleGit Facilitator API using a Development Pattern (AI-XOSS)](#extending-symplegit-facilitator-api-using-a-development-pattern-ai-xoss)
-  * [How to Extend the SympleGit Facilitator API](#how-to-extend-the-symplegit-facilitator-api)
-  * [The AI-XOSS Pattern](#the-ai-xoss-pattern)
 
-# 
 
 ## What is SympleGit?
 
@@ -50,7 +50,7 @@ SympleGit is a minimalist yet robust and expandable Java implementation of Git, 
 
 ## Installation
 
-## Java 
+### Java 
 
 SympleGit requires Java version 11 or newer.
 
@@ -154,11 +154,11 @@ As a Java developer, a common scenario involves automatically fixing code in a r
 
 Our goal was simple: to provide an uncomplicated Git implementation that allows for the creation and pushing of new branches after modifying source code. A typical use case, for example, would be replacing all `Statement` instances with `PreparedStatement` for enhanced SQL Injection protection. You can learn more about this aspect of security at [Sqlephant](https://www.sqlephant.com/product/#sqli).
 
-### Handling Short and Large Outputs with GitCommander
+## The GitCommander API
 
 The [GitCommander](https://www.symplegit.com/rest/soft/v1.0/javadoc/com/symplegit/api/GitCommander.html) API is versatile, allowing the execution of any Git command regardless of the command's complexity or the size of its output.
 
-#### Short Output
+### Short Output
 
 For standard operations, `GitCommander` efficiently handles the command execution and retrieves the results directly.
 
@@ -184,7 +184,7 @@ for (String branch : branches) {
 }
 ```
 
-#### Large Output 
+### Large Output 
 
 In cases involving more extensive data, such as full commit messages and metadata for each commit in large repositories, `GitCommander` employs `InputStream` to retrieve the output. This approach ensures that even with ~~infinite~~ substantial amounts of data, `GitCommander` can efficiently process.
 
