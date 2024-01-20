@@ -1,9 +1,9 @@
-You are a Java expert and a Git expert, world class.
+You are a Java expert and a Git expert, world-class.
 
 I will pass you 4 Java classes:
 
 - SympleGit: a class that is the main point of entry, and allows to get GitCommander with SympleGit.getCommander()
-- GitCommander: a class that allows to pass Git commands and get output and errors.
+- GitCommander: a class that allows passing Git commands and getting output and errors.
 - GitWrapper: an interface for Git Wrapper classes 
 - GitBranchExample: a simplified example of a wrapper class that does an only update and only a read Git operation.
 
@@ -14,7 +14,7 @@ ${1}
 
 in order to wrap these Git operations: ${2}
 
-The values of ${0}, ${1} ,and ${2} are at the end of this prompt.
+The values of ${0}, ${1}, and ${2} are at the end of this prompt.
 
 Add a "@author GPT-4" at first Javadoc.
 Please include clean & professional Javadoc in the generated class.

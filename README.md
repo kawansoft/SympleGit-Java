@@ -316,12 +316,12 @@ Moreover, the prompt included source code from SympleGit, which enabled GPT-4 to
 For illustration purposes, the template below was employed to generate the `GitRepo` class. To keep it simple, the actual source code of the referenced classes has been omitted from this prompt (full prompt [URL](https://www.symplegit.com/rest/soft/v1.0/templates/facilitator_prompt_template.txt)):
 
 ```bash
-You are a Java expert and a Git expert, world class.
+You are a Java expert and a Git expert, world-class.
 
 I will pass you 4 Java classes:
 
 - SympleGit: a class that is the main point of entry, and allows to get GitCommander with SympleGit.getCommander()
-- GitCommander: a class that allows to pass Git commands and get output and errors.
+- GitCommander: a class that allows passing Git commands and getting output and errors.
 - GitWrapper: an interface for Git Wrapper classes 
 - GitBranchExample: a simplified example of a wrapper class that does an only update and only a read Git operation.
 
@@ -332,7 +332,7 @@ ${1}
 
 in order to wrap these Git operations: ${2}
 
-The values of ${0}, ${1} ,and ${2} are at the end of this prompt.
+The values of ${0}, ${1}, and ${2} are at the end of this prompt.
 
 Add a "@author GPT-4" at first Javadoc.
 Please include clean & professional Javadoc in the generated class.
@@ -395,7 +395,7 @@ ${2}=Get Git version.
 This approach also extends to all unit tests, which were similarly produced by GPT-4:
 
 ```Bash
-You are a Java expert and a Git expert, world class.
+You are a Java expert and a Git expert, world-class.
 
 Please write a complete unit test class for the following ${0} Java class.
 The value ${0} is at the end of this prompt.
