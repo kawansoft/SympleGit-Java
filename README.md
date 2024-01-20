@@ -404,7 +404,7 @@ Use this Java line to get the repository File:
 File repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo();
 The class GitTestUtils and the createIfNotTexistsTemporaryGitRepo method already exist, do not create them.
         
-As the repoDirt is real and exists as Git repo, do not use mock in the code, use only real calls.      
+As the repoDir is real and exists as a Git repo, do not use mocking in the code, use only real calls.      
 
 ${0}=GitRepo
 ```
