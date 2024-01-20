@@ -218,7 +218,7 @@ if (gitCommander.getSize() <= 1 * 1024 * 1024) {
         String line;
         while ((line = reader.readLine()) != null) {
             System.out.println(line);
-		}
+        }
     }
 }
 ```
