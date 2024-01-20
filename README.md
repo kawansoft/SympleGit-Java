@@ -13,7 +13,6 @@ SympleGit is a Java-based Git wrapper, co-developed with AI assistance, offering
 
 Table of Contents
 -----------------
-   * [Table of Contents](#table-of-contents)
    * [What is SympleGit?](#what-is-symplegit)
    * [Installation](#installation)
       * [Java](#java)
