@@ -11,6 +11,35 @@
 
 SympleGit is a Java-based Git wrapper, co-developed with AI assistance, offering simplicity and ease of extension through AI integration.
 
+Table of Contents
+-----------------
+
+* [What is SympleGit?](#what-is-symplegit)
+* [Installation](#installation)
+* [Java](#java)
+  * [Maven](#maven)
+* [Why Choose SympleGit Over JGit?](#why-choose-symplegit-over-jgit)
+* [Choosing SympleGit Over JGit: Understanding the Advantages](#choosing-symplegit-over-jgit-understanding-the-advantages)
+  * [Support for CLI Git Calls](#support-for-cli-git-calls)
+  * [Straightforward Git Implementation](#straightforward-git-implementation)
+  * [Handling Short and Large Outputs with GitCommander](#handling-short-and-large-outputs-with-gitcommander)
+    * [Short Output](#short-output)
+    * [Large Output](#large-output)
+  * [Setting a Timeout](#setting-a-timeout)
+  * [Releasing Resources by Closing the SympleGit Instance](#releasing-resources-by-closing-the-symplegit-instance)
+* [The Facilitator API](#the-facilitator-api)
+  * [API List](#api-list)
+  * [API Usage](#api-usage)
+* [SympleGit and Artificial Intelligence](#symplegit-and-artificial-intelligence)
+  * [Using AI (GPT-4) to Generate the Facilitator API](#using-ai-gpt-4-to-generate-the-facilitator-api)
+  * [Using GPT-4 to Generate the Facilitator API Test Classes](#using-gpt-4-to-generate-the-facilitator-api-test-classes)
+  * [The SympleGit AI Code Generation Prompt](#the-symplegit-ai-code-generation-prompt)
+* [Extending SympleGit Facilitator API using a Development Pattern (AI-XOSS)](#extending-symplegit-facilitator-api-using-a-development-pattern-ai-xoss)
+  * [How to Extend the SympleGit Facilitator API](#how-to-extend-the-symplegit-facilitator-api)
+  * [The AI-XOSS Pattern](#the-ai-xoss-pattern)
+
+# 
+
 ## What is SympleGit?
 
 SympleGit is a minimalist yet robust and expandable Java implementation of Git, characterized by three main features:
@@ -387,9 +416,9 @@ See the [source code tests](https://github.com/kawansoft/SympleGit-Java/tree/mas
 
 The prompt used for generating code with SympleGit is accessible at the following link: [GitHub SympleGit Prompt Template](https://www.symplegit.com/rest/soft/v1.0/templates/facilitator_prompt_template.txt).
 
-### Extending SympleGit Facilitator API using a Development Pattern (AI-XOSS)
+## Extending SympleGit Facilitator API using a Development Pattern (AI-XOSS)
 
-#### How to Extend the SympleGit Facilitator API
+### How to Extend the SympleGit Facilitator API
 
 Curious about what's next? The SympleGit open source software can now be effortlessly extended by simply submitting a prompt to GPT-4, accompanied by the parameters for any new class you aim to create.
 
