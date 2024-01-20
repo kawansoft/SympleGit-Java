@@ -287,7 +287,7 @@ gitCommit.commitChanges("Modified test files");
 if (!gitCommit.isResponseOk()) {
     System.out.println("An Error occurred: " + gitCommit.getError());
     if (gitCommit.getException() != null) {
-		System.out.println("An Exception has been raised: " + gitCommit.getError());
+        System.out.println("An Exception has been raised: " + gitCommit.getError());
     }
     return;
 }
