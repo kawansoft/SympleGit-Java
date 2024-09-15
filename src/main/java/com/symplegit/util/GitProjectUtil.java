@@ -66,9 +66,9 @@ public class GitProjectUtil {
      * If the passed file is root of a Git project, this will return it's name.
      * Otw, will return repoDirectoryPath.getName()
      *
-     * @param repoDirectoryPath
-     * @return
-     * @throws IOException
+     * @param repoDirectoryPath the directory where the Git repository is located.
+     * @return the project name or repoDirectoryPath.getName() if not a Git project.
+     * @throws IOException if an error occurs while executing the command.
      */
     public static String getGitProjectName(File repoDirectoryPath) {
 

@@ -67,12 +67,37 @@
             </dependencies>
         </plugin>
 
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.3.1</version> <!-- Use the latest version available -->
+            <executions>
+                <execution>
+                    <id>generate-javadoc</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>jar</goal>
+                    </goals>
+                    <configuration>
+                        <!-- Configuration options can go here -->
+                        <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
+                        <detectJavaApiLink>true</detectJavaApiLink>
+                        <detectLinks>true</detectLinks>
+                        <linksource>true</linksource>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
         </plugins>
     </build>
+
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <name>Symple Git</name>

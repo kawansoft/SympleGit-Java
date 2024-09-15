@@ -88,7 +88,7 @@ public class GitCommit implements GitWrapper {
 
     /**
      * Retrieves the commit history of the current branch as String. Will throw an
-     * IOException if the result is > 10Mb.
+     * IOException if the result is &gt; 10Mb.
      * 
      * @return A String containing the commit history.
      * @throws IOException If an error occurs during command execution.
