@@ -67,11 +67,11 @@
             </dependencies>
         </plugin>
 
-
+<!--
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.3.1</version> <!-- Use the latest version available -->
+            <version>3.3.1</version>
             <executions>
                 <execution>
                     <id>generate-javadoc</id>
@@ -80,7 +80,7 @@
                         <goal>jar</goal>
                     </goals>
                     <configuration>
-                        <!-- Configuration options can go here -->
+
                         <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
                         <detectJavaApiLink>true</detectJavaApiLink>
                         <detectLinks>true</detectLinks>
@@ -89,7 +89,7 @@
                 </execution>
             </executions>
         </plugin>
-
+-->
         </plugins>
     </build>
 
