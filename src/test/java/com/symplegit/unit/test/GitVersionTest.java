@@ -24,10 +24,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.symplegit.api.SympleGit;
+import com.symplegit.api.SympleGit.Builder;
 import com.symplegit.api.facilitator.GitVersion;
 import com.symplegit.test.util.GitTestUtils;
 
@@ -35,14 +37,21 @@ public class GitVersionTest {
 
     private GitVersion gitVersion;
     private File repoDir;
-
+    private SympleGit sympleGit;
+    
     @BeforeEach
     public void setUp() throws IOException {
         // Create a temporary Git repository
         repoDir = GitTestUtils.createIfNotTexistsTemporaryGitRepo();
-	final SympleGit sympleGit = SympleGit.custom()
-                .setDirectory(repoDir)
-                .build();
+        
+        Builder builder = SympleGit.custom();
+        builder.setDirectory(repoDir);
+        
+        if (SystemUtils.IS_OS_WINDOWS) {
+            builder.setGitExecutable("C:\\Program Files\\Git\\bin\\git.exe");
+        }
+
+        sympleGit= builder.build(); 
         gitVersion = new GitVersion(sympleGit);
     }
 
@@ -54,5 +63,7 @@ public class GitVersionTest {
         // Check that the returned version string is not null and contains expected content
         assertNotNull(gitVersion, "Git version should not be null");
         assert(gitVersion.contains("git version"));
+        System.out.println("Git executable: " + sympleGit.getGitExecutable());
+        System.out.println("Git version   : " + gitVersion);
     }
 }

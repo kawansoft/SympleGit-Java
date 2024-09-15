@@ -5,7 +5,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d14142d5d6f04ba891d505e2e47b417d)](https://www.codacy.com/gh/kawansoft/SympleGit-Java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kawansoft/SympleGit-Java&amp;utm_campaign=Badge_Grade)
 ![GitHub contributors](https://img.shields.io/github/contributors/kawansoft/SympleGit-Java)
 
-# SympleGit v1.0 - January 19, 2024
+# SympleGit v1.1 - September 19, 2024
 
 <img src="https://www.symplegit.com/img/arrow_fork2.png" />
 
@@ -24,6 +24,7 @@ Table of Contents
    * [The GitCommander API](#the-gitcommander-api)
       * [Short Output](#short-output)
       * [Large Output](#large-output)
+      * [Setting a Custom Git Executable](#setting-a-custom-git-executable)
       * [Setting a Timeout](#setting-a-timeout)
       * [Releasing Resources by Closing the SympleGit Instance](#releasing-resources-by-closing-the-symplegit-instance)
    * [The Facilitator API](#the-facilitator-api)
@@ -58,7 +59,7 @@ SympleGit requires Java version 11 or newer.
 ```xml
 <groupId>com.symplegit</groupId>
 <artifactId>symplegit</artifactId>
-<version>1.0</version>
+<version>1.1</version>
 ```
 
 ## Why Choose SympleGit Over JGit?
@@ -221,6 +222,16 @@ if (gitCommander.getSize() <= 1 * 1024 * 1024) {
         }
     }
 }
+```
+
+### Setting a Custom Git Executable
+
+To enhance flexibility and ensure compatibility across various environments, SympleGit provides the option to specify a custom path for the Git executable. This feature is particularly useful if the default Git installation path is not in your system's `PATH` environment variable, or if you wish to use a specific version of Git.
+
+```java
+final Git sympleGit = SympleGit.custom()
+    .setGitExecutable("/usr/local/bin/git") // Specify the full path to the Git executable
+    .build();
 ```
 
 ### Setting a Timeout

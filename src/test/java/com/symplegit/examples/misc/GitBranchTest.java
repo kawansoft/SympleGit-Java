@@ -38,6 +38,7 @@ public class GitBranchTest {
 	String repoDirectoryPath = "I:\\_dev_sqlephant_tests\\Java";
 	
 	final SympleGit sympleGit = SympleGit.custom()
+		.setGitExecutable("\\toto\\git.exe")
                 .setDirectory(repoDirectoryPath)
                 .build();
 	
