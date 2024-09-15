@@ -52,10 +52,11 @@ public class Version {
 
     }
 
-    /**
-     * MAIN
-     */
 
+    /**
+     * Main method for testing the Version class.
+     * @param args the arguments passed to the program. Not used in this example.
+     */
     public static void main(String[] args) {
 	System.out.println(getVersion());
     }

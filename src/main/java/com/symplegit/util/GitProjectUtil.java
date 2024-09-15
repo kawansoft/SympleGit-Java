@@ -68,7 +68,6 @@ public class GitProjectUtil {
      *
      * @param repoDirectoryPath the directory where the Git repository is located.
      * @return the project name or repoDirectoryPath.getName() if not a Git project.
-     * @throws IOException if an error occurs while executing the command.
      */
     public static String getGitProjectName(File repoDirectoryPath) {
 
