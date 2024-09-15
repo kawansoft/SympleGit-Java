@@ -186,7 +186,11 @@ public class GitCommander {
     private void executeInThread(String... command) {
 	builder.redirectErrorStream(true);
 
+	if (! sympleGit.getGitExecutable().equals("git")) {
+	    command[0] = sympleGit.getGitExecutable();
+	}
 
+	
 	debug("paramsOk   : " + paramsOk);
 	debug("Git command: " + removeCommas(Arrays.toString(command)));
 
@@ -219,11 +223,11 @@ public class GitCommander {
     }
 
     /**
-     * Check basic parameters of the Git command. (It must start with "git", etc.).
+     * Check basic parameters of the Git command. (It must contains "git", etc.).
      * @param command
      */
     private boolean basicParamsCheks(String... command) {
-	return command == null || command.length == 0 || ! command[0].equals("git") ? false : true;
+	return command == null || command.length == 0 || ! command[0].toLowerCase().contains("git") ? false : true;
     }
 
     /**

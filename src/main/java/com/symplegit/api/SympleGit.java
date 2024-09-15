@@ -72,8 +72,10 @@ public class SympleGit implements AutoCloseable {
     private static final int DEFAULT_TIMEOUT_SECONDS = 0;
 
     private final File directory;
-    private int timeout;
-    private TimeUnit unit;
+    private final String gitExecutable;
+    
+    private final int timeout;
+    private final TimeUnit unit;
 
     private List<File> tempFiles = new ArrayList<>();
 
@@ -86,6 +88,7 @@ public class SympleGit implements AutoCloseable {
 	this.directory = builder.directory;
 	this.timeout = builder.timeout;
 	this.unit = builder.unit;
+	this.gitExecutable = builder.gitExecutable;
     }
 
     /**
@@ -125,7 +128,14 @@ public class SympleGit implements AutoCloseable {
 	return unit;
     }
 
-    // Additional methods or functionality as needed
+    /**
+     * Gets the path to the Git executable.
+     *
+     * @return The path to the Git executable.
+     */
+    public String getGitExecutable() {
+	return gitExecutable;
+    }
 
     /**
      * Builder class for SympleGit. Provides methods to configure SympleGit
@@ -136,7 +146,8 @@ public class SympleGit implements AutoCloseable {
 	private File directory;
 	private int timeout = DEFAULT_TIMEOUT_SECONDS;
 	private TimeUnit unit = TimeUnit.SECONDS;
-
+	private String gitExecutable = "git"; // Default to 'git', can be overridden
+	
 	/**
 	 * Sets the directory path for the Git repository.
 	 *
@@ -174,6 +185,19 @@ public class SympleGit implements AutoCloseable {
 	    return this;
 	}
 
+	/**
+         * Sets the Git executable to be used. This is useful when SympleGit is
+         * being used with a non-standard Git installation. 
+         * <br>If not provided, SympleGit will use the default 'git' executable.
+         *
+         * @param gitExecutable The path to the Git executable.
+         * @return The Builder instance for chaining.
+         */
+	public Builder setGitExecutable(String gitExecutable) {
+	    this.gitExecutable = gitExecutable;
+            return this;
+	}
+	
 	/**
 	 * Builds and returns a SympleGit instance with the current configuration.
 	 *

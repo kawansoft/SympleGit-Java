@@ -24,6 +24,6 @@ package com.symplegit.util.version;
  */
 
 public class VersionValues {
-    public static final String VERSION = "v1.0";
-    public static final String DATE = "19-Jan-2024";
+    public static final String VERSION = "v1.1";
+    public static final String DATE = "15-Sep-2024";
 }
