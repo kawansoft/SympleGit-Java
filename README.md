@@ -230,6 +230,7 @@ To enhance flexibility and ensure compatibility across various environments, Sym
 
 ```java
 final Git sympleGit = SympleGit.custom()
+    .setDirectory(repoDirectoryPath)
     .setGitExecutable("/usr/local/bin/git") // Specify the full path to the Git executable
     .build();
 ```
